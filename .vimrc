@@ -38,12 +38,8 @@
 "
 " <F8>     - start shell in fullscreen (equivalent to :sh)
 " <F9>     - toggle project file tree window (:NERDTreeToggle)
-" <M-=>    - toggle built-in terminal in Vim
-" <M-q>    - enter normal mode in terminal
-" <M-S-h>  - move to the window left
-" <M-S-k>  - move to the window up
-" <M-S-j>  - move to the window down
-" <M-S-l>  - move to the window right
+" <C-t>    - toggle built-in terminal in Vim
+" <C-\>    - enter normal mode in terminal (to select text)
 "
 " <F5>     - build and run current CMake project
 " <F6>     - build current CMake project, but don't run
@@ -323,6 +319,10 @@ vnoremap H ^
 vnoremap L $
 "vnoremap z zz
 
+nnoremap <silent> <C-t> :botright terminal<CR>
+tnoremap <C-t> <C-w>q
+tnoremap <C-\> <C-\><C-n>
+
 " no longer used vimspector:
 "nmap <S-F3> <Plug>VimspectorStop
 "nmap <S-F4> <Plug>VimspectorRestart
@@ -428,6 +428,9 @@ nmap <silent> <leader>9 <Plug>AirlineSelectTab9
 "autocmd BufReadPost * tab ball
 
 " no longer used vim-terminal-help:
+
+"let g:terminal_key = '<c-=>'
+"let g:terminal_default_mapping = 1
 
 "inoremap ÏF <ESC>A
 "inoremap ÏH <ESC>I
