@@ -310,6 +310,7 @@ inoremap kj <ESC>
 "inoremap <DEL> <ESC>
 "nnoremap <DEL> <ESC>
 "vnoremap <DEL> <ESC>
+
 nnoremap Z ZZ
 nnoremap Q ZQ
 nnoremap H ^
@@ -318,6 +319,7 @@ nnoremap L $
 vnoremap H ^
 vnoremap L $
 "vnoremap z zz
+"nnoremap <CR> O<ESC>cc<ESC>j
 
 nnoremap <silent> <C-t> :botright terminal<CR>
 tnoremap <C-t> <C-w>q
@@ -488,6 +490,7 @@ nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>/ :Lines<CR>
 nnoremap <silent> <leader>? :Rg<CR>
 nnoremap <silent> <leader>o :GFiles<CR>
+nnoremap <silent> <CR> :Buffers<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -499,6 +502,76 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " for coc.nvim:
 let g:coc_global_extensions = ['coc-ccls', 'coc-pyright', 'coc-json', 'coc-git']
+
+" for coc-snippets:
+
+let g:coc_snippet_next = '<tab>'
+
+" for asynctasks.vim:
+
+let g:asyncrun_open = 6
+let g:asynctasks_term_pos = 'bottom'
+let g:asynctasks_term_rows = 6
+let g:asynctasks_term_cols = 50
+let g:asynctasks_term_reuse = 1
+let g:asynctasks_term_focus = 0
+let g:asyncrun_rootmarks = ['.tasks', '.git/']
+
+function! AsyncTaskMultiple(...)
+    if len(a:000) >= 1
+        let l:tmp = ""
+        for task in a:000[1:]
+            let l:tmp .= "'".l:task."',"
+        endfor
+        let l:tmp = l:tmp[:-1]
+        let g:debugvar = "!!!".l:tmp."!!!".a:000[0]
+        let g:asyncrun_exit="cclose | call AsyncTaskMultiple(".l:tmp.")"
+        exec "AsyncTask ".a:000[0]
+    else
+        let g:asyncrun_exit=""
+    endif
+endfunction
+command! -nargs=+ AsyncTasks   :call AsyncTaskMultiple(<f-args>)
+
+" begin plugin list
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'vim-scripts/surround.vim'
+Plug 'vim-scripts/The-NERD-tree', {'on': 'NERDTreeToggle'}
+Plug 'archibate/QFixToggle', {'on': 'QFix'}
+Plug 'vim-scripts/fugitive.vim' ", {'on': 'Git'}
+Plug 'bfrg/vim-cpp-modern', {'for': 'cpp'}
+Plug 'vim-scripts/vim-airline'
+"Plug 'cskeeters/vim-smooth-scroll'
+Plug 'tikhomirov/vim-glsl', {'for': 'glsl'}
+"Plug 'junegunn/vim-slash'
+Plug 'vim-scripts/a.vim', {'for': ['c', 'cpp', 'cuda']}
+Plug 'machakann/vim-swap'
+Plug 'preservim/nerdcommenter'
+"Plug 'preservim/vimux'
+"Plug 'peterhoeg/vim-qml', {'for': 'qml'}
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
+"Plug 'neoclide/coc-snippets'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'mbbill/undotree', {'on': 'UndoTreeToogle'}
+"Plug 'ilyachur/cmake4vim', {'on': ['CMake', 'CMakeBuild', 'CMakeInfo', 'CMakeRun']}
+"Plug 'puremourning/vimspector'
+"Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
+"Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'python']}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'skywind3000/asynctasks.vim'
+Plug 'skywind3000/asyncrun.vim'
+"Plug 'skywind3000/vim-terminal-help'
+"Plug 'aben20807/vim-runner'
+"Plug 'christoomey/vim-tmux-runner'
+"Plug 'viniciusgerevini/tmux-runner.vim'
+"Plug 'vim-ctrlspace/vim-ctrlspace'
+
+call plug#end()
 
 " BEGIN_COC_NVIM {{{
 " References: https://github.com/neoclide/coc.nvim#example-vim-configuration
@@ -669,76 +742,6 @@ nnoremap <silent> <leader>lg  :<C-u>CocList --normal gstatus<CR>
 
 
 " }}} END_COC_NVIM
-
-" for coc-snippets:
-
-let g:coc_snippet_next = '<tab>'
-
-" for asynctasks.vim:
-
-let g:asyncrun_open = 6
-let g:asynctasks_term_pos = 'bottom'
-let g:asynctasks_term_rows = 6
-let g:asynctasks_term_cols = 50
-let g:asynctasks_term_reuse = 1
-let g:asynctasks_term_focus = 0
-let g:asyncrun_rootmarks = ['.tasks', '.git/']
-
-function! AsyncTaskMultiple(...)
-    if len(a:000) >= 1
-        let l:tmp = ""
-        for task in a:000[1:]
-            let l:tmp .= "'".l:task."',"
-        endfor
-        let l:tmp = l:tmp[:-1]
-        let g:debugvar = "!!!".l:tmp."!!!".a:000[0]
-        let g:asyncrun_exit="cclose | call AsyncTaskMultiple(".l:tmp.")"
-        exec "AsyncTask ".a:000[0]
-    else
-        let g:asyncrun_exit=""
-    endif
-endfunction
-command! -nargs=+ AsyncTasks   :call AsyncTaskMultiple(<f-args>)
-
-" begin plugin list
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'vim-scripts/surround.vim'
-Plug 'vim-scripts/The-NERD-tree', {'on': 'NERDTreeToggle'}
-Plug 'archibate/QFixToggle', {'on': 'QFix'}
-Plug 'vim-scripts/fugitive.vim' ", {'on': 'Git'}
-Plug 'bfrg/vim-cpp-modern', {'for': 'cpp'}
-Plug 'vim-scripts/vim-airline'
-"Plug 'cskeeters/vim-smooth-scroll'
-Plug 'tikhomirov/vim-glsl', {'for': 'glsl'}
-"Plug 'junegunn/vim-slash'
-Plug 'vim-scripts/a.vim', {'for': ['c', 'cpp', 'cuda']}
-Plug 'machakann/vim-swap'
-Plug 'preservim/nerdcommenter'
-"Plug 'preservim/vimux'
-"Plug 'peterhoeg/vim-qml', {'for': 'qml'}
-"Plug 'SirVer/ultisnips'
-"Plug 'honza/vim-snippets'
-"Plug 'neoclide/coc-snippets'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'mbbill/undotree', {'on': 'UndoTreeToogle'}
-"Plug 'ilyachur/cmake4vim', {'on': ['CMake', 'CMakeBuild', 'CMakeInfo', 'CMakeRun']}
-"Plug 'puremourning/vimspector'
-"Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
-"Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'python']}
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
-"Plug 'skywind3000/vim-terminal-help'
-"Plug 'aben20807/vim-runner'
-"Plug 'christoomey/vim-tmux-runner'
-"Plug 'viniciusgerevini/tmux-runner.vim'
-"Plug 'vim-ctrlspace/vim-ctrlspace'
-
-call plug#end()
 
 if filereadable(".vim_localrc")
         source .vim_localrc
