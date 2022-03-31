@@ -729,10 +729,7 @@ noremap <silent><expr> z/ incsearch#go(<SID>incsconfig())
 
 " begin plugin list
 
-if !exists("g:archibate_vim_plugin_directory")
-    let g:archibate_vim_plugin_directory = '~/.vim/plugged'
-endif
-call plug#begin(g:archibate_vim_plugin_directory)
+call plug#begin()
 
 Plug 'vim-scripts/surround.vim'
 Plug 'vim-scripts/The-NERD-tree', {'on': 'NERDTreeToggle'}

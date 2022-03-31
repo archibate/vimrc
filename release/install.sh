@@ -1,5 +1,7 @@
 set -e
 
+cd "$(dirname $0)"
+
 get_linux_distro() {
     if grep -Eq "Ubuntu" /etc/*-release; then
         echo "Ubuntu"
@@ -73,3 +75,9 @@ elif [ $distro == "ManjaroLinux" ]; then
 else
     echo "-- Unsupported distro: $distro"
 fi
+
+
+[ -f ~/.vimrc ] || mv ~/.vimrc /tmp/backup.$PID.vimrc
+[ -f ~/.vim ] || mv ~/.vim /tmp/backup.$PID.vim
+cp -r .vimrc ~/
+cp -r .vim ~/
