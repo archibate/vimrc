@@ -1,0 +1,18 @@
+{
+     "languageserver": {
+         "ccls": {
+             "command": "ccls",
+             "filetypes": ["c", "cpp", "cuda"],
+             "rootPatterns": [".git/", "build/"],
+             "initializationOptions": {
+                 "compilationDatabaseDirectory": "build",
+                 "highlight": {
+                     "lsRanges": true
+                 },
+                 "cache": {
+                     "directory": "/tmp/ccls"
+                 }
+             }
+        }
+    }
+}
