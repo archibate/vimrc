@@ -136,13 +136,15 @@ if [ $distro == "Ubuntu" ]; then
 elif [ $distro == "Debian" ]; then
     install_apt
 elif [ $distro == "ArchLinux" ]; then
-    install_pacman
+    install_archlinux
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 else
+    # TODO: add more Linux distros here..
+    # TODO: how to detect MacOS and Windows?
     echo "-- Unsupported distro: $distro"
-    echo "-- I'm trying to install these packages from source: fzf ripgrep ccls"
-    echo "-- fzf requires Go, ripgrep requires Rust, ccls requires Clang and LLVM, make sure you have them..."
+    echo "-- The script will try to install these packages from source: fzf ripgrep ccls"
+    echo "-- Note that fzf requires Go, ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
     echo "-- If you know how to install them, feel free to contribute to this GitHub repository: github.com/archibate/vimrc"
     echo "-- Also, Node.js 12.x or above is required. Try the following patch script if you meet issues about coc.nvim:"
     cat <<EOF

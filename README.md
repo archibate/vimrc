@@ -14,21 +14,18 @@ It will take some time to detect your Linux distro and install required packages
 
 ... as well as many Vim plugins. After it finish, start `vim` to enjoy playing it.
 
-## Online Install
+Current supported Linux distros are:
 
-To use, you may run:
+- Arch Linux (tested)
+- Manjano Linux (not tested)
+- Ubuntu (only 20.04 is tested)
+- Debian (not tested)
 
-```bash
-mv ~/.vim ~/.vim_backup
-mv ~/.vimrc ~/.vimrc_backup
-git clone https://github.com/archibate/vimrc
-cd vimrc
-ln -s $PWD/.vim ~/.vim
-ln -s $PWD/.vimrc ~/.vimrc
-```
+If you know how to install these packages on your distro, please feel free to contribute by
+modifying the [release/install.sh](release/install.sh) in this repository.
 
-Then enter `vim`, and type `:PlugInstall` to get all the plugins.
-See `.vimrc` for more setup details.
+To test, run [release/package.sh](release/package.sh) to generate the `vimrc-release.tar.gz`.
+Then use it in Docker or other corresponding environment.
 
 ## NeoVim tips
 
