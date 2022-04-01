@@ -61,11 +61,13 @@
 " build_target=main
 " build_dir=build
 " build_generator=Ninja
-" run_target=$(VIM:build_dir)/$(VIM:build_target)
-" 
+" run_target="$(VIM:build_dir)/$(VIM:build_target)"
+" build_params=--parallel
+" build_variables=
+"
 " [project-build]
-" command=cmake -G "$(VIM:build_generator)" -B "$(VIM:build_dir)" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_BUILD_TYPE="$(VIM:build_type)" && cmake --build "$(VIM:build_dir)" --target "$(VIM:build_target)" --config "$(VIM:build_type)"
-" output=(-type:terminal)
+" command=cmake -G "$(VIM:build_generator)" -B "$(VIM:build_dir)" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_BUILD_TYPE="$(VIM:build_type)" $(VIM:build_configs) && cmake --build "$(VIM:build_dir)" --target "$(VIM:build_target)" --config "$(VIM:build_type)" $(VIM:build_options)
+" output=quickfix
 " cwd=$(VIM_ROOT)
 "
 " [project-run]
@@ -226,23 +228,20 @@
 " Key maps
 " --------
 "
-" gof    - fuzzy find file names in current direcory
-" gob    - fuzzy find file names in all opened files
-" gog    - fuzzy find file names in current git repo
-" gos    - fuzzy find file names from 'git status'
-" goc    - fuzzy find commits in current git repo
-" gol    - fuzzy find string in all opened files
-" goo    - fuzzy find string in the current file
-" goh    - fuzzy find recently opened files in history
-" go:    - fuzzy find runned ex-commands (:) in history
-" go/    - fuzzy find searched strings (/) in history
-" go?    - fuzzy find vim ex-commands (including plugin commands)
-" goa    - invokes 'grep -r', recursively find string in files
-" gor    - like goa, but exclude files in .gitignore (e.g. build)
-" g<tab> - fuzzy find key mappings
-" go     - same as gog
-" gb     - same as gob
-" <cr>   - same as gob
+" <space>f - fuzzy find file names in current direcory
+" <space>b - fuzzy find file names in all opened files
+" <space>g - fuzzy find file names in current git repo
+" <space>s - fuzzy find file names from 'git status'
+" <space>c - fuzzy find commits in current git repo
+" <space>l - fuzzy find string in all opened files
+" <space>o - fuzzy find string in the current file
+" <space>h - fuzzy find recently opened files in history
+" <space>: - fuzzy find runned ex-commands (:) in history
+" <space>/ - fuzzy find searched strings (/) in history
+" <space>? - fuzzy find vim ex-commands (including plugin commands)
+" <space>a - invokes 'grep -r', recursively find string in files
+" <space>r - like <space>a, but exclude files in .gitignore (e.g. build)
+" g<tab>   - fuzzy find key mappings
 "
 
 set hidden nocompatible
@@ -472,26 +471,22 @@ nmap <silent> <leader>9 <Plug>AirlineSelectTab9
 "nnoremap <silent><C-p> :CtrlSpace O<CR>
 
 " for fzf.vim:
-nnoremap <silent> <leader>of :Files<CR>
-nnoremap <silent> <leader>og :GFiles<CR>
-nnoremap <silent> <leader>os :GFiles?<CR>
-nnoremap <silent> <leader>ob :Buffers<CR>
-nnoremap <silent> <leader>oa :Ag<CR>
-nnoremap <silent> <leader>or :Rg<CR>
-nnoremap <silent> <leader>ol :Lines<CR>
-nnoremap <silent> <leader>oo :BLines<CR>
-nnoremap <silent> <leader>oh :History<CR>
-nnoremap <silent> <leader>o: :History:<CR>
-nnoremap <silent> <leader>o/ :History/<CR>
-nnoremap <silent> <leader>oc :Commits<CR>
-nnoremap <silent> <leader>o? :Commands<CR>
-nnoremap <silent> <leader>om :Maps<CR>
-nnoremap <silent> <leader>ow :Windows<CR>
-nnoremap <silent> <leader>o` :source ~/.vimrc<CR>
-
-nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>o :GFiles<CR>
-nnoremap <silent> <CR> :Buffers<CR>
+nnoremap <silent> <space>f :Files<CR>
+nnoremap <silent> <space>g :GFiles<CR>
+nnoremap <silent> <space>s :GFiles?<CR>
+nnoremap <silent> <space>b :Buffers<CR>
+nnoremap <silent> <space>a :Ag<CR>
+nnoremap <silent> <space>r :Rg<CR>
+nnoremap <silent> <space>l :Lines<CR>
+nnoremap <silent> <space>o :BLines<CR>
+nnoremap <silent> <space>h :History<CR>
+nnoremap <silent> <space>: :History:<CR>
+nnoremap <silent> <space>/ :History/<CR>
+nnoremap <silent> <space>c :Commits<CR>
+nnoremap <silent> <space>? :Commands<CR>
+nnoremap <silent> <space>m :Maps<CR>
+nnoremap <silent> <space>w :Windows<CR>
+nnoremap <silent> <space>` :source ~/.vimrc<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -687,21 +682,24 @@ let g:asynctasks_term_reuse = 1
 let g:asynctasks_term_focus = 0
 let g:asyncrun_rootmarks = ['.tasks', '.git/']
 
-function! AsyncTaskMultiple(...)
+function! AsyncTaskMultiple(first, ...)
     if len(a:000) >= 1
+        if !a:first
+            d
+        endif
         let l:tmp = ""
         for task in a:000[1:]
             let l:tmp .= "'".l:task."',"
         endfor
         let l:tmp = l:tmp[:-1]
         let g:debugvar = "!!!".l:tmp."!!!".a:000[0]
-        let g:asyncrun_exit="cclose | call AsyncTaskMultiple(".l:tmp.")"
+        let g:asyncrun_exit="call AsyncTaskMultiple(0, ".l:tmp.")"
         exec "AsyncTask ".a:000[0]
     else
         let g:asyncrun_exit=""
     endif
 endfunction
-command! -nargs=+ AsyncTasks   :call AsyncTaskMultiple(<f-args>)
+command! -nargs=+ AsyncTasks   :call AsyncTaskMultiple(1, <f-args>)
 
 " for incsearch.vim
 
