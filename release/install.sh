@@ -48,11 +48,12 @@ get_linux_distro() {
 install_coc_plugins() {
     for x in coc-ccls coc-pyright coc-json coc-git; do
         echo "-- Installing coc plugin '$x', please wait..."
-        vim --not-a-term -c "CocInstall -sync $x | quit"
+        echo -e '\n\nZZZZ\n\n' | vim --not-a-term -c "echo 'installing $x, please wait...' | CocInstall -sync $x | echo 'done' | quit"
     done
 
     mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
     ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
+    echo '-- Installation complete'
 }
 
 
@@ -70,9 +71,18 @@ install_ccls_from_source() {
     rm -rf /tmp/ccls-build.$$
     cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
     cmake --build /tmp/ccls-build.$$ --config Release --parallel 4
-    cmake --build /tmp/ccls-build.$$ --config Release --target install
+    sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
     rm -rf /tmp/ccls-build.$$
     cd ../..
+}
+
+
+install_nodejs_lts() {
+    if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
+        echo '-- Upgrading Node.js to 12.x'
+        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
+        node --version
+    fi
 }
 
 
@@ -80,14 +90,40 @@ install_apt() {
     sudo apt-get install -y fzf ripgrep
     sudo apt-get install -y clang libclang-dev
     sudo apt-get install -y cmake make g++
-
-    if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
-        echo '-- Upgrading Node.js to 12.x'
-        curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr
-        node --version
-    fi
+    sudo apt-get install -y curl
 
     install_ccls_from_source
+    install_nodejs_lts
+    install_coc_plugins
+}
+
+
+install_fzf_from_source() {
+    cd .vim
+    git clone https://github.com/junegunn/fzf.git --depth=1
+    cd fzf
+    make
+    sudo make install
+    cd ../..
+}
+
+
+install_ripgrep_from_source() {
+    cd .vim
+    git clone https://github.com/BurntSushi/ripgrep --depth=1
+    cd ripgrep
+    cargo build --release
+    ./target/release/rg --version
+    sudo cp ./target/release/rg /usr/local/bin
+    cd ../..
+}
+
+
+install_any() {
+    install_fzf_from_source
+    install_ripgrep_from_source
+    install_ccls_from_source
+    install_nodejs_lts
     install_coc_plugins
 }
 
@@ -105,13 +141,16 @@ elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 else
     echo "-- Unsupported distro: $distro"
-    echo "-- Please manually install: fzf ripgrep nodejs ccls"
+    echo "-- I'm trying to install these packages from source: fzf ripgrep ccls"
+    echo "-- fzf requires Go, ripgrep requires Rust, ccls requires Clang and LLVM, make sure you have them..."
     echo "-- If you know how to install them, feel free to contribute to this GitHub repository: github.com/archibate/vimrc"
-    echo "-- Hint: Node.js 12.x and above is required. Try the following patch script if you meet issues about coc.nvim:"
+    echo "-- Also, Node.js 12.x or above is required. Try the following patch script if you meet issues about coc.nvim:"
     cat <<EOF
-mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
-ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
+  mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
+  ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 EOF
+    echo -n "-- Continue installing from source (y/N)? "; read -n1 x; echo
+    if [ "x$x" == "xy" ]; then install_any; fi
 fi
 
 if [ "x$PWD" != "x$HOME" ]; then
