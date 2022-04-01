@@ -4,6 +4,16 @@
 
 ## Offline Install
 
+Download `vimrc-release.tar.gz` from [GitHub release](github.com/archibate/vimrc/releases).
+
+Extract it, then execute the `.vim/install.sh` in it.
+
+It will take some time to detect your Linux distro and install required packages for you:
+
+> fzf, ripgrep, ccls, nodejs (12.x or above)
+
+... as well as many Vim plugins. After it finish, start `vim` to enjoy playing it.
+
 ## Online Install
 
 To use, you may run:

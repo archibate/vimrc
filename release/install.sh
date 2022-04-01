@@ -110,7 +110,7 @@ install_fzf_from_source() {
 
 install_ripgrep_from_source() {
     cd .vim
-    git clone https://github.com/BurntSushi/ripgrep --depth=1
+    git clone https://github.com/BurntSushi/ripgrep.git --depth=1
     cd ripgrep
     cargo build --release
     ./target/release/rg --version
