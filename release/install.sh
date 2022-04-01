@@ -58,8 +58,10 @@ install_apt() {
     DEBIAN_FRONTEND=noninteractive apt-get install -y clang libclang-dev
     DEBIAN_FRONTEND=noninteractive apt-get install -y cmake make
 
-    bash .vim/ccls/setup_12.x
-    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+    if [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
+        bash .vim/ccls/setup_12.x
+        DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+    fi
 
     cd .vim/ccls
     rm -rf /tmp/ccls-build
