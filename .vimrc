@@ -400,6 +400,7 @@ let g:cpp_attributes_highlight = 1
 "let g:cpp_member_highlight = 1
 
 " for vim-airline:
+let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 0
@@ -755,7 +756,7 @@ Plug 'mbbill/undotree', {'on': 'UndoTreeToogle'}
 "Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
 "Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'python']}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'

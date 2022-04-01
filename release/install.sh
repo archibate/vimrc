@@ -1,6 +1,9 @@
+#!/bin/bash
+
 set -e
 
-cd "$(dirname $0)"
+cd "$(dirname $0)"/..
+test -d ./.vim
 
 get_linux_distro() {
     if grep -Eq "Ubuntu" /etc/*-release; then
@@ -43,21 +46,33 @@ get_linux_distro() {
 
 install_pacman() {
     pacman -S --noconfirm fzf ripgrep
+    pacman -S --noconfirm nodejs
     pacman -S --noconfirm ccls
+    mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
+    ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 }
 
-install_apt() {
-    apt-get install -y fzf ripgrep
-    apt-get install -y git
-    apt-get install -y clang libclang-dev
 
-    cd ccls
+install_apt() {
+    DEBIAN_FRONTEND=noninteractive apt-get install -y fzf ripgrep
+    DEBIAN_FRONTEND=noninteractive apt-get install -y clang libclang-dev
+    DEBIAN_FRONTEND=noninteractive apt-get install -y cmake make
+
+    bash .vim/ccls/setup_12.x
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+
+    cd .vim/ccls
     rm -rf /tmp/ccls-build
     cmake -B /tmp/ccls-build -DCMAKE_BUILD_TYPE=Release
     cmake --build /tmp/ccls-build --config Release --parallel 4
     cmake --build /tmp/ccls-build --config Release --target install
     rm -rf /tmp/ccls-build
-    cd ..
+    cd ../..
+
+    vim -c 'CocInstall coc-ccls | CocInstall coc-pyright | CocInstall coc-json | CocInstall coc-git | quit'
+
+    mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
+    ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 }
 
 
@@ -74,10 +89,11 @@ elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 else
     echo "-- Unsupported distro: $distro"
+    echo "-- Please manually install: fzf ripgrep nodejs ccls"
 fi
 
-
-[ -f ~/.vimrc ] || mv ~/.vimrc /tmp/backup.$PID.vimrc
-[ -f ~/.vim ] || mv ~/.vim /tmp/backup.$PID.vim
-cp -r .vimrc ~/
-cp -r .vim ~/
+if [ "x$PWD" == "x$HOME" ]; then
+    [ -f ~/.vimrc ] || mv ~/.vimrc /tmp/backup.$$.vimrc
+    [ -f ~/.vim ] || mv ~/.vim /tmp/backup.$$.vim
+    cp -r .vimrc .vim ~/
+fi
