@@ -1,0 +1,17 @@
+FROM ubuntu:20.04
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y vim
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y g++
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y make
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y cmake
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y sudo
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y clang
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libclang-dev
+COPY .vimrc /root/
+COPY .vim /root/
+COPY release/install.sh /root/
+COPY release/ccls /root/
+RUN FORCE=y /root/.vim/install.sh
+WORKDIR /root

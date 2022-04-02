@@ -1,4 +1,4 @@
-# vimrc
+# ArchVim
 
 小彭老师的个人 Vim 插件和配置整合包。
 

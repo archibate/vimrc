@@ -1,4 +1,4 @@
-# vimrc
+# ArchVim
 
 @archibate's personal vim plugins and configurations.
 

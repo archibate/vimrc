@@ -97,9 +97,9 @@ install_nodejs_lts() {
     if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
         echo '-- Upgrading Node.js version to 12.x'
         if [ "x$FORCE" != "xy" ]; then
-            sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
-        else
             sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --prefix /usr'
+        else
+            sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
         fi
         node --version
         if [ "x$FORCE" != "xy" ]; then
