@@ -25,15 +25,17 @@
 " L    - equivalent to $, goto end of line
 " kj   - equivalent to <ESC>, exit insert mode
 "
-" gt   - switch the next tab
-" gT   - switch the prev tab
+" g1   - switch the 1st tab
+" g2   - switch the 2nd tab
+" g3   - switch the 3rd tab
 " ...
-" <F2> - save and switch to prev tab
+"
+" <F1> - save and switch to last used tab
+" <F2> - save and switch to previous tab
 " <F3> - save and switch to next tab
 " <F4> - save all opened files
 "
 " gci  - comment/uncomment selected code (visual mode)
-" <F1> - switch between .h and .cpp files
 "
 " <F8>     - start shell in fullscreen (equivalent to :sh)
 " <F9>     - toggle project file tree window (:NERDTreeToggle)
@@ -186,13 +188,17 @@
 " Key maps
 " --------
 "
-" <tab> - trigger completion (in insert mode)
+" <c-space> - trigger completion (in insert mode)
+" <tab>     - next completion (in insert mode)
+" <s-tab>   - previous completion (in insert mode)
+"
 " gd - goto definition
 " gD - goto declaration
 " gr - goto references
 " gy - goto type definition
-" gi - goto implementation
+" gI - goto implementation
 " gf - format selected code (visual mode)
+" gn - rename current symbol under cursor
 " gq - quick fix error on current line
 " K - show documentation of symbol under cursor
 "
@@ -232,13 +238,14 @@
 " <space>b - fuzzy find file names in all opened files
 " <space>g - fuzzy find file names in current git repo
 " <space>s - fuzzy find file names from 'git status'
-" <space>c - fuzzy find commits in current git repo
-" <space>l - fuzzy find string in all opened files
-" <space>o - fuzzy find string in the current file
 " <space>h - fuzzy find recently opened files in history
 " <space>: - fuzzy find runned ex-commands (:) in history
 " <space>/ - fuzzy find searched strings (/) in history
-" <space>? - fuzzy find vim ex-commands (including plugin commands)
+" <space>c - fuzzy find commits in current git repo
+" <space>l - fuzzy find string in all opened files
+" <space>o - fuzzy find string in the current file
+" <space>x - fuzzy find vim ex-commands (including plugin commands)
+" <space>w - fuzzy find all current opened windows
 " <space>a - invokes 'grep -r', recursively find string in files
 " <space>r - like <space>a, but exclude files in .gitignore (e.g. build)
 " g<tab>   - fuzzy find key mappings
@@ -282,10 +289,9 @@ filetype indent on
 "let g:mapleader = ','
 let g:mapleader = 'g'
 
-nnoremap <silent> <F1> :wa<CR>:A<CR>
+nnoremap <silent> <F1> :wa<CR>:b#<CR>
 nnoremap <silent> <F2> :wa<CR>:bp<CR>
 nnoremap <silent> <F3> :wa<CR>:bn<CR>
-"nnoremap <silent> <S-F2> :wa<CR>:b#<CR>
 nnoremap <silent> <F4> :wa<CR>
 inoremap <silent> <F1> <ESC>
 inoremap <silent> <F2> <ESC>:wa<CR>:bp<CR>
@@ -483,10 +489,9 @@ nnoremap <silent> <space>h :History<CR>
 nnoremap <silent> <space>: :History:<CR>
 nnoremap <silent> <space>/ :History/<CR>
 nnoremap <silent> <space>c :Commits<CR>
-nnoremap <silent> <space>? :Commands<CR>
-nnoremap <silent> <space>m :Maps<CR>
+nnoremap <silent> <space>x :Commands<CR>
 nnoremap <silent> <space>w :Windows<CR>
-nnoremap <silent> <space>` :source ~/.vimrc<CR>
+nnoremap <silent> <space>m :Maps<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -533,16 +538,16 @@ endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <c-space> pumvisible() ? coc#_select_confirm() : coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <c-@> pumvisible() ? coc#_select_confirm() : coc#refresh()
 endif
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-"inoremap <silent><expr> <space> pumvisible() ? (<SID>check_back_space() ? "\<space>" : "\<space>" : coc#_select_confirm()
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              "\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"inoremap <silent><expr> <space> pumvisible() ? (<SID>check_back_space() ? "\<space>" : coc#_select_confirm()) : "\<space>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -554,7 +559,7 @@ nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>d <Plug>(coc-definition)
 nmap <silent> <leader>D <Plug>(coc-declaration)
 nmap <silent> <leader>y <Plug>(coc-type-definition)
-nmap <silent> <leader>i <Plug>(coc-implementation)
+nmap <silent> <leader>I <Plug>(coc-implementation)
 nmap <silent> <leader>r <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
@@ -730,16 +735,16 @@ noremap <silent><expr> z/ incsearch#go(<SID>incsconfig())
 
 call plug#begin()
 
-Plug 'vim-scripts/surround.vim'
-Plug 'vim-scripts/The-NERD-tree', {'on': 'NERDTreeToggle'}
+"Plug 'vim-scripts/surround.vim'
+Plug 'preservim/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'archibate/QFixToggle', {'on': 'QFix'}
-Plug 'vim-scripts/fugitive.vim' ", {'on': 'Git'}
+Plug 'tpope/vim-fugitive'
 Plug 'bfrg/vim-cpp-modern', {'for': 'cpp'}
 Plug 'vim-scripts/vim-airline'
 "Plug 'cskeeters/vim-smooth-scroll'
 Plug 'tikhomirov/vim-glsl', {'for': 'glsl'}
 "Plug 'junegunn/vim-slash'
-Plug 'vim-scripts/a.vim', {'for': ['c', 'cpp', 'cuda']}
+"Plug 'vim-scripts/a.vim', {'for': ['c', 'cpp', 'cuda']}
 Plug 'machakann/vim-swap'
 Plug 'preservim/nerdcommenter'
 "Plug 'preservim/vimux'
@@ -748,7 +753,7 @@ Plug 'preservim/nerdcommenter'
 "Plug 'honza/vim-snippets'
 "Plug 'neoclide/coc-snippets'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'mbbill/undotree', {'on': 'UndoTreeToogle'}
+Plug 'mbbill/undotree', {'on': 'UndoTreeToggle'}
 "Plug 'ilyachur/cmake4vim', {'on': ['CMake', 'CMakeBuild', 'CMakeInfo', 'CMakeRun']}
 "Plug 'puremourning/vimspector'
 "Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
