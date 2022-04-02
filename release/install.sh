@@ -52,14 +52,18 @@ get_linux_distro() {
 
 
 install_coc_plugins() {
-    for x in coc-ccls coc-pyright coc-json coc-git; do
-        echo "-- Installing coc plugin '$x', please wait..."
-        echo -e '\n\nZZZZ\n\n' | vim --not-a-term -c "echo 'installing $x, please wait...' | CocInstall -sync $x | echo 'done' | quit"
-    done
+    #bash <<EOF
+#pushd ~/
+#for x in coc-ccls coc-pyright coc-json coc-git; do
+    #echo "-- Installing coc plugin '\$x', please wait..."
+    #echo -e '\\n\\nZZZZ\\n\\n' | vim --not-a-term -c "echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
+#done
 
-    mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
-    ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
-    echo '-- coc plugins installed successfully'
+#mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
+#ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
+#echo '-- coc plugins installed successfully'
+#popd
+#EOF
 }
 
 
@@ -85,7 +89,7 @@ install_ccls_from_source() {
     rm -rf /tmp/ccls-build.$$
     echo '-- Building ccls from source...'
     cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
-    cmake --build /tmp/ccls-build.$$ --config Release --parallel 4
+    cmake --build /tmp/ccls-build.$$ --config Release --parallel 2
     sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
     echo '-- Installed ccls successfully'
     rm -rf /tmp/ccls-build.$$
@@ -96,16 +100,12 @@ install_ccls_from_source() {
 install_nodejs_lts() {
     if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
         echo '-- Upgrading Node.js version to 12.x'
-        if [ "x$FORCE" != "xy" ]; then
-            sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --prefix /usr'
-        else
-            sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
-        fi
+        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
         node --version
-        if [ "x$FORCE" != "xy" ]; then
-            echo -n "-- Would you like to switch the npm source to aliyun now? (y/N)"; read -n1 x; echo
-            if [ "x$x" == "xy" ]; then echo "OK, press Ctrl-D when you done..."; bash; fi
-        fi
+        #if [ "x$FORCE" != "xy" ]; then
+            #echo -n "-- Would you like to switch the npm source to aliyun now (y/N)? "; read -n1 x; echo
+            #if [ "x$x" == "xy" ]; then echo "OK, press Ctrl-D when you done..."; bash; fi
+        #fi
     fi
 }
 

@@ -497,7 +497,7 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " for coc.nvim:
-"let g:coc_global_extensions = ['coc-ccls', 'coc-pyright', 'coc-json', 'coc-git']
+let g:coc_global_extensions = ['coc-ccls', 'coc-pyright', 'coc-json', 'coc-git']
 
 " BEGIN_COC_NVIM {{{
 " References: https://github.com/neoclide/coc.nvim#example-vim-configuration
