@@ -1,35 +1,41 @@
 # vimrc
 
-@archibate's personal vim configurations.
+小彭老师的个人 Vim 插件和配置整合包。
 
-## Offline Install
+## 一键安装
 
-Download `vimrc-release.tar.gz` from [GitHub release](github.com/archibate/vimrc/releases).
+从 [GitHub release](github.com/archibate/vimrc/releases) 下载 `vimrc-release.tar.gz`。
 
-Extract it, then execute the `.vim/install.sh` in it.
+解压并运行其中的 `.vim/install.sh`。
 
-It will take some time to detect your Linux distro and install required packages for you:
+他会花一些时间检测你的 Linux 发行版，并安装下列这些部分插件所需的包：
 
-> fzf, ripgrep, ccls, nodejs (12.x or above)
+> fzf, ripgrep, ccls, nodejs (12.x 及以上)
 
-... as well as many Vim plugins. After it finish, start `vim` to enjoy playing it.
+... 并安装所有插件。安装完成后, 运行 `vim` 开始畅玩吧。
 
-Current supported Linux distros are:
+目前支持的 Linux 发行版有：
 
-- Arch Linux (tested)
-- Manjano Linux (not tested)
-- Ubuntu (only 20.04 is tested)
-- Debian (not tested)
+- Arch Linux (测过)
+- Manjano Linux (没测)
+- Ubuntu (只测了 20.04)
+- Debian (没测)
 
-If you know how to install these packages on your distro, please feel free to contribute by
-modifying the [release/install.sh](release/install.sh) in this repository.
+## 手动安装
 
-To test, run [release/package.sh](release/package.sh) to generate the `vimrc-release.tar.gz`.
-Then use it in Docker or other corresponding environment.
+手动安装方法见 [.vimrc](.vimrc) 中的注释.
+
+## Contribute
+
+如果你知道如何在你的发行版上安装这些包，你可以通过修改这个仓库中的
+[release/install.sh](release/install.sh) 来贡献你的力量，并通过 PR 提交更改给我们。
+
+要测试的话，先运行 [release/package.sh](release/package.sh) 来生成 `vimrc-release.tar.gz`，
+然后用 Docker 等工具在相应的隔离环境中测试是否能正确安装。
 
 ## NeoVim tips
 
-For NeoVim users, please create a file `~/.config/nvim/init.vim` containing following contents:
+对于 NeoVim 用户，请创建一个叫 `~/.config/nvim/init.vim` 的文件，里面包含这些代码：
 
 ```vim
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
