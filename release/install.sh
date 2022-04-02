@@ -67,11 +67,21 @@ install_pacman() {
 
 
 install_ccls_from_source() {
+    if ! [ -d .vim/ccls ]; then
+        echo '-- Cloning ccls source code from GitHub...'
+        mkdir -p /tmp/ccls-work.$$
+        pushd /tmp/ccls-work.$$
+        git clone https://github.com/MaskRay/ccls.git --depth=1 --recursive
+        popd
+        mv /tmp/ccls-work.$$/ccls .vim/
+    fi
     cd .vim/ccls
     rm -rf /tmp/ccls-build.$$
+    echo '-- Building ccls from source...'
     cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
     cmake --build /tmp/ccls-build.$$ --config Release --parallel 4
     sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
+    echo '-- Installed ccls successfully'
     rm -rf /tmp/ccls-build.$$
     cd ../..
 }
