@@ -4,9 +4,11 @@
 
 ## 一键安装
 
-从 [GitHub release](github.com/archibate/vimrc/releases) 下载 `vimrc-release.tar.gz`。
+从 [GitHub release](https://github.com/archibate/vimrc/releases) 下载 `vimrc-release.tar.gz`。
 
-解压并运行其中的 `.vim/install.sh`。
+为了提升速度，国内用户也可以从 [Gitee 的镜像](https://gitee.com/archibate/vimrc/releases) 下载。
+
+解压并运行其中的 `.vim/install.sh` 这个脚本。
 
 他会花一些时间检测你的 Linux 发行版，并安装下列这些部分插件所需的包：
 
@@ -23,12 +25,12 @@
 
 ## 手动安装
 
-手动安装方法见 [.vimrc](.vimrc) 中的注释.
+手动安装方法见 [.vimrc](.vimrc) 中的注释。
 
 ## Contribute
 
-如果你知道如何在你的发行版上安装这些包，你可以通过修改这个仓库中的
-[release/install.sh](release/install.sh) 来贡献你的力量，并通过 PR 提交更改给我们。
+如果你知道如何在你的 Linux 发行版上安装这些包（或者你是 MacOS、Windows），你可以通过修改这个仓库
+中的 [release/install.sh](release/install.sh) 来贡献你的力量，并通过 PR 提交更改给我们。
 
 要测试的话，先运行 [release/package.sh](release/package.sh) 来生成 `vimrc-release.tar.gz`，
 然后用 Docker 等工具在相应的隔离环境中测试是否能正确安装。

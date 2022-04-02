@@ -4,9 +4,11 @@
 
 # Quick Install
 
-Download `vimrc-release.tar.gz` from [GitHub release](github.com/archibate/vimrc/releases).
+Download `vimrc-release.tar.gz` from [GitHub release](https://github.com/archibate/vimrc/releases).
 
-Extract it, then execute the `.vim/install.sh` in it.
+For speed, Chinese users may download using the [Gitee mirror](https://gitee.com/archibate/vimrc/releases).
+
+Extract it, then execute the script `.vim/install.sh` in it.
 
 It will take some time to detect your Linux distro and install required packages for you:
 
@@ -23,8 +25,8 @@ Current supported Linux distros are:
 
 ## Contribute
 
-If you know how to install these packages on your distro, please feel free to contribute by
-modifying the [release/install.sh](release/install.sh) in this repository.
+If you know how to install these packages on your Linux distro (or MacOS / Windows), please feel
+free to contribute by modifying the [release/install.sh](release/install.sh) in this repository.
 
 # Manual Install
 
