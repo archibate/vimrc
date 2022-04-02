@@ -53,7 +53,7 @@ install_coc_plugins() {
 
     mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
     ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
-    echo '-- Installation complete'
+    echo '-- coc plugins installed successfully'
 }
 
 
@@ -152,11 +152,20 @@ else
   ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 EOF
     echo -n "-- Continue installing from source (y/N)? "; read -n1 x; echo
-    if [ "x$x" == "xy" ]; then install_any; fi
+    if [ "x$x" != "xy" ]; then exit 1; fi
+    install_any
 fi
 
 if [ "x$PWD" != "x$HOME" ]; then
-    [ -f ~/.vimrc ] && mv ~/.vimrc /tmp/backup.$$.vimrc
-    [ -d ~/.vim ] && mv ~/.vim /tmp/backup.$$.vim
+    if [ -f ~/.vimrc ]; then
+        echo "-- backup existing .vimrc to ~/.vimrc.backup.$$"
+        mv ~/.vimrc ~/.vimrc.backup.$$
+    fi
+    if [ -d ~/.vim ]; then
+        echo "-- backup existing .vim to ~/.vim.backup.$$"
+        mv ~/.vim ~/.vim.backup.$$
+    fi
+    echo "-- installing .vimrc and .vim"
     cp -r .vimrc .vim ~/
+    echo "-- installation complete, thank you for choosing archibate/vimrc"
 fi
