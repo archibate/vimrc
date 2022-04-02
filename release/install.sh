@@ -3,7 +3,13 @@ set -e
 echo '-- Welcome to Archibate Vimrc installation script :)'
 
 cd "$(dirname $0)"/..
-test -d ./.vim
+test -d ./.vim || (echo "ERROR: .vim not found, please download from github.com/archibate/vimrc/releases" && exit 1)
+test -f ./.vim/install.sh || (echo "ERROR: .vim/install.sh not found, please download from github.com/archibate/vimrc/releases" && exit 1)
+
+if [ "x$UID" == "x0" ] && [ "x$FORCE" != "xy" ]; then
+    echo -n "-- This script doesn't need manually add sudo, if you run as root it will install for root user instead, sure to continue (Y/n)? "; read -n1 x; echo
+    if [ "x$x" == "xn" ]; then exit 1; fi
+fi
 
 
 get_linux_distro() {
@@ -161,8 +167,10 @@ else
   mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
   ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 EOF
-    echo -n "-- Continue installing from source (y/N)? "; read -n1 x; echo
-    if [ "x$x" != "xy" ]; then exit 1; fi
+    if [ "x$FORCE" != "xy" ]; then
+        echo -n "-- Continue installing from source (y/N)? "; read -n1 x; echo
+        if [ "x$x" != "xy" ]; then exit 1; fi
+    fi
     install_any
 fi
 
