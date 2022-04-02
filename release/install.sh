@@ -11,6 +11,23 @@ if [ "x$UID" == "x0" ] && [ "x$FORCE" != "xy" ]; then
     if [ "x$x" == "xn" ]; then exit 1; fi
 fi
 
+if [ "x$VIM" == "x" ]; then
+    if which vim; then VIM=vim
+    elif which nvim; then VIM=nvim
+    elif [ "x$FORCE" != "xy" ]; then
+        echo -n '-- Please specify vim path: '
+        read VIM
+        if ! "$VIM" --version; then
+            echo "ERROR: not a valid vim executable: $VIM"
+            exit 1
+        fi
+    else
+        echo 'ERROR: cannot find vim executable!'
+        exit 1
+    fi
+fi
+echo "-- Installing for vim executable: $VIM"
+
 
 get_linux_distro() {
     if grep -Eq "Ubuntu" /etc/*-release; then
@@ -52,18 +69,18 @@ get_linux_distro() {
 
 
 install_coc_plugins() {
-    #bash <<EOF
-#pushd ~/
-#for x in coc-ccls coc-pyright coc-json coc-git; do
-    #echo "-- Installing coc plugin '\$x', please wait..."
-    #echo -e '\\n\\nZZZZ\\n\\n' | vim --not-a-term -c "echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
-#done
+    bash <<EOF
+pushd ~/
+for x in coc-ccls coc-pyright coc-json coc-git; do
+    echo "-- Installing coc plugin '\$x', please wait..."
+    echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
+done
 
-#mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
-#ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
-#echo '-- coc plugins installed successfully'
-#popd
-#EOF
+mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
+ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
+echo '-- coc plugins installed successfully'
+popd
+EOF
 }
 
 
@@ -77,30 +94,34 @@ install_pacman() {
 
 
 install_ccls_from_source() {
-    if ! [ -d .vim/ccls ]; then
-        echo '-- Cloning ccls source code from GitHub...'
-        mkdir -p /tmp/ccls-work.$$
-        pushd /tmp/ccls-work.$$
-        git clone https://github.com/MaskRay/ccls.git --depth=1 --recursive
-        popd
-        mv /tmp/ccls-work.$$/ccls .vim/
+    if ! [ which ccls ]; then
+        if ! [ -d .vim/ccls ]; then
+            echo '-- Cloning ccls source code from GitHub...'
+            mkdir -p /tmp/ccls-work.$$
+            pushd /tmp/ccls-work.$$
+            git clone https://github.com/MaskRay/ccls.git --depth=1 --recursive
+            popd
+            mv /tmp/ccls-work.$$/ccls .vim/
+        fi
+        cd .vim/ccls
+        rm -rf /tmp/ccls-build.$$
+        echo '-- Building ccls from source...'
+        cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
+        cmake --build /tmp/ccls-build.$$ --config Release --parallel `grep -c ^processor /proc/cpuinfo || echo 1`
+        sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
+        echo '-- Installed ccls successfully'
+        rm -rf /tmp/ccls-build.$$
+        cd ../..
+    else
+        echo '-- ccls already installed, skipping...'
     fi
-    cd .vim/ccls
-    rm -rf /tmp/ccls-build.$$
-    echo '-- Building ccls from source...'
-    cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
-    cmake --build /tmp/ccls-build.$$ --config Release --parallel 2
-    sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
-    echo '-- Installed ccls successfully'
-    rm -rf /tmp/ccls-build.$$
-    cd ../..
 }
 
 
 install_nodejs_lts() {
     if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
         echo '-- Upgrading Node.js version to 12.x'
-        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
+        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr/local'
         node --version
         #if [ "x$FORCE" != "xy" ]; then
             #echo -n "-- Would you like to switch the npm source to aliyun now (y/N)? "; read -n1 x; echo
@@ -193,5 +214,7 @@ if [ "x$PWD" != "x$HOME" ]; then
     fi
     echo "-- installing .vimrc and .vim"
     cp -r .vimrc .vim ~/
-    echo "-- installation complete, thank you for choosing archibate/vimrc"
+else
+    echo "-- already in home directory, skipping..."
 fi
+echo "-- installation complete, thank you for choosing archibate/vimrc"
