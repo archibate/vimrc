@@ -20,7 +20,7 @@
 " --------
 "
 " Z    - equivalent to ZZ, exit vim (:wqa)
-" Q    - equivalent to @@, repeat last macro
+" Q    - equivalent to ZQ, exit without saving (:qa!)
 " H    - equivalent to ^, goto start of line
 " L    - equivalent to $, goto end of line
 " kj   - equivalent to <ESC>, exit insert mode
@@ -64,8 +64,8 @@
 " build_dir=build
 " build_generator=Ninja
 " run_target="$(VIM:build_dir)/$(VIM:build_target)"
-" build_params=--parallel
-" build_variables=
+" build_options=--parallel
+" build_configs=
 "
 " [project-build]
 " command=cmake -G "$(VIM:build_generator)" -B "$(VIM:build_dir)" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_BUILD_TYPE="$(VIM:build_type)" $(VIM:build_configs) && cmake --build "$(VIM:build_dir)" --target "$(VIM:build_target)" --config "$(VIM:build_type)" $(VIM:build_options)
@@ -251,15 +251,14 @@
 " g<tab>   - fuzzy find key mappings
 "
 
-set hidden nocompatible
+set nocompatible
 set encoding=utf-8
 set et ts=4 sts=4 sw=4
 set fdm=syntax fdl=100
 set nu ru ls=2
 set hls is si
 set cinoptions=j1,(0,ws,Ws,g0
-set timeout nottimeout
-set tm=300 ttm=10
+set timeout nottimeout ttimeoutlen=10
 set mouse=a
 set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
 set showbreak=↪
@@ -322,15 +321,19 @@ nnoremap Z ZZ
 nnoremap Q ZQ
 nnoremap H ^
 nnoremap L $
-"nnoremap z zz
 vnoremap H ^
 vnoremap L $
+"nnoremap z zz
 "vnoremap z zz
 "nnoremap <CR> O<ESC>cc<ESC>j
 
 nnoremap <silent> <C-t> :botright terminal<CR>
 tnoremap <C-t> <C-w>q
 tnoremap <C-\> <C-\><C-n>
+
+vnoremap Z :w !xsel -ib<CR><CR>
+" MacOS user should use this:
+"vnoremap Z :w !pbcopy<CR><CR>
 
 " no longer used vimspector:
 "nmap <S-F3> <Plug>VimspectorStop
@@ -690,15 +693,13 @@ let g:asyncrun_rootmarks = ['.tasks', '.git/']
 function! AsyncTaskMultiple(first, ...)
     if len(a:000) >= 1
         if !a:first
-            d
         endif
         let l:tmp = ""
         for task in a:000[1:]
             let l:tmp .= "'".l:task."',"
         endfor
         let l:tmp = l:tmp[:-1]
-        let g:debugvar = "!!!".l:tmp."!!!".a:000[0]
-        let g:asyncrun_exit="call AsyncTaskMultiple(0, ".l:tmp.")"
+        let g:asyncrun_exit="if g:asyncrun_code == 0 | call AsyncTaskMultiple(0, ".l:tmp.") | else | call AsyncTaskMultiple(0) | endif"
         exec "AsyncTask ".a:000[0]
     else
         let g:asyncrun_exit=""
@@ -736,7 +737,7 @@ noremap <silent><expr> z/ incsearch#go(<SID>incsconfig())
 call plug#begin()
 
 "Plug 'vim-scripts/surround.vim'
-Plug 'preservim/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'archibate/QFixToggle', {'on': 'QFix'}
 Plug 'tpope/vim-fugitive'
 Plug 'bfrg/vim-cpp-modern', {'for': 'cpp'}

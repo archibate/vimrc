@@ -70,6 +70,7 @@ get_linux_distro() {
 
 install_coc_plugins() {
     bash <<EOF
+set -e
 pushd ~/
 for x in coc-ccls coc-pyright coc-json coc-git; do
     echo "-- Installing coc plugin '\$x', please wait..."
@@ -181,7 +182,7 @@ if [ $distro == "Ubuntu" ]; then
 elif [ $distro == "Debian" ]; then
     install_apt
 elif [ $distro == "ArchLinux" ]; then
-    install_archlinux
+    install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 else
