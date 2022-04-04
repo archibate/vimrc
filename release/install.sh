@@ -122,7 +122,7 @@ install_ccls_from_source() {
 install_nodejs_lts() {
     if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
         echo '-- Upgrading Node.js version to 12.x'
-        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr/local'
+        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
         node --version
         #if [ "x$FORCE" != "xy" ]; then
             #echo -n "-- Would you like to switch the npm source to aliyun now (y/N)? "; read -n1 x; echo
