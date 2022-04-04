@@ -19,8 +19,8 @@
 " Key maps
 " --------
 "
-" Z    - equivalent to ZZ, exit vim (:wqa)
-" Q    - equivalent to ZQ, exit without saving (:qa!)
+" Z    - equivalent to :wq, save and exit current window
+" Q    - equivalent to :wa! then :qa!, save and exit all windows
 " H    - equivalent to ^, goto start of line
 " L    - equivalent to $, goto end of line
 " kj   - equivalent to <ESC>, exit insert mode
@@ -39,8 +39,6 @@
 "
 " <F8>     - start shell in fullscreen (equivalent to :sh)
 " <F9>     - toggle project file tree window (:NERDTreeToggle)
-" <C-t>    - toggle built-in terminal in Vim
-" <C-\>    - enter normal mode in terminal (to select text)
 "
 " <F5>     - build and run current CMake project
 " <F6>     - build current CMake project, but don't run
@@ -48,6 +46,8 @@
 " <S-F7>   - configure current CMake project (via ccmake)
 " <F10>    - toggle compile error window (equivalent to :QFix)
 " <F12>    - search for required-from-here (useful for errors)
+"
+" <C-\>    - enter normal mode in terminal (to select text)
 "
 "
 " Build and Run
@@ -318,7 +318,7 @@ inoremap kj <ESC>
 "vnoremap <DEL> <ESC>
 
 nnoremap Z ZZ
-nnoremap Q ZQ
+nnoremap Q :wa!<CR>:qa!<CR>
 nnoremap H ^
 nnoremap L $
 vnoremap H ^
@@ -327,9 +327,9 @@ vnoremap L $
 "vnoremap z zz
 "nnoremap <CR> O<ESC>cc<ESC>j
 
-nnoremap <silent> <C-t> :botright terminal<CR>
-tnoremap <C-t> <C-w>q
-tnoremap <C-\> <C-\><C-n>
+"nnoremap <silent> <C-t> :botright terminal<CR>
+"tnoremap <C-t> <C-w>q
+"tnoremap <C-\> <C-\><C-n>
 
 vnoremap Z :w !xsel -ib<CR><CR>
 " MacOS user should use this:
@@ -510,7 +510,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " BEGIN_COC_NVIM {{{
 " References: https://github.com/neoclide/coc.nvim#example-vim-configuration
 
-set hidden
+set nohidden
 set nobackup
 set nowritebackup
 set updatetime=300
@@ -680,10 +680,21 @@ nnoremap <silent> <leader>lg  :<C-u>CocList --normal gstatus<CR>
 
 let g:coc_snippet_next = '<tab>'
 
+" for vim-floaterm:
+
+let g:floaterm_wintype = 'split'
+let g:floaterm_position = 'botright'
+let g:floaterm_height = 12
+
+"let g:floaterm_keymap_new    = '<F1>'
+"let g:floaterm_keymap_prev   = '<F2>'
+"let g:floaterm_keymap_next   = '<F3>'
+let g:floaterm_keymap_toggle = '<C-t>'
+
 " for asynctasks.vim:
 
 let g:asyncrun_open = 6
-let g:asynctasks_term_pos = 'bottom'
+let g:asynctasks_term_pos = 'floaterm_reuse'
 let g:asynctasks_term_rows = 6
 let g:asynctasks_term_cols = 50
 let g:asynctasks_term_reuse = 1
@@ -692,17 +703,18 @@ let g:asyncrun_rootmarks = ['.tasks', '.git/']
 
 function! AsyncTaskMultiple(first, ...)
     if len(a:000) >= 1
-        if !a:first
+        if a:first == 0
+            cclose
         endif
         let l:tmp = ""
         for task in a:000[1:]
             let l:tmp .= "'".l:task."',"
         endfor
         let l:tmp = l:tmp[:-1]
-        let g:asyncrun_exit="if g:asyncrun_code == 0 | call AsyncTaskMultiple(0, ".l:tmp.") | else | call AsyncTaskMultiple(0) | endif"
+        let g:asyncrun_exit = "if g:asyncrun_code == 0 | call AsyncTaskMultiple(0, ".l:tmp.") | else | call AsyncTaskMultiple(0) | endif"
         exec "AsyncTask ".a:000[0]
     else
-        let g:asyncrun_exit=""
+        let g:asyncrun_exit = ""
     endif
 endfunction
 command! -nargs=+ AsyncTasks   :call AsyncTaskMultiple(1, <f-args>)
@@ -740,7 +752,7 @@ call plug#begin()
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'archibate/QFixToggle', {'on': 'QFix'}
 Plug 'tpope/vim-fugitive'
-Plug 'bfrg/vim-cpp-modern', {'for': 'cpp'}
+"Plug 'bfrg/vim-cpp-modern', {'for': 'cpp'}
 Plug 'vim-scripts/vim-airline'
 "Plug 'cskeeters/vim-smooth-scroll'
 Plug 'tikhomirov/vim-glsl', {'for': 'glsl'}
@@ -770,6 +782,7 @@ Plug 'skywind3000/asyncrun.vim'
 "Plug 'viniciusgerevini/tmux-runner.vim'
 "Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'haya14busa/incsearch.vim'
+Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 
