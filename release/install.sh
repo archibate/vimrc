@@ -30,6 +30,7 @@ echo "-- Installing for vim executable: $VIM"
 
 
 get_linux_distro() {
+    osname=$(uname -sm)
     if grep -Eq "Ubuntu" /etc/*-release; then
         echo "Ubuntu"
     elif grep -Eq "Deepin" /etc/*-release; then
@@ -62,6 +63,8 @@ get_linux_distro() {
         echo "Gentoo"
     elif grep -Eq "alpine" /etc/*-release; then
         echo "Alpine"
+    elif osname=="Drawin arm64" || osname=="Drawin x86_64"; then
+        echo "MacOs"
     else
         echo "Unknow"
     fi
@@ -143,6 +146,14 @@ install_apt() {
     install_coc_plugins
 }
 
+install_brew() {
+  brew install fzf ripgrep 
+  brew install cmake make gcc curl
+  brew instal node ccls
+
+  install_coc_plugins
+}
+
 
 install_fzf_from_source() {
     cd .vim
@@ -185,6 +196,8 @@ elif [ $distro == "ArchLinux" ]; then
     install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
+elif [ $distro == "MacOs"]; then
+  install_brew
 else
     # TODO: add more Linux distros here..
     # TODO: how to detect MacOS and Windows?
