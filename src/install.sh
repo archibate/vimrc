@@ -180,6 +180,18 @@ install_brew() {
     install_coc_plugins
 }
 
+install_dnf() {
+    sudo dnf install -y fzf ripgrep
+    sudo dnf install -y clang clang-devel
+    sudo dnf install -y cmake make g++
+    sudo dnf install -y curl
+
+    install_ccls_from_source
+    install_nodejs_lts
+    install_vimrc
+    install_coc_plugins
+}
+
 
 install_fzf_from_source() {
     cd .vim
@@ -225,6 +237,8 @@ elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 elif [ $distro == "MacOS"]; then
     install_brew
+elif [ $distro == "fedora"]; then
+    install_dnf
 else
     # TODO: add more Linux distros here..
     # TODO: how to detect Windows?
