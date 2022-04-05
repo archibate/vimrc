@@ -223,7 +223,7 @@ elif [ $distro == "ArchLinux" ]; then
     install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
-elif [ $distro == "MacOS"]; then
+elif [ $distro == "MacOS" ]; then
     install_brew
 else
     # TODO: add more Linux distros here..
