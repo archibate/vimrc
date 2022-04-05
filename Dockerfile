@@ -11,7 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y clang
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libclang-dev
 COPY .vimrc /root/
 COPY .vim /root/
-COPY release/install.sh /root/
-COPY release/ccls /root/
+COPY src/install.sh /root/
+COPY src/ccls /root/
 RUN FORCE=y /root/.vim/install.sh
 WORKDIR /root

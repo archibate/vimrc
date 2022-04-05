@@ -24,7 +24,7 @@
 - Debian (没测)
 - MacOS (感谢 @RakerZh)
 
-## Contribute
+## 参与贡献
 
 如果你知道如何在你的 Linux 发行版上安装这些包（或者你是 MacOS、Windows），你可以通过修改这个仓库
 中的 [src/install.sh](src/install.sh) 来贡献你的力量，并通过 PR 提交更改给我们。
