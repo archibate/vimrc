@@ -23,6 +23,9 @@ Current supported Linux distros are:
 - Ubuntu (only 20.04 is tested)
 - Debian (not tested)
 - MacOS (thanks to @RakerZh)
+- Fedora (thanks to @justiceeem)
+- OpenSUSE (thanks to @sleeplessai)
+
 
 ## Contribute
 
