@@ -180,6 +180,18 @@ install_brew() {
     install_coc_plugins
 }
 
+install_dnf() {
+    sudo dnf install -y fzf ripgrep
+    sudo dnf install -y clang clang-devel
+    sudo dnf install -y cmake make g++
+    sudo dnf install -y curl
+
+    install_ccls_from_source
+    install_nodejs_lts
+    install_vimrc
+    install_coc_plugins
+}
+
 install_zypper() {
     sudo zypper in --no-confirm fzf ripgrep ccls nodejs 
     
@@ -231,6 +243,8 @@ elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 elif [ $distro == "MacOS" ]; then
     install_brew
+elif [ $distro == "fedora" ]; then
+    install_dnf
 elif [ $distro == "openSUSE" ]; then
     install_zypper
 else
