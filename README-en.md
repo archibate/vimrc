@@ -22,6 +22,7 @@ Current supported Linux distros are:
 - Manjano Linux (not tested)
 - Ubuntu (only 20.04 is tested)
 - Debian (not tested)
+- MacOS (thanks to @RakerZh)
 
 ## Contribute
 

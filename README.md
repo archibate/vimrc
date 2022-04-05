@@ -22,6 +22,7 @@
 - Manjano Linux (没测)
 - Ubuntu (只测了 20.04)
 - Debian (没测)
+- MacOS (感谢 @RakerZh)
 
 ## 手动安装
 
@@ -35,7 +36,7 @@
 要测试的话，先运行 [release/package.sh](release/package.sh) 来生成 `vimrc-release.tar.gz`，
 然后用 Docker 等工具在相应的隔离环境中测试是否能正确安装。
 
-## NeoVim tips
+## NeoVim 小贴士
 
 对于 NeoVim 用户，请创建一个叫 `~/.config/nvim/init.vim` 的文件，里面包含这些代码：
 

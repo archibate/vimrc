@@ -64,7 +64,7 @@ get_linux_distro() {
     elif grep -Eq "alpine" /etc/*-release; then
         echo "Alpine"
     elif osname=="Drawin arm64" || osname=="Drawin x86_64"; then
-        echo "MacOs"
+        echo "MacOS"
     else
         echo "Unknow"
     fi
@@ -196,7 +196,7 @@ elif [ $distro == "ArchLinux" ]; then
     install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
-elif [ $distro == "MacOs"]; then
+elif [ $distro == "MacOS"]; then
   install_brew
 else
     # TODO: add more Linux distros here..
