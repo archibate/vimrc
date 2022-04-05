@@ -180,6 +180,12 @@ install_brew() {
     install_coc_plugins
 }
 
+install_zypper() {
+    sudo zypper in --no-confirm fzf ripgrep ccls nodejs 
+    
+    install_vimrc
+    install_coc_plugins
+}
 
 install_fzf_from_source() {
     cd .vim
@@ -223,8 +229,10 @@ elif [ $distro == "ArchLinux" ]; then
     install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
-elif [ $distro == "MacOS"]; then
+elif [ $distro == "MacOS" ]; then
     install_brew
+elif [ $distro == "openSUSE" ]; then
+    install_zypper
 else
     # TODO: add more Linux distros here..
     # TODO: how to detect Windows?
