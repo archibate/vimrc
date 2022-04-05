@@ -2,14 +2,13 @@
 # https://stackoverflow.com/questions/29418050/package-tar-gz-into-a-shell-script
 set -e
 
-BASEDIR=`dirname "${0}"`
-cd "$BASEDIR"
+cd "`dirname "${0}"`/.."
 
 payload=/tmp/vimrc-release.tar.gz
 script=/tmp/vimrc-install.sh
 tmp=/tmp/__extract__$RANDOM
 
-release/package.sh
+src/package.sh
 
 printf "#!/bin/bash
 set -e
