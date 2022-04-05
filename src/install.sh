@@ -76,6 +76,24 @@ get_linux_distro() {
 }
 
 
+install_vimrc() {
+    if [ "x$PWD" != "x$HOME" ]; then
+        if [ -f ~/.vimrc ]; then
+            echo "-- backup existing .vimrc to ~/.vimrc.backup.$$"
+            mv ~/.vimrc ~/.vimrc.backup.$$
+        fi
+        if [ -d ~/.vim ]; then
+            echo "-- backup existing .vim to ~/.vim.backup.$$"
+            mv ~/.vim ~/.vim.backup.$$
+        fi
+        echo "-- installing .vimrc and .vim"
+        cp -r .vimrc .vim ~/
+    else
+        echo "-- already in home directory, skipping..."
+    fi
+}
+
+
 install_coc_plugins() {
     bash <<EOF
 set -e
@@ -98,6 +116,7 @@ install_pacman() {
     sudo pacman -S --noconfirm nodejs
     sudo pacman -S --noconfirm ccls
 
+    install_vimrc
     install_coc_plugins
 }
 
@@ -148,15 +167,17 @@ install_apt() {
 
     install_ccls_from_source
     install_nodejs_lts
+    install_vimrc
     install_coc_plugins
 }
 
 install_brew() {
-  brew install fzf ripgrep 
-  brew install cmake make gcc curl
-  brew instal node ccls
+    brew install fzf ripgrep 
+    brew install cmake make gcc curl
+    brew instal node ccls
 
-  install_coc_plugins
+    install_vimrc
+    install_coc_plugins
 }
 
 
@@ -186,6 +207,7 @@ install_any() {
     install_ripgrep_from_source
     install_ccls_from_source
     install_nodejs_lts
+    install_vimrc
     install_coc_plugins
 }
 
@@ -202,7 +224,7 @@ elif [ $distro == "ArchLinux" ]; then
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
 elif [ $distro == "MacOS"]; then
-  install_brew
+    install_brew
 else
     # TODO: add more Linux distros here..
     # TODO: how to detect Windows?
@@ -222,18 +244,4 @@ EOF
     install_any
 fi
 
-if [ "x$PWD" != "x$HOME" ]; then
-    if [ -f ~/.vimrc ]; then
-        echo "-- backup existing .vimrc to ~/.vimrc.backup.$$"
-        mv ~/.vimrc ~/.vimrc.backup.$$
-    fi
-    if [ -d ~/.vim ]; then
-        echo "-- backup existing .vim to ~/.vim.backup.$$"
-        mv ~/.vim ~/.vim.backup.$$
-    fi
-    echo "-- installing .vimrc and .vim"
-    cp -r .vimrc .vim ~/
-else
-    echo "-- already in home directory, skipping..."
-fi
 echo "-- Installation complete, thank you for choosing ArchVim"

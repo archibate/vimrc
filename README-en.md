@@ -27,14 +27,14 @@ Current supported Linux distros are:
 ## Contribute
 
 If you know how to install these packages on your Linux distro (or MacOS / Windows), please feel
-free to contribute by modifying the [release/install.sh](release/install.sh) in this repository.
+free to contribute by modifying the [src/install.sh](src/install.sh) in this repository.
+
+To test, run [src/package.sh](src/package.sh) to generate the `vimrc-release.tar.gz`.
+Then use it in Docker or other corresponding environment.
 
 # Manual Install
 
 See the comments in [.vimrc](.vimrc) for manual installation steps.
-
-To test, run [release/package.sh](release/package.sh) to generate the `vimrc-release.tar.gz`.
-Then use it in Docker or other corresponding environment.
 
 # NeoVim tips
 
