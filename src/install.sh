@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
-echo '-- Welcome to Archibate Vimrc installation script :)'
+echo '-- Welcome to ArchVim installation script :)'
+
+# ./install.sh nvim, for using NeoVim
+# ./install.sh vim y, for not asking from terminal
+
+VIM=${1-vim}
+FORCE=${2-n}
 
 cd "$(dirname $0)"/..
 test -d ./.vim || (echo "ERROR: .vim not found, please download from github.com/archibate/vimrc/releases" && exit 1)
@@ -15,7 +21,7 @@ if [ "x$VIM" == "x" ]; then
     if which vim; then VIM=vim
     elif which nvim; then VIM=nvim
     elif [ "x$FORCE" != "xy" ]; then
-        echo -n '-- Please specify vim path: '
+        echo -n '-- Please specify vim executable path: '
         read VIM
         if ! "$VIM" --version; then
             echo "ERROR: not a valid vim executable: $VIM"
@@ -30,7 +36,6 @@ echo "-- Installing for vim executable: $VIM"
 
 
 get_linux_distro() {
-    osname=$(uname -sm)
     if grep -Eq "Ubuntu" /etc/*-release; then
         echo "Ubuntu"
     elif grep -Eq "Deepin" /etc/*-release; then
@@ -63,10 +68,10 @@ get_linux_distro() {
         echo "Gentoo"
     elif grep -Eq "alpine" /etc/*-release; then
         echo "Alpine"
-    elif osname=="Drawin arm64" || osname=="Drawin x86_64"; then
+    elif [ "x$(uname -s)" == "xDrawin" ]; then
         echo "MacOS"
     else
-        echo "Unknow"
+        echo "Unknown"
     fi
 }
 
@@ -77,7 +82,7 @@ set -e
 pushd ~/
 for x in coc-ccls coc-pyright coc-json coc-git; do
     echo "-- Installing coc plugin '\$x', please wait..."
-    echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
+    echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
 done
 
 mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
@@ -200,7 +205,7 @@ elif [ $distro == "MacOS"]; then
   install_brew
 else
     # TODO: add more Linux distros here..
-    # TODO: how to detect MacOS and Windows?
+    # TODO: how to detect Windows?
     echo "-- Unsupported distro: $distro"
     echo "-- The script will try to install these packages from source: fzf ripgrep ccls"
     echo "-- Note that fzf requires Go, ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
@@ -231,4 +236,4 @@ if [ "x$PWD" != "x$HOME" ]; then
 else
     echo "-- already in home directory, skipping..."
 fi
-echo "-- installation complete, thank you for choosing archibate/vimrc"
+echo "-- Installation complete, thank you for choosing ArchVim"

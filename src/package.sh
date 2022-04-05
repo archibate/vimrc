@@ -1,6 +1,11 @@
 #!/bin/bash
+set -e
 
 cd "$(dirname $0)"
+test -f install.sh
+test -d ccls
+test -f ../.vimrc
+test -d ../.vim
 rm -rf /tmp/vimrc-workspace
 mkdir -p /tmp/vimrc-workspace
 cp -r ../.vimrc ../.vim /tmp/vimrc-workspace
