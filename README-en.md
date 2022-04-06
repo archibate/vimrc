@@ -1,6 +1,6 @@
 # ArchVim
 
-@archibate's personal vim plugins and configurations.
+@archibate's personal Vim plugins and configurations (NeoVim is also supported).
 
 # Quick Install
 
@@ -22,10 +22,13 @@ Current supported Linux distros are:
 - Manjano Linux (not tested)
 - Ubuntu (only 20.04 is tested)
 - Debian (not tested)
+- Kali Linux (not tested)
+- Raspbian (not tested)
 - MacOS (thanks to @RakerZh)
 - Fedora (thanks to @justiceeem)
 - OpenSUSE (thanks to @sleeplessai)
 
+If other Linux distro is used, the script will try to build fzf and ripgrep from source.
 
 ## Contribute
 

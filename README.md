@@ -1,6 +1,6 @@
 # ArchVim
 
-小彭老师的个人 Vim 插件和配置整合包。
+小彭老师的个人 Vim 插件和配置整合包（也支持 NeoVim）。
 
 ## 一键安装
 
@@ -22,9 +22,13 @@
 - Manjano Linux (没测)
 - Ubuntu (只测了 20.04)
 - Debian (没测)
+- Kali Linux (没测)
+- Raspbian (没测)
 - MacOS (感谢 @RakerZh)
 - Fedora (感谢 @justiceeem)
 - OpenSUSE (感谢 @sleeplessai)
+
+如果是其他发行版（比如 CentOS），会默认从源码安装 fzf 和 ripgrep（很慢）。
 
 ## 参与贡献
 
@@ -36,14 +40,4 @@
 
 ## 手动安装
 
-手动安装方法见 [.vimrc](.vimrc) 中的注释。
-
-## NeoVim 小贴士
-
-对于 NeoVim 用户，请创建一个叫 `~/.config/nvim/init.vim` 的文件，里面包含这些代码：
-
-```vim
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
-```
+手动安装方法见 [.vim/init.vim](.vim/init.vim) 中的注释。

@@ -13,5 +13,5 @@ COPY .vimrc /root/
 COPY .vim /root/
 COPY src/install.sh /root/
 COPY src/ccls /root/
-RUN FORCE=y /root/.vim/install.sh
+RUN /root/.vim/install.sh vim y
 WORKDIR /root

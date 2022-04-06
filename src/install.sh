@@ -18,8 +18,8 @@ if [ "x$UID" == "x0" ] && [ "x$FORCE" != "xy" ]; then
 fi
 
 if [ "x$VIM" == "x" ]; then
-    if which vim; then VIM=vim
-    elif which nvim; then VIM=nvim
+    if which nvim; then VIM=nvim
+    elif which vim; then VIM=vim
     elif [ "x$FORCE" != "xy" ]; then
         echo -n '-- Please specify vim executable path: '
         read VIM
@@ -88,6 +88,14 @@ install_vimrc() {
         fi
         echo "-- installing .vimrc and .vim"
         cp -r .vimrc .vim ~/
+        if which nvim; then
+            if [ -d ~/.vim ]; then
+                echo "-- backup existing nvim to ~/.config/nvim.backup.$$"
+                mv ~/.config/nvim ~/.config/nvim.backup.$$
+            fi
+            echo "-- creating symbolic link to ~/.config/nvim"
+            ln -sf ~/.vim/ ~/.config/nvim
+        fi
     else
         echo "-- already in home directory, skipping..."
     fi
@@ -127,7 +135,7 @@ install_pacman() {
 install_ccls_from_source() {
     if ! [ which ccls ]; then
         if ! [ -d .vim/ccls ]; then
-            echo '-- Cloning ccls source code from GitHub...'
+            echo '-- Cloning ccls source code from GitHub (please wait)...'
             mkdir -p /tmp/ccls-work.$$
             pushd /tmp/ccls-work.$$
             git clone https://github.com/MaskRay/ccls.git --depth=1 --recursive
@@ -204,6 +212,7 @@ install_zypper() {
 
 install_fzf_from_source() {
     cd .vim
+    echo '-- Cloning fzf source code from GitHub (please wait)...'
     git clone https://github.com/junegunn/fzf.git --depth=1
     cd fzf
     make
@@ -214,6 +223,7 @@ install_fzf_from_source() {
 
 install_ripgrep_from_source() {
     cd .vim
+    echo '-- Cloning ripgrep source code from GitHub (please wait)...'
     git clone https://github.com/BurntSushi/ripgrep.git --depth=1
     cd ripgrep
     cargo build --release
@@ -240,6 +250,10 @@ if [ $distro == "Ubuntu" ]; then
     install_apt
 elif [ $distro == "Debian" ]; then
     install_apt
+elif [ $distro == "Kali" ]; then
+    install_apt
+elif [ $distro == "Raspbian" ]; then
+    install_apt
 elif [ $distro == "ArchLinux" ]; then
     install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
@@ -252,8 +266,7 @@ elif [ $distro == "openSUSE" ]; then
     install_zypper
 else
     # TODO: add more Linux distros here..
-    # TODO: how to detect Windows?
-    echo "-- Unsupported distro: $distro"
+    echo "-- WARNING: Unsupported Linux distro: $distro"
     echo "-- The script will try to install these packages from source: fzf ripgrep ccls"
     echo "-- Note that fzf requires Go, ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
     echo "-- If you know how to install them, feel free to contribute to this GitHub repository: github.com/archibate/vimrc"
