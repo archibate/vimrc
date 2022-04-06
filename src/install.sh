@@ -123,7 +123,8 @@ EOF
 
 
 install_pacman() {
-    sudo pacman -S --noconfirm fzf ripgrep
+    sudo pacman -S --noconfirm fzf
+    sudo pacman -S --noconfirm ripgrep
     sudo pacman -S --noconfirm nodejs
     sudo pacman -S --noconfirm ccls
 
@@ -145,6 +146,7 @@ install_ccls_from_source() {
         cd .vim/ccls
         rm -rf /tmp/ccls-build.$$
         echo '-- Building ccls from source...'
+        if which g++-9; then export CXX=g++-9; fi
         cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
         cmake --build /tmp/ccls-build.$$ --config Release --parallel `grep -c ^processor /proc/cpuinfo || echo 1`
         sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
@@ -170,11 +172,21 @@ install_nodejs_lts() {
 }
 
 
+install_ripgrep_deb() {
+    RIPGREP_VERSION=$(curl -s "https://api.github.com/repos/BurntSushi/ripgrep/releases/latest" | grep -Po '"tag_name": "\K[0-9.]+')
+    curl -Lo /tmp/vimrc-$$-ripgrep.deb "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_${RIPGREP_VERSION}_amd64.deb"
+    sudo apt install -y /tmp/vimrc-$$-ripgrep.deb
+    rm -rf /tmp/vimrc-$$-ripgrep.deb
+    sudo apt-get install -y g++-9 || sudo apt-get install -y gcc-9
+}
+
+
 install_apt() {
-    sudo apt-get install -y fzf ripgrep
+    sudo apt-get install -y curl
+    sudo apt-get install -y ripgrep || install_ripgrep_deb
+    sudo apt-get install -y fzf
     sudo apt-get install -y clang libclang-dev
     sudo apt-get install -y cmake make g++
-    sudo apt-get install -y curl
 
     install_ccls_from_source
     install_nodejs_lts
@@ -182,14 +194,16 @@ install_apt() {
     install_coc_plugins
 }
 
+
 install_brew() {
     brew install fzf ripgrep 
     brew install cmake make gcc curl
-    brew instal node ccls
+    brew install node ccls
 
     install_vimrc
     install_coc_plugins
 }
+
 
 install_dnf() {
     sudo dnf install -y fzf ripgrep
@@ -203,12 +217,14 @@ install_dnf() {
     install_coc_plugins
 }
 
+
 install_zypper() {
     sudo zypper in --no-confirm fzf ripgrep ccls nodejs 
     
     install_vimrc
     install_coc_plugins
 }
+
 
 install_fzf_from_source() {
     cd .vim
