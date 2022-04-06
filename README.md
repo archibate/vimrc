@@ -23,6 +23,8 @@
 - Ubuntu (只测了 20.04)
 - Debian (没测)
 - MacOS (感谢 @RakerZh)
+- Fedora (感谢 @justiceeem)
+- OpenSUSE (感谢 @sleeplessai)
 
 ## 参与贡献
 

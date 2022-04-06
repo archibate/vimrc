@@ -5,8 +5,8 @@ echo '-- Welcome to ArchVim installation script :)'
 # ./install.sh nvim, for using NeoVim
 # ./install.sh vim y, for not asking from terminal
 
-VIM=${1-vim}
-FORCE=${2-n}
+VIM=${1}
+FORCE=${2}
 
 cd "$(dirname $0)"/..
 test -d ./.vim || (echo "ERROR: .vim not found, please download from github.com/archibate/vimrc/releases" && exit 1)
@@ -98,6 +98,8 @@ install_coc_plugins() {
     bash <<EOF
 set -e
 pushd ~/
+
+echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit"
 for x in coc-ccls coc-pyright coc-json coc-git; do
     echo "-- Installing coc plugin '\$x', please wait..."
     echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
@@ -106,6 +108,7 @@ done
 mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
 ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 echo '-- coc plugins installed successfully'
+
 popd
 EOF
 }
@@ -180,6 +183,24 @@ install_brew() {
     install_coc_plugins
 }
 
+install_dnf() {
+    sudo dnf install -y fzf ripgrep
+    sudo dnf install -y clang clang-devel
+    sudo dnf install -y cmake make g++
+    sudo dnf install -y curl
+
+    install_ccls_from_source
+    install_nodejs_lts
+    install_vimrc
+    install_coc_plugins
+}
+
+install_zypper() {
+    sudo zypper in --no-confirm fzf ripgrep ccls nodejs 
+    
+    install_vimrc
+    install_coc_plugins
+}
 
 install_fzf_from_source() {
     cd .vim
@@ -223,8 +244,12 @@ elif [ $distro == "ArchLinux" ]; then
     install_pacman
 elif [ $distro == "ManjaroLinux" ]; then
     install_pacman
-elif [ $distro == "MacOS"]; then
+elif [ $distro == "MacOS" ]; then
     install_brew
+elif [ $distro == "fedora" ]; then
+    install_dnf
+elif [ $distro == "openSUSE" ]; then
+    install_zypper
 else
     # TODO: add more Linux distros here..
     # TODO: how to detect Windows?
@@ -238,7 +263,7 @@ else
   ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 EOF
     if [ "x$FORCE" != "xy" ]; then
-        echo -n "-- Continue installing from source (y/N)? "; read -n1 x; echo
+        echo -n "-- Continue installing from source anyway (y/N)? "; read -n1 x; echo
         if [ "x$x" != "xy" ]; then exit 1; fi
     fi
     install_any
