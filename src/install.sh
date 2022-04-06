@@ -231,8 +231,7 @@ install_fzf_from_source() {
     echo '-- Cloning fzf source code from GitHub (please wait)...'
     git clone https://github.com/junegunn/fzf.git --depth=1
     cd fzf
-    make
-    sudo make install
+    ./install --key-bindings --completion --update-rc
     cd ../..
 }
 
