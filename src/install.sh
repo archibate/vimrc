@@ -5,7 +5,7 @@ echo '-- Welcome to ArchVim installation script :)'
 # ./install.sh nvim, for using NeoVim
 # ./install.sh vim y, for not asking from terminal
 
-VIM=${1}
+VIMEXE=${1}
 FORCE=${2}
 
 cd "$(dirname $0)"/..
@@ -17,14 +17,14 @@ if [ "x$UID" == "x0" ] && [ "x$FORCE" != "xy" ]; then
     if [ "x$x" == "xn" ]; then exit 1; fi
 fi
 
-if [ "x$VIM" == "x" ]; then
-    if which nvim; then VIM=nvim
-    elif which vim; then VIM=vim
+if [ "x$VIMEXE" == "x" ]; then
+    if which vim; then VIM=vim
+    elif which nvim; then VIM=nvim
     elif [ "x$FORCE" != "xy" ]; then
         echo -n '-- Please specify vim executable path: '
         read VIM
-        if ! "$VIM" --version; then
-            echo "ERROR: not a valid vim executable: $VIM"
+        if ! "$VIMEXE" --version; then
+            echo "ERROR: not a valid vim executable: $VIMEXE"
             exit 1
         fi
     else
@@ -32,7 +32,7 @@ if [ "x$VIM" == "x" ]; then
         exit 1
     fi
 fi
-echo "-- Installing for vim executable: $VIM"
+echo "-- Installing for vim executable: $VIMEXE"
 
 
 get_linux_distro() {
@@ -107,10 +107,10 @@ install_coc_plugins() {
 set -e
 pushd ~/
 
-echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit"
+echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" --not-a-term -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit"
 for x in coc-ccls coc-pyright coc-json coc-git; do
     echo "-- Installing coc plugin '\$x', please wait..."
-    echo -e '\\n\\nZZZZ\\n\\n' | "$VIM" --not-a-term -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
+    echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" --not-a-term -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
 done
 
 mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
@@ -134,7 +134,9 @@ install_pacman() {
 
 
 install_ccls_from_source() {
-    if ! [ which ccls ]; then
+    if which ccls && ccls --version; then
+        echo '-- ccls already installed, skipping...'
+    else
         if ! [ -d .vim/ccls ]; then
             echo '-- Cloning ccls source code from GitHub (please wait)...'
             mkdir -p /tmp/ccls-work.$$
@@ -152,8 +154,6 @@ install_ccls_from_source() {
         echo '-- Installed ccls successfully'
         rm -rf /tmp/ccls-build.$$
         cd ../..
-    else
-        echo '-- ccls already installed, skipping...'
     fi
 }
 
@@ -235,8 +235,8 @@ install_dnf() {
 
 
 install_zypper() {
-    sudo zypper in --no-confirm fzf ripgrep ccls nodejs 
-    
+    sudo zypper in --no-confirm fzf ripgrep ccls nodejs
+
     install_vimrc
     install_coc_plugins
 }
