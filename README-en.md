@@ -27,8 +27,9 @@ Current supported Linux distros are:
 - MacOS (thanks to @RakerZh)
 - Fedora (thanks to @justiceeem)
 - OpenSUSE (thanks to @sleeplessai)
+- CentOS (thanks to @xxy-im)
 
-If other Linux distro is used, the script will try to build fzf and ripgrep from source.
+If other Linux distro is used, the script will try to build fzf and ripgrep from source (slow).
 
 ## Contribute
 
@@ -40,7 +41,7 @@ Then use it in Docker or other corresponding environment.
 
 # Manual Install
 
-See the comments in [.vimrc](.vimrc) for manual installation steps.
+See the comments in [.vim/init.vim](.vim/init.vim) for manual installation steps.
 
 # NeoVim tips
 

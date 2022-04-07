@@ -27,6 +27,7 @@
 - MacOS (感谢 @RakerZh)
 - Fedora (感谢 @justiceeem)
 - OpenSUSE (感谢 @sleeplessai)
+- CentOS (感谢 @xxy-im)
 
 如果是其他发行版（比如 CentOS），会默认从源码安装 fzf 和 ripgrep（很慢）。
 
