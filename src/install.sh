@@ -195,6 +195,26 @@ install_apt() {
 }
 
 
+install_yum() {
+    install_fzf_from_source
+
+    sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
+    sudo yum install -y ripgrep
+    sudo yum install -y cmake make
+
+    # "ClangConfig.cmake not found" error.
+    # LLVM version below 7 is not supported for ccls.
+    # Usually, building LLVM takes two or more hours.
+    # You can also use Ninja to build LLVM spending less time.
+
+    # install_llvm_from_source
+    install_ccls_from_source
+    install_nodejs_lts
+    install_vimrc
+    install_coc_plugins
+}
+
+
 install_brew() {
     brew install fzf ripgrep 
     brew install cmake make gcc curl
@@ -231,8 +251,7 @@ install_fzf_from_source() {
     echo '-- Cloning fzf source code from GitHub (please wait)...'
     git clone https://github.com/junegunn/fzf.git --depth=1
     cd fzf
-    make
-    sudo make install
+    ./install --key-bindings --completion --update-rc
     cd ../..
 }
 
@@ -245,6 +264,19 @@ install_ripgrep_from_source() {
     cargo build --release
     ./target/release/rg --version
     sudo cp ./target/release/rg /usr/local/bin
+    cd ../..
+}
+
+
+install_llvm_from_source() {
+    cd .vim
+    echo '-- Cloning llvm-project source code from GitHub...'
+    git clone https://github.com/llvm/llvm-project.git --depth=1
+    cd llvm-project
+    cmake -B /tmp/llvm-build.$$ -DCMAKE_BUILD_TYPE=Release --enable-optimized --enable-targets=host-only -DLLVM_ENABLE_PROJECTS="clang" -G "Unix Makefiles" ./llvm
+    sudo cmake --build /tmp/llvm-build.$$ --config Release --parallel 8 --target install 
+    echo '-- Installed llvm successfully'
+    rm -rf /tmp/llvm-build.$$
     cd ../..
 }
 
@@ -280,6 +312,8 @@ elif [ $distro == "fedora" ]; then
     install_dnf
 elif [ $distro == "openSUSE" ]; then
     install_zypper
+elif [ $distro == "CentOS" ]; then
+    install_yum
 else
     # TODO: add more Linux distros here..
     echo "-- WARNING: Unsupported Linux distro: $distro"
