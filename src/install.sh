@@ -146,7 +146,6 @@ install_ccls_from_source() {
         cd .vim/ccls
         rm -rf /tmp/ccls-build.$$
         echo '-- Building ccls from source...'
-        if which g++-9; then export CXX=g++-9; fi
         cmake -B /tmp/ccls-build.$$ -DCMAKE_BUILD_TYPE=Release
         cmake --build /tmp/ccls-build.$$ --config Release --parallel `grep -c ^processor /proc/cpuinfo || echo 1`
         sudo cmake --build /tmp/ccls-build.$$ --config Release --target install
@@ -177,19 +176,16 @@ install_ripgrep_deb() {
     curl -Lo /tmp/vimrc-$$-ripgrep.deb "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_${RIPGREP_VERSION}_amd64.deb"
     sudo apt install -y /tmp/vimrc-$$-ripgrep.deb
     rm -rf /tmp/vimrc-$$-ripgrep.deb
-    sudo apt-get install -y g++-9 || sudo apt-get install -y gcc-9
 }
 
 
 install_apt() {
     sudo apt-get install -y curl
-    sudo apt-get install -y ripgrep || install_ripgrep_deb
+    sudo apt-get install -y ripgrep || install_ripgrep_deb   # Ubuntu 18.04 doesn't have the ripgrep package...
     sudo apt-get install -y fzf
-    sudo apt-get install -y clang libclang-dev
-    sudo apt-get install -y cmake make g++
 
-    install_ccls_from_source
-    install_nodejs_lts
+    sudo apt-get install -y ccls || (sudo apt-get install -y clang libclang-dev cmake make g++ && install_ccls_from_source)
+    install_nodejs_lts   # Ubuntu 20.04 only have Node.js version 11.x, the coc.nvim plugin requires 12.x and above however..
     install_vimrc
     install_coc_plugins
 }
@@ -270,11 +266,12 @@ install_ripgrep_from_source() {
 
 install_llvm_from_source() {
     cd .vim
-    echo '-- Cloning llvm-project source code from GitHub...'
+    echo '-- Cloning llvm-project source code from GitHub (please wait)...'
     git clone https://github.com/llvm/llvm-project.git --depth=1
     cd llvm-project
     cmake -B /tmp/llvm-build.$$ -DCMAKE_BUILD_TYPE=Release --enable-optimized --enable-targets=host-only -DLLVM_ENABLE_PROJECTS="clang" -G "Unix Makefiles" ./llvm
-    sudo cmake --build /tmp/llvm-build.$$ --config Release --parallel 8 --target install 
+    cmake --build /tmp/llvm-build.$$ --config Release --parallel `grep -c ^processor /proc/cpuinfo || echo 1`
+    sudo cmake --build /tmp/llvm-build.$$ --config Release --target install
     echo '-- Installed llvm successfully'
     rm -rf /tmp/llvm-build.$$
     cd ../..
