@@ -3,16 +3,27 @@
          "ccls": {
              "command": "ccls",
              "filetypes": ["c", "cpp", "cuda"],
-             "rootPatterns": [".git/", "build/"],
+             "rootPatterns": [".git/", "build/", ".ccls-root"],
              "initializationOptions": {
                  "compilationDatabaseDirectory": "build",
-                 "highlight": {
-                     "lsRanges": true
-                 },
                  "cache": {
                      "directory": "/tmp/ccls"
+                 },
+                 "index": {
+                     "onChange": true
+                 },
+                 "highlight": {
+                     "lsRanges": true
                  }
              }
+        },
+        "cmake": {
+            "command": "cmake-language-server",
+            "filetypes": ["cmake"],
+            "rootPatterns": [".git/", "build/"],
+            "initializationOptions": {
+                "buildDirectory": "build"
+            }
         }
     }
 }

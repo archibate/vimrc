@@ -193,14 +193,21 @@
 " <s-tab>   - previous completion (in insert mode)
 "
 " gd - goto definition
-" gD - goto declaration
+" gD - goto type definition
+" gc - goto declaration
+" gC - goto implementation
 " gr - goto references
-" gy - goto type definition
-" gI - goto implementation
-" gf - format selected code (visual mode)
-" gn - rename current symbol under cursor
-" gq - quick fix error on current line
-" K - show documentation of symbol under cursor
+" gR - rename current symbol under cursor
+" gq - format selected code (visual mode)
+" gQ - quick fix error on current line
+" gF - goto file path under cursor
+" K  - show documentation of symbol under cursor
+"
+" gaga - show code actions on current line
+" vif  - select current function scope (inner)
+" vaf  - select current function scope (outer)
+" vic  - select current class scope (inner)
+" vac  - select current class scope (outer)
 "
 "
 " Fuzzy find
@@ -258,6 +265,7 @@ set fdm=syntax fdl=100
 set nu ru ls=2
 set hls is si
 set cinoptions=j1,(0,ws,Ws,g0
+set formatoptions-=cro
 set timeout nottimeout ttimeoutlen=10
 set mouse=a
 set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
@@ -560,9 +568,9 @@ nmap <silent> <leader>l] <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> <leader>d <Plug>(coc-definition)
-nmap <silent> <leader>D <Plug>(coc-declaration)
-nmap <silent> <leader>y <Plug>(coc-type-definition)
-nmap <silent> <leader>I <Plug>(coc-implementation)
+nmap <silent> <leader>D <Plug>(coc-type-definition)
+nmap <silent> <leader>c <Plug>(coc-declaration)
+nmap <silent> <leader>C <Plug>(coc-implementation)
 nmap <silent> <leader>r <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
@@ -582,7 +590,7 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-nmap <leader>n <Plug>(coc-rename)
+nmap <leader>R <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>f <Plug>(coc-format-selected)
@@ -608,10 +616,10 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>q  <Plug>(coc-fix-current)
+nmap <leader>aq  <Plug>(coc-fix-current)
 
 " Run the Code Lens action on the current line.
-nmap <leader>cl <Plug>(coc-codelens-action)
+nmap <leader>al <Plug>(coc-codelens-action)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -772,7 +780,7 @@ Plug 'mbbill/undotree', {'on': 'UndoTreeToggle'}
 "Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
 "Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'python']}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -783,6 +791,7 @@ Plug 'skywind3000/asyncrun.vim'
 "Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'haya14busa/incsearch.vim'
 Plug 'voldikss/vim-floaterm'
+Plug 'findango/vim-mdx'
 
 call plug#end()
 
