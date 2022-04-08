@@ -47,7 +47,11 @@
 " <F10>    - toggle compile error window (equivalent to :QFix)
 " <F12>    - search for required-from-here (useful for errors)
 "
+" <C-t>    - toggle built-in terminal
 " <C-\>    - enter normal mode in terminal (to select text)
+" i or a   - get back to insert mode in terminal
+" <C-w> w  - switch out of terminal window (back to editor)
+" <C-w> "" - paste from vim clipboard to terminal
 "
 "
 " Build and Run
@@ -241,7 +245,14 @@
 "
 " <C-J> - select next fuzzy candidate (in fuzzy find window)
 " <C-K> - select previous fuzzy candidate (in fuzzy find window)
-" <C-P> - peek the current selected candidate (in fuzzy find window)
+" <CR>  - open current selected candidate (double click will work too)
+" <TAB> - switch between normal mode / insert mode (in fuzzy find window)
+" p     - peek the current selected candidate in popup window
+" v     - open current selected candidate in vertical splitted window
+" x     - open current selected candidate in horizontal splitted window
+" Q     - add current selected candidate to quickfix list
+" L     - add current selected candidate to location list
+" d     - delete current selected candidate
 "
 
 set nocompatible
@@ -259,7 +270,7 @@ set showbreak=↪
 set list
 "set noek
 "set rulerformat=%55(%{strftime('%a\ %b\ %e\ %I:%M\ %p')}\ %5l,%-6(%c%V%)\ %P%)
-set switchbuf=usetab
+"set switchbuf=usetab
 set undofile
 if has('nvim')
     set undodir=/tmp/nvim//,.
@@ -300,7 +311,7 @@ else
     nnoremap <S-F7> :AsyncTask project-config<CR>
 endif
 nnoremap <silent> <F8> :wa<CR>:sh<CR><CR>
-nnoremap <silent> <F9> :wa<CR>:NERDTreeToggle<CR><C-w>l
+nnoremap <silent> <F9> :wa<CR>:NERDTreeToggle<CR><C-w>l:Vista!!<CR><C-w>h
 nnoremap <silent> <F10> :wa<CR>:QFix<CR>
 nnoremap <silent> <F12> /required from here<CR>
 "nnoremap <silent> <C-k> <C-w>k:q<CR>
@@ -320,9 +331,11 @@ vnoremap L $
 "vnoremap z zz
 "nnoremap <CR> O<ESC>cc<ESC>j
 
-"nnoremap <silent> <C-t> :botright terminal<CR>
-"tnoremap <C-t> <C-w>q
-"tnoremap <C-\> <C-\><C-n>
+tnoremap <C-\> <C-\><C-n>
+if !has('nvim')
+    tnoremap <ScrollWheelUp> <C-\><C-n><ScrollWheelUp>
+    tnoremap <ScrollWheelDown> <C-\><C-n><ScrollWheelDown>
+endif
 
 vnoremap Z :w !xsel -ib<CR><CR>
 " MacOS user should use this:
@@ -817,7 +830,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'findango/vim-mdx', {'for': 'mdx'}
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-"Plug 'liuchengxu/vista.vim', {'on': 'Vista'}
+Plug 'liuchengxu/vista.vim', {'on': 'Vista!!'}
 
 call plug#end()
 

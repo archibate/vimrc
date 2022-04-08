@@ -107,10 +107,10 @@ install_coc_plugins() {
 set -e
 pushd ~/
 
-echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" --not-a-term -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit"
+echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit"
 for x in coc-ccls coc-pyright coc-git coc-json; do
     echo "-- Installing coc plugin '\$x', please wait..."
-    echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" --not-a-term -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
+    echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
 done
 
 mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
