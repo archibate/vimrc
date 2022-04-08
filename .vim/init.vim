@@ -199,11 +199,13 @@
 " gr - goto references
 " gR - rename current symbol under cursor
 " gq - format selected code (visual mode)
-" gQ - quick fix error on current line
-" gF - goto file path under cursor
+" gf - goto file path under cursor (no line number)
+" gF - goto file path under cursor (with line number)
 " K  - show documentation of symbol under cursor
 "
 " gaga - show code actions on current line
+" gaq  - quick fix error on current line
+"
 " vif  - select current function scope (inner)
 " vaf  - select current function scope (outer)
 " vic  - select current class scope (inner)
@@ -213,49 +215,33 @@
 " Fuzzy find
 " ==========
 "
-" For fuzzy find, I use the plugin 'fzf.vim'. It's based on the Unix command
-" line tools 'fzf', 'ag', and 'rg'. So make sure you have installed it first:
-"
-" $ pacman -S fzf                      # Arch Linux
-" $ apt-get install fzf                # Ubuntu
-" $ brew install fzf                   # MacOS
-" $ fzf --version                      # check if installation succeed
-"
-" $ pacman -S the_silver_searcher      # Arch Linux
-" $ apt-get install silversearcher-ag  # Ubuntu
-" $ brew install the_silver_searcher   # MacOS
-" $ ag --version                       # check if installation succeed
+" For fuzzy find, I use the plugin 'LeaderF'. It uses the Unix command
+" line tools 'rg'. So make sure you have installed it first:
 "
 " $ pacman -S ripgrep                  # Arch Linux
 " $ apt-get install ripgrep            # Ubuntu
 " $ brew install ripgrep               # MacOS
 " $ rg --version                       # check if installation succeed
 "
-" Hint: fzf could also be useful in command line, e.g.
-"
-" $ vim `fzf`
-"
-" To fuzzy find a file and open it in Vim.
-"
 "
 " Key maps
 " --------
 "
-" <space>f - fuzzy find file names in current direcory
-" <space>b - fuzzy find file names in all opened files
-" <space>g - fuzzy find file names in current git repo
-" <space>s - fuzzy find file names from 'git status'
-" <space>h - fuzzy find recently opened files in history
-" <space>: - fuzzy find runned ex-commands (:) in history
-" <space>/ - fuzzy find searched strings (/) in history
-" <space>c - fuzzy find commits in current git repo
-" <space>l - fuzzy find string in all opened files
-" <space>o - fuzzy find string in the current file
-" <space>x - fuzzy find vim ex-commands (including plugin commands)
-" <space>w - fuzzy find all current opened windows
-" <space>a - invokes 'grep -r', recursively find string in files
-" <space>r - like <space>a, but exclude files in .gitignore (e.g. build)
-" g<tab>   - fuzzy find key mappings
+" gff - fuzzy find file names in project directory
+" gfb - fuzzy find file names in all opened files
+" gfm - fuzzy find most-recently-used opened files
+" gf: - fuzzy find runned ex-commands (:) in history
+" gf/ - fuzzy find searched strings (/) in history
+" gfx - fuzzy find vim ex-commands (including plugins)
+" gfj - fuzzy find in vim jump history (related to Ctrl-I Ctrl-O)
+" gfl - fuzzy find string in current opened file
+" gft - fuzzy find tags in current opened file
+" gfi - fuzzy find string under cursor in current file (may visual)
+" gfa - fuzzy find string under cursor in project directory (may visual)
+"
+" <C-J> - select next fuzzy candidate (in fuzzy find window)
+" <C-K> - select previous fuzzy candidate (in fuzzy find window)
+" <C-P> - peek the current selected candidate (in fuzzy find window)
 "
 
 set nocompatible
@@ -316,7 +302,6 @@ endif
 nnoremap <silent> <F8> :wa<CR>:sh<CR><CR>
 nnoremap <silent> <F9> :wa<CR>:NERDTreeToggle<CR><C-w>l
 nnoremap <silent> <F10> :wa<CR>:QFix<CR>
-inoremap <silent> <F10> <ESC>:wa<CR>:QFix<CR>
 nnoremap <silent> <F12> /required from here<CR>
 "nnoremap <silent> <C-k> <C-w>k:q<CR>
 "nnoremap <silent> <C-j> <C-w>j
@@ -384,6 +369,10 @@ autocmd SwapExists * let v:swapchoice = "e"
 " goto last location on open:
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
+" open NERDTree on vim start:
+"autocmd VimEnter * NERDTree | wincmd p
+"autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
 " no longer used cmake4vim:
 "let g:cmake_usr_args = '-GNinja'
 "let g:cmake_build_target = 'main'
@@ -411,8 +400,8 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 "let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "let g:UltiSnipsEditSplit="vertical"
 
-" for vim-cpp-modern:
-let g:cpp_attributes_highlight = 1
+" no longer used vim-cpp-modern:
+"let g:cpp_attributes_highlight = 1
 "let g:cpp_member_highlight = 1
 
 " for vim-airline:
@@ -487,30 +476,65 @@ nmap <silent> <leader>9 <Plug>AirlineSelectTab9
 "endif
 "nnoremap <silent><C-p> :CtrlSpace O<CR>
 
-" for fzf.vim:
-nnoremap <silent> <space>f :Files<CR>
-nnoremap <silent> <space>g :GFiles<CR>
-nnoremap <silent> <space>s :GFiles?<CR>
-nnoremap <silent> <space>b :Buffers<CR>
-nnoremap <silent> <space>a :Ag<CR>
-nnoremap <silent> <space>r :Rg<CR>
-nnoremap <silent> <space>l :Lines<CR>
-nnoremap <silent> <space>o :BLines<CR>
-nnoremap <silent> <space>h :History<CR>
-nnoremap <silent> <space>: :History:<CR>
-nnoremap <silent> <space>/ :History/<CR>
-nnoremap <silent> <space>c :Commits<CR>
-nnoremap <silent> <space>x :Commands<CR>
-nnoremap <silent> <space>w :Windows<CR>
-nnoremap <silent> <space>m :Maps<CR>
+" no longer used fzf.vim:
+"nnoremap <silent> <space>f :Files<CR>
+"nnoremap <silent> <space>g :GFiles<CR>
+"nnoremap <silent> <space>s :GFiles?<CR>
+"nnoremap <silent> <space>b :Buffers<CR>
+"nnoremap <silent> <space>a :Ag<CR>
+"nnoremap <silent> <space>r :Rg<CR>
+"nnoremap <silent> <space>l :Lines<CR>
+"nnoremap <silent> <space>o :BLines<CR>
+"nnoremap <silent> <space>h :History<CR>
+"nnoremap <silent> <space>: :History:<CR>
+"nnoremap <silent> <space>/ :History/<CR>
+"nnoremap <silent> <space>c :Commits<CR>
+"nnoremap <silent> <space>x :Commands<CR>
+"nnoremap <silent> <space>w :Windows<CR>
+"nnoremap <silent> <space>m :Maps<CR>
 
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+"nmap <leader><tab> <plug>(fzf-maps-n)
+"xmap <leader><tab> <plug>(fzf-maps-x)
+"omap <leader><tab> <plug>(fzf-maps-o)
 
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+"imap <c-x><c-k> <plug>(fzf-complete-word)
+"imap <c-x><c-f> <plug>(fzf-complete-path)
+"imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" for LeaderF:
+
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PreviewCode = 1
+"let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+"let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>ff"
+"noremap <leader>ff :<C-U><C-R>=printf("Leaderf file %s", "")<CR><CR>
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>fx :<C-U><C-R>=printf("Leaderf command %s", "")<CR><CR>
+noremap <leader>f: :<C-U><C-R>=printf("Leaderf cmdHistory %s", "")<CR><CR>
+noremap <leader>f/ :<C-U><C-R>=printf("Leaderf searchHistory %s", "")<CR><CR>
+noremap <leader>fw :<C-U><C-R>=printf("Leaderf window %s", "")<CR><CR>
+noremap <leader>fj :<C-U><C-R>=printf("Leaderf jumps %s", "")<CR><CR>
+
+noremap <leader>fi :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s", expand("<cword>"))<CR><CR>
+noremap <leader>fa :<C-U><C-R>=printf("Leaderf! rg -e %s", expand("<cword>"))<CR><CR>
+xnoremap <leader>fi :<C-U><C-R>=printf("Leaderf! rg --current-buffer -F -e %s", leaderf#Rg#visual())<CR><CR>
+xnoremap <leader>fa :<C-U><C-R>=printf("Leaderf! rg -F -e %s", leaderf#Rg#visual())<CR><CR>
+noremap <leader>fr :<C-U>Leaderf! rg --recall<CR>
+
+" should use `Leaderf gtags --update` first
+"let g:Lf_GtagsAutoGenerate = 0
+"let g:Lf_Gtagslabel = 'native-pygments'
+"noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+"noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+"noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+"noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+"noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 " for coc.nvim:
 "let g:coc_global_extensions = ['coc-ccls', 'coc-pyright', 'coc-json', 'coc-git']
@@ -593,9 +617,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>R <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f <Plug>(coc-format-selected)
-"nmap <leader>f <Plug>(coc-format-selected)
-nnoremap <leader>f :Format<CR>
+xmap <leader>q <Plug>(coc-format-selected)
+"nmap <leader>q <Plug>(coc-format-selected)
+nnoremap <leader>q :Format<CR>
 
 " Restart CoC
 "nmap <silent> <leader>t :CocRestart<CR><CR>
@@ -780,8 +804,8 @@ Plug 'mbbill/undotree', {'on': 'UndoTreeToggle'}
 "Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
 "Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer', 'for': ['c', 'cpp', 'python']}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'junegunn/fzf.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 "Plug 'skywind3000/vim-terminal-help'
@@ -791,7 +815,9 @@ Plug 'skywind3000/asyncrun.vim'
 "Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'haya14busa/incsearch.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'findango/vim-mdx'
+Plug 'findango/vim-mdx', {'for': 'mdx'}
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+"Plug 'liuchengxu/vista.vim', {'on': 'Vista'}
 
 call plug#end()
 

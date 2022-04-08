@@ -6,6 +6,9 @@
              "rootPatterns": [".git/", "build/", ".ccls-root"],
              "initializationOptions": {
                  "compilationDatabaseDirectory": "build",
+                 "client": {
+                     "snippetSupport": true
+                 },
                  "cache": {
                      "directory": "/tmp/ccls"
                  },
@@ -16,14 +19,6 @@
                      "lsRanges": true
                  }
              }
-        },
-        "cmake": {
-            "command": "cmake-language-server",
-            "filetypes": ["cmake"],
-            "rootPatterns": [".git/", "build/"],
-            "initializationOptions": {
-                "buildDirectory": "build"
-            }
         }
     }
 }
