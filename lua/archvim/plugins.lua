@@ -1,5 +1,3 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
 vim.cmd [[packadd packer.nvim]]
 
 local plugins = {
@@ -62,17 +60,19 @@ local plugins = {
         config = function() require'archvim/config/asynctasks' end,
     },
 
-    'tpope/vim-fugitive',
-    {
-        'itchyny/lightline.vim',
-        requires = 'tpope/vim-fugitive',
-        config = function() require'archvim/config/lightline' end,
-    },
+    --'lewis6991/gitsigns.nvim',
+    --{
+        --'adelarsq/neoline.vim',
+        --requires = 'lewis6991/gitsigns.nvim',
+        --config = function() require'archvim/config/neoline' end,
+    --},
 }
 
 require'packer'.startup(function(use)
     for _, item in pairs(plugins) do
         use(item)
+    end
+    for _, item in pairs(plugins) do
         if item.config then
             item.config()
         end
