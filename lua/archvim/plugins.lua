@@ -74,6 +74,7 @@ local plugins = {
             'nvim-lua/plenary.nvim',
             'kyazdani42/nvim-web-devicons',
         },
+        config = function() require'vgit'.setup() end,
     },
 
     -- quality-of-lifes
