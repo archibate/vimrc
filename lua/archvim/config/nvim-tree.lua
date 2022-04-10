@@ -1,7 +1,7 @@
 require'nvim-tree'.setup{
     auto_reload_on_write = true,
     hijack_cursor = false,
-    open_on_setup = true,
+    open_on_setup = false,
     open_on_setup_file = true,
     view = {
         width = 30,

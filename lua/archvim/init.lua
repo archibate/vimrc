@@ -11,6 +11,9 @@ set showbreak=↪
 set list
 ]]
 
-vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[
+set termguicolors
+colorscheme gruvbox
+]]
 
 require('archvim/mappings')
