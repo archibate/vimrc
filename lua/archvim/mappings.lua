@@ -8,11 +8,11 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-map("n", "<F4>", ":<C-u>wa<CR>")
-map("n", "<F5>", ":<C-u>AsyncTasks project-build project-run<CR>")
-map("n", "<F6>", ":<C-u>AsyncTask project-build<CR>")
-map("n", "<F7>", ":<C-u>AsyncTasks file-build file-run<CR>")
-map("n", "<Space>", ":<C-u>nohlsearch<CR><Space>", { silent = true })
+map("n", "<F4>", "<cmd>wa<CR>")
+map("n", "<F5>", "<cmd>AsyncTasks project-build project-run<CR>")
+map("n", "<F6>", "<cmd>AsyncTask project-build<CR>")
+map("n", "<F7>", "<cmd>AsyncTasks file-build file-run<CR>")
+map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
 
 vim.cmd [[
 augroup disable_formatoptions_cro

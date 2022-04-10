@@ -1,15 +1,15 @@
 vim.cmd [[
-let g:floaterm_wintype = 'split'
-let g:floaterm_position = 'botright'
-let g:floaterm_height = 12
-
-"let g:floaterm_keymap_new    = '<F1>'
-"let g:floaterm_keymap_prev   = '<F2>'
-"let g:floaterm_keymap_next   = '<F3>'
-let g:floaterm_keymap_toggle = '<C-t>'
+"let g:floaterm_wintype = 'split'
+"let g:floaterm_position = 'botright'
+"let g:floaterm_height = 12
+""
+""let g:floaterm_keymap_new    = '<F1>'
+""let g:floaterm_keymap_prev   = '<F2>'
+""let g:floaterm_keymap_next   = '<F3>'
+"let g:floaterm_keymap_toggle = '<C-t>'
 
 let g:asyncrun_open = 6
-let g:asynctasks_term_pos = 'floaterm_reuse'
+let g:asynctasks_term_pos = 'toggleterm'
 let g:asynctasks_term_rows = 6
 let g:asynctasks_term_cols = 50
 let g:asynctasks_term_reuse = 1

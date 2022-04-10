@@ -3,6 +3,12 @@ require'nvim-tree'.setup{
     hijack_cursor = false,
     open_on_setup = true,
     open_on_setup_file = true,
+    view = {
+        width = 30,
+        height = 30,
+        side = "left",
+        preserve_window_proportions = false,
+    },
 }
 
 vim.cmd [[

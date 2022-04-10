@@ -112,7 +112,10 @@ local plugins = {
     'glepnir/zephyr-nvim',
     'shaunsingh/nord.nvim',
 
-    'voldikss/vim-floaterm',
+    {
+        'akinsho/toggleterm.nvim',
+        config = function() require'archvim/config/toggleterm' end,
+    },
     {
         'skywind3000/asynctasks.vim',
         requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},
