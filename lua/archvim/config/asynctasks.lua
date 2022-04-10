@@ -8,11 +8,6 @@ let g:floaterm_height = 12
 "let g:floaterm_keymap_next   = '<F3>'
 let g:floaterm_keymap_toggle = '<C-t>'
 
-nnoremap <silent> <F5> :AsyncTasks project-build project-run<CR>
-nnoremap <silent> <F6> :AsyncTask project-build<CR>
-nnoremap <silent> <F7> :AsyncTasks file-build file-run<CR>
-nnoremap <silent> <S-F7> :AsyncTask project-config<CR>
-
 let g:asyncrun_open = 6
 let g:asynctasks_term_pos = 'floaterm_reuse'
 let g:asynctasks_term_rows = 6

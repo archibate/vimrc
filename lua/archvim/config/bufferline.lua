@@ -6,7 +6,10 @@ require'bufferline'.setup {
             filetype = "NvimTree",
             text = "File Explorer",
             highlight = "Directory",
-            text_align = "left"
-        }}
+            text_align = "left",
+        }},
+        close_command = function(bufnum)
+            require('bufdelete').bufdelete(bufnum, true)
+        end,
     }
 }

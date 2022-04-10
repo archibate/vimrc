@@ -1,3 +1,5 @@
+-- neovim 6.1 required
+
 require('archvim/plugins')
 
 vim.cmd [[
@@ -10,21 +12,5 @@ set list
 ]]
 
 vim.cmd [[colorscheme gruvbox]]
-vim.cmd [[
-augroup disable_formatoptions_cro
-autocmd!
-autocmd FileType * set formatoptions-=cro
-augroup end
-]]
-vim.cmd [[
-augroup disable_swap_exists_warning
-autocmd!
-autocmd SwapExists * let v:swapchoice = "e"
-augroup end
-]]
-vim.cmd [[
-augroup goto_last_position_on_open
-autocmd!
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-augroup end
-]]
+
+require('archvim/mappings')
