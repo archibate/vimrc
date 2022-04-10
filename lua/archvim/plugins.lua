@@ -49,6 +49,31 @@ local plugins = {
         requires = 'nvim-treesitter/nvim-treesitter',
     },
 
+    -- color and themes
+    {
+        'ellisonleao/gruvbox.nvim',
+        requires = 'rktjmp/lush.nvim',
+    },
+    'glepnir/zephyr-nvim',
+    'shaunsingh/nord.nvim',
+
+    -- status line
+    --{
+        --'glepnir/galaxyline.nvim',
+        --branch = 'main',
+        ---- your statusline
+        --config = function() require'archvim/config/galaxyline' end,
+        ---- some optional icons
+        --requires = {'kyazdani42/nvim-web-devicons', opt = true}
+    --},
+    {
+        'windwp/windline.nvim',
+        -- your statusline
+        config = function() require'archvim/config/windline' end,
+        -- some optional icons
+        requires = {'kyazdani42/nvim-web-devicons'},
+    },
+
     -- quality-of-lifes
     {
         "ur4ltz/surround.nvim",
@@ -104,14 +129,7 @@ local plugins = {
         config = function() require'archvim/config/nvim-tree' end,
     },
 
-    -- colorschemes
-    {
-        'ellisonleao/gruvbox.nvim',
-        requires = 'rktjmp/lush.nvim',
-    },
-    'glepnir/zephyr-nvim',
-    'shaunsingh/nord.nvim',
-
+    -- terminal and tasks
     {
         'akinsho/toggleterm.nvim',
         config = function() require'archvim/config/toggleterm' end,
