@@ -293,6 +293,8 @@ echo "-- Linux distro detected: $distro"
 
 if [ $distro == "Ubuntu" ]; then
     install_apt
+elif [ $distro == "Deepin" ]; then
+    install_apt
 elif [ $distro == "Debian" ]; then
     install_apt
 elif [ $distro == "Kali" ]; then
