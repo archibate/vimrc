@@ -1,2 +1,2 @@
 local windline = require('windline')
-require('wlsample.bubble')
+require('wlsample.airline')

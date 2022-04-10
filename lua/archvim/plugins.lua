@@ -58,20 +58,22 @@ local plugins = {
     'shaunsingh/nord.nvim',
 
     -- status line
-    --{
-        --'glepnir/galaxyline.nvim',
-        --branch = 'main',
-        ---- your statusline
-        --config = function() require'archvim/config/galaxyline' end,
-        ---- some optional icons
-        --requires = {'kyazdani42/nvim-web-devicons', opt = true}
-    --},
+    {
+        'lewis6991/gitsigns.nvim',
+        config = function() require'archvim/config/gitsigns' end,
+    },
     {
         'windwp/windline.nvim',
-        -- your statusline
         config = function() require'archvim/config/windline' end,
-        -- some optional icons
-        requires = {'kyazdani42/nvim-web-devicons'},
+    },
+
+    -- git version control
+    {
+        'tanvirtin/vgit.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'kyazdani42/nvim-web-devicons',
+        },
     },
 
     -- quality-of-lifes
@@ -79,11 +81,6 @@ local plugins = {
         "ur4ltz/surround.nvim",
         config = function() require 'archvim/config/surround' end,
     },
-    --{
-        --"windwp/nvim-autopairs",
-        --requires = 'hrsh7th/nvim-cmp',
-        --config = function() require'archvim/config/autopairs' end,
-    --},
     "terryma/vim-expand-region",
     "terrortylor/nvim-comment",
 
@@ -139,13 +136,6 @@ local plugins = {
         requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},
         config = function() require'archvim/config/asynctasks' end,
     },
-
-    --'lewis6991/gitsigns.nvim',
-    --{
-        --'adelarsq/neoline.vim',
-        --requires = 'lewis6991/gitsigns.nvim',
-        --config = function() require'archvim/config/neoline' end,
-    --},
 }
 
 require'packer'.startup(function(use)
