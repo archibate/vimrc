@@ -57,7 +57,7 @@ local plugins = {
     'glepnir/zephyr-nvim',
     'shaunsingh/nord.nvim',
 
-    -- status line
+    -- status line and version control
     {
         'lewis6991/gitsigns.nvim',
         config = function() require'archvim/config/gitsigns' end,
@@ -66,24 +66,18 @@ local plugins = {
         'windwp/windline.nvim',
         config = function() require'archvim/config/windline' end,
     },
-
-    -- git version control
-    {
-        'tanvirtin/vgit.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim',
-            'kyazdani42/nvim-web-devicons',
-        },
-        config = function() require'vgit'.setup() end,
-    },
+    'tpope/vim-fugitive',
 
     -- quality-of-lifes
     {
         "ur4ltz/surround.nvim",
         config = function() require 'archvim/config/surround' end,
     },
+    {
+	    "terrortylor/nvim-comment",
+        config = function() require 'archvim/config/nvim-comment' end,
+	},
     "terryma/vim-expand-region",
-    "terrortylor/nvim-comment",
 
     -- session and projects
     {
