@@ -7,7 +7,7 @@ local plugins = {
     "nvim-lua/plenary.nvim",
     "rcarriga/nvim-notify",
 
-    -- lsp and completions
+    -- auto completions
     {
         'hrsh7th/nvim-cmp',
         requires = {
@@ -26,6 +26,8 @@ local plugins = {
             'hrsh7th/vim-vsnip',
         },
     },
+
+    -- lsp diagnostics
     {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
@@ -36,12 +38,17 @@ local plugins = {
         "tami5/lspsaga.nvim",
         config = function() require'archvim/config/lspsaga' end,
     },
+    {
+        "sbdchd/neoformat",
+        config = function() require"archvim/config/neoformat" end,
+    },
 
     -- syntax highlighting
     {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
         config = function() require'archvim/config/nvim-treesitter' end,
+        requires = 'p00f/nvim-ts-rainbow',
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -52,6 +59,7 @@ local plugins = {
         "SmiteshP/nvim-gps",
         requires = 'nvim-treesitter/nvim-treesitter',
     },
+    'JoosepAlviste/nvim-ts-context-commentstring',
 
     -- color and themes
     {
@@ -141,9 +149,9 @@ require'packer'.startup(function(use)
     for _, item in pairs(plugins) do
         use(item)
     end
-    for _, item in pairs(plugins) do
-        if item.config then
-            item.config()
-        end
-    end
+    --for _, item in pairs(plugins) do
+        --if item.config then
+            --item.config()
+        --end
+    --end
 end)

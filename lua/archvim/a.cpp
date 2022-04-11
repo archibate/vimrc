@@ -1,6 +1,8 @@
 #include <cstdio>
 
 int main() {
-    printf(1);
+    if (1) {
+        printf("World\n");
+    }
     return 0;
 }

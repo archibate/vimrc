@@ -1,8 +1,9 @@
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {"vim", "c", "cpp", "python"},
+  sync_install = true,
   highlight = {
     enable = true,
-    additional_vim_regex_highlighting = false
+    additional_vim_regex_highlighting = false,
   },
   incremental_selection = {
     enable = true,
@@ -14,8 +15,15 @@ require'nvim-treesitter.configs'.setup {
     }
   },
   indent = {
+    enable = true,
+  },
+  rainbow = {
+    enable = false,
+    extended_mode = true,
+  },
+  context_commentstring = {
     enable = true
-  }
+  },
 }
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'

@@ -22,6 +22,7 @@ map("n", "<F4>", "<cmd>wa<CR>")
 map("n", "<F5>", "<cmd>AsyncTasks project-build project-run<CR>")
 map("n", "<F6>", "<cmd>AsyncTask project-build<CR>")
 map("n", "<F7>", "<cmd>AsyncTasks file-build file-run<CR>")
+map("n", "<F12>", "<cmd>Neoformat<CR>")
 map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
 
 vim.cmd [[
