@@ -1,4 +1,4 @@
-require'nvim-tree'.setup{
+require'nvim-tree'.setup {
     auto_reload_on_write = true,
     hijack_cursor = false,
     open_on_setup = false,
@@ -6,7 +6,7 @@ require'nvim-tree'.setup{
     view = {
         width = 30,
         height = 30,
-        side = "right",
+        side = "left",
         color = "#3f0af0",
         preserve_window_proportions = false,
     },

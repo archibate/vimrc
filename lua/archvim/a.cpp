@@ -6,6 +6,7 @@ int func1();
 int main() {
     if (1) {
         int64_t x = func1();
+        printf("%ld\n", x);
     }
     return 0;
 }

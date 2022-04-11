@@ -114,6 +114,10 @@ local plugins = {
         "mbbill/undotree",
         config = function() require'archvim/config/undotree' end,
     },
+    {
+        'Pocco81/AutoSave.nvim',
+        config = function() require'archvim/config/autosave' end,
+    },
 
     -- fuzzy searching
     {
@@ -180,6 +184,20 @@ local plugins = {
     {
         "folke/which-key.nvim",
         config = function() require"archvim/config/which-key" end,
+    },
+    {
+        "phaazon/hop.nvim",
+        config = function() require"archvim/config/hop" end,
+    },
+    {
+        "RRethy/vim-illuminate",
+        config = function()
+            vim.g.Illuminate_ftblacklist = {
+                "NvimTree",
+                "vista_kind",
+                "toggleterm",
+            }
+        end,
     },
 }
 

@@ -14,6 +14,6 @@ require("lint").linters_by_ft = {
 vim.cmd [[
 augroup nvim_lint_try_lint_ont_write
 autocmd!
-autocmd BufWritePost <buffer> lua require('lint').try_lint()
+autocmd BufEnter,BufWritePost * lua require('lint').try_lint()
 augroup end
 ]]
