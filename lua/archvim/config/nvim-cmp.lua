@@ -27,6 +27,7 @@ cmp.setup {
         {name = "buffer"},
         {name = "cmdline"},
         {name = "spell"},
+        -- {name = "cmp_tabnine"}, -- INFO: uncomment this for AI completion
     },
 
     -- 对补全建议排序
@@ -37,7 +38,7 @@ cmp.setup {
             cmp.config.compare.score,
             cmp.config.compare.recently_used,
             require("cmp-under-comparator").under,
-            -- require("cmp_tabnine.compare"),
+            -- require("cmp_tabnine.compare"), -- INFO: uncomment this for AI completion
             cmp.config.compare.kind,
             cmp.config.compare.sort_text,
             cmp.config.compare.length,

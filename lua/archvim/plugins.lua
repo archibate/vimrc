@@ -18,7 +18,7 @@ local plugins = {
             'hrsh7th/cmp-cmdline',
             'f3fora/cmp-spell',
             "lukas-reineke/cmp-under-comparator",
-            -- "saadparwaiz1/cmp_luasnip",
+            -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
         },
         config = function() require'archvim/config/nvim-cmp' end,
     },
@@ -47,6 +47,10 @@ local plugins = {
     {
         "petertriho/nvim-scrollbar",
         config = function() require"scrollbar".setup{} end,
+    },
+    {
+        'mfussenegger/nvim-lint',
+        config = function() require"archvim/config/nvim-lint" end,
     },
 
     -- semantic highlighting
@@ -117,7 +121,6 @@ local plugins = {
         requires = {
             "nvim-lua/plenary.nvim",
             "BurntSushi/ripgrep",
-            "sharkdp/fd",
         },
         config = function() require"archvim/config/telescope" end,
     },

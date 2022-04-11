@@ -1,10 +1,12 @@
+// Copyright 2022 archibate
+#include <cstdint>
 #include <cstdio>
 
-[[nodiscard]] int func();
+int func1();
 
 int main() {
     if (1) {
-        func();
+        int64_t x = func1();
     }
     return 0;
 }
