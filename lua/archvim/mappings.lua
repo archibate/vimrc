@@ -18,6 +18,7 @@ map({"v", "n"}, "H", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1
 map({"v", "n"}, "L", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
 map("n", "<F4>", "<cmd>wa<CR>")
 map("n", "<F9>", "<cmd>PackerInstall<CR>")
+map("n", "<F21>", "<cmd>PackerUpdate<CR>")
 map("n", "<F10>", "<cmd>PackerCompile<CR>")
 map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
 

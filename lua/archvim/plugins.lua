@@ -11,29 +11,31 @@ local plugins = {
     {
         'hrsh7th/nvim-cmp',
         requires = {
+            'onsails/lspkind-nvim',
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
-            "saadparwaiz1/cmp_luasnip",
+            'f3fora/cmp-spell',
+            "lukas-reineke/cmp-under-comparator",
+            -- "saadparwaiz1/cmp_luasnip",
         },
         config = function() require'archvim/config/nvim-cmp' end,
     },
     {
-        'rafamadriz/friendly-snippets',
+        'hrsh7th/cmp-vsnip',
         requires = {
-            'hrsh7th/cmp-vsnip',
+            'rafamadriz/friendly-snippets',
             'hrsh7th/vim-vsnip',
         },
     },
 
-    -- lsp diagnostics
+    -- lsp syntax diagnostics
     {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
     },
     'williamboman/nvim-lsp-installer',
-    'onsails/lspkind-nvim',
     {
         "tami5/lspsaga.nvim",
         config = function() require'archvim/config/lspsaga' end,
@@ -44,9 +46,7 @@ local plugins = {
     },
     {
         "petertriho/nvim-scrollbar",
-        config = function()
-            require"scrollbar".setup{}
-        end,
+        config = function() require"scrollbar".setup{} end,
     },
 
     -- semantic highlighting

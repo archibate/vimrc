@@ -13,5 +13,5 @@ map("n", "<leader>fh", "<cmd>Telescope help_tags theme=dropdown<CR>")
 map("n", "<leader>fo", "<cmd>Telescope oldfiles theme=dropdown<CR>")
 -- 查找 marks 标记
 map("n", "<leader>fm", "<cmd>Telescope marks theme=dropdown<CR>")
--- 查找 todo 标记
+-- 查找 todo 等事项
 map("n", "<leader>ft", "<cmd>TodoTelescope theme=dropdown<CR>")

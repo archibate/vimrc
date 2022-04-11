@@ -1,8 +1,10 @@
 #include <cstdio>
 
+[[nodiscard]] int func();
+
 int main() {
     if (1) {
-        printf("World\n");
+        func();
     }
     return 0;
 }
