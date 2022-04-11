@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"vim", "c", "cpp", "python"},
+  ensure_installed = {"vim", "c", "cpp", "python"},  -- INFO: add your language here
   sync_install = true,
   highlight = {
     enable = true,

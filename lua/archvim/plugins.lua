@@ -121,19 +121,21 @@ local plugins = {
         requires = {
             "nvim-lua/plenary.nvim",
             "BurntSushi/ripgrep",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                run = "make",
+            },
+            {
+                "nvim-telescope/telescope-frecency.nvim",
+                requires = {"tami5/sqlite.lua"},   -- need to install sqlite lib
+            },
+            "nvim-telescope/telescope-ui-select.nvim",
+            'LinArcX/telescope-changes.nvim',
+            'nvim-telescope/telescope-github.nvim',
+            -- "nvim-telescope/telescope-live-grep-raw.nvim",
         },
         config = function() require"archvim/config/telescope" end,
     },
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make",
-    },
-    {
-        "nvim-telescope/telescope-frecency.nvim",
-        requires = {"tami5/sqlite.lua"},   -- NOTE: need to install sqlite lib
-    },
-    "nvim-telescope/telescope-ui-select.nvim",
-    "nvim-telescope/telescope-live-grep-raw.nvim",
     {
         "nvim-pack/nvim-spectre",
         requires = {
@@ -185,9 +187,4 @@ require'packer'.startup(function(use)
     for _, item in pairs(plugins) do
         use(item)
     end
-    --for _, item in pairs(plugins) do
-        --if item.config then
-            --item.config()
-        --end
-    --end
 end)
