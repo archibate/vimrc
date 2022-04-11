@@ -48,10 +48,10 @@ local plugins = {
         "petertriho/nvim-scrollbar",
         config = function() require"scrollbar".setup{} end,
     },
-    {
-        'mfussenegger/nvim-lint',
-        config = function() require"archvim/config/nvim-lint" end,
-    },
+    -- {   -- INFO: uncomment to enable cpplint
+    --     'mfussenegger/nvim-lint',
+    --     config = function() require"archvim/config/nvim-lint" end,
+    -- },
 
     -- semantic highlighting
     {
@@ -114,10 +114,10 @@ local plugins = {
         "mbbill/undotree",
         config = function() require'archvim/config/undotree' end,
     },
-    {
-        'Pocco81/AutoSave.nvim',
-        config = function() require'archvim/config/autosave' end,
-    },
+    -- {   -- INFO: uncomment to enable cpplint
+    --     'Pocco81/AutoSave.nvim',
+    --     config = function() require'archvim/config/autosave' end,
+    -- },
 
     -- fuzzy searching
     {
@@ -196,6 +196,7 @@ local plugins = {
                 "NvimTree",
                 "vista_kind",
                 "toggleterm",
+                "lsp-installer",
             }
         end,
     },

@@ -55,6 +55,6 @@ nnoremap <silent> gl <cmd>lua require('lspsaga.diagnostic').show_line_diagnostic
 nnoremap <silent> gL <cmd>lua require('lspsaga.diagnostic').show_cursor_diagnostics()<CR>
 
 " jump diagnostic
-nnoremap <silent> [g <cmd>lua require('lspsaga.diagnostic').lsp_jump_diagnostic_prev()<CR>
-nnoremap <silent> ]g <cmd>lua require('lspsaga.diagnostic').lsp_jump_diagnostic_next()<CR>
+"nnoremap <silent> [g <cmd>lua require('lspsaga.diagnostic').lsp_jump_diagnostic_prev()<CR>
+"nnoremap <silent> ]g <cmd>lua require('lspsaga.diagnostic').lsp_jump_diagnostic_next()<CR>
 ]]

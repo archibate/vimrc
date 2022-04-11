@@ -9,6 +9,7 @@ require("lint").linters_by_ft = {
     markdown = {"vale"},
     yaml = {"yamllint"},
     bash = {"shellcheck"},
+    lua = {"luacheck"},
     -- INFO: add your language here
 }
 vim.cmd [[

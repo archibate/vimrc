@@ -6,7 +6,7 @@ require'nvim-tree'.setup {
     view = {
         width = 30,
         height = 30,
-        side = "left",
+        side = "right",
         color = "#3f0af0",
         preserve_window_proportions = false,
     },
