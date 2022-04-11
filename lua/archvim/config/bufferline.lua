@@ -12,3 +12,7 @@ require'bufferline'.setup {
         end,
     }
 }
+
+local map = require'archvim/mappings'
+map("n", "<F2>", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+map("n", "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })

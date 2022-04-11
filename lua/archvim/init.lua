@@ -1,6 +1,6 @@
 -- neovim 6.1 required
 
-require('archvim/plugins')
+vim.g.mapleader = ','
 
 vim.cmd [[
 set mouse=a
@@ -11,6 +11,8 @@ set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
 set showbreak=↪
 set list
 ]]
+
+require('archvim/plugins')
 
 vim.cmd [[
 set termguicolors

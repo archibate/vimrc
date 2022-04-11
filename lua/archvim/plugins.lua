@@ -42,8 +42,14 @@ local plugins = {
         "sbdchd/neoformat",
         config = function() require"archvim/config/neoformat" end,
     },
+    {
+        "petertriho/nvim-scrollbar",
+        config = function()
+            require"scrollbar".setup{}
+        end,
+    },
 
-    -- syntax highlighting
+    -- semantic highlighting
     {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
@@ -69,7 +75,7 @@ local plugins = {
     'glepnir/zephyr-nvim',
     'shaunsingh/nord.nvim',
 
-    -- status line and version control
+    -- git and status line
     {
         'lewis6991/gitsigns.nvim',
         config = function() require'archvim/config/gitsigns' end,
@@ -80,7 +86,7 @@ local plugins = {
     },
     'tpope/vim-fugitive',
 
-    -- quality-of-lifes
+    -- vim command tools
     {
         "ur4ltz/surround.nvim",
         config = function() require 'archvim/config/surround' end,
@@ -94,17 +100,26 @@ local plugins = {
     -- session and projects
     {
         "rmagatti/auto-session",
-        config = function() require'auto-session'.setup{} end,
+        config = function() require'archvim/config/auto-session' end,
     },
     {
         "ethanholz/nvim-lastplace",
         config = function() require'nvim-lastplace'.setup{} end,
     },
+    {
+        "mbbill/undotree",
+        config = function() require'archvim/config/undotree' end,
+    },
 
     -- fuzzy searching
     {
         "nvim-telescope/telescope.nvim",
-        requires = { {'nvim-lua/plenary.nvim'} },
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "BurntSushi/ripgrep",
+            "sharkdp/fd",
+        },
+        config = function() require"archvim/config/telescope" end,
     },
     {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -116,6 +131,18 @@ local plugins = {
     },
     "nvim-telescope/telescope-ui-select.nvim",
     "nvim-telescope/telescope-live-grep-raw.nvim",
+    {
+        "nvim-pack/nvim-spectre",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "BurntSushi/ripgrep",
+        },
+        config = function() require"archvim/config/nvim-spectre" end,
+    },
+    {
+        "folke/todo-comments.nvim",
+        config = function() require"todo-comments".setup{} end
+    },
 
     -- buffer and files
     {
@@ -142,6 +169,12 @@ local plugins = {
         'skywind3000/asynctasks.vim',
         requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},
         config = function() require'archvim/config/asynctasks' end,
+    },
+
+    -- miscellaneous
+    {
+        "folke/which-key.nvim",
+        config = function() require"archvim/config/which-key" end,
     },
 }
 

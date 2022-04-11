@@ -21,10 +21,16 @@ require("lspsaga").setup {
     -- 快捷键配置
     code_action_keys = {
         quit = "<Esc>",
-        exec = "<CR>"
+        exec = "<CR>",
     },
     rename_action_keys = {
         quit = "<Esc>",
-        exec = "<CR>"
+        exec = "<CR>",
     },
 }
+
+vim.cmd [[
+" code action
+nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+vnoremap <silent><leader>ca :<C-u>lua require('lspsaga.codeaction').range_code_action()<CR>
+]]

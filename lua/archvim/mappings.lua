@@ -16,13 +16,9 @@ end
 
 map({"v", "n"}, "H", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1) . 'l')", { silent = true, expr = true })
 map({"v", "n"}, "L", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
-map("n", "<F2>", "<cmd>bp<CR>", { silent = true })
-map("n", "<F3>", "<cmd>bn<CR>", { silent = true })
 map("n", "<F4>", "<cmd>wa<CR>")
-map("n", "<F5>", "<cmd>AsyncTasks project-build project-run<CR>")
-map("n", "<F6>", "<cmd>AsyncTask project-build<CR>")
-map("n", "<F7>", "<cmd>AsyncTasks file-build file-run<CR>")
-map("n", "<F12>", "<cmd>Neoformat<CR>")
+map("n", "<F9>", "<cmd>PackerInstall<CR>")
+map("n", "<F10>", "<cmd>PackerCompile<CR>")
 map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
 
 vim.cmd [[
@@ -37,3 +33,5 @@ autocmd!
 autocmd SwapExists * let v:swapchoice = "e"
 augroup end
 ]]
+
+return map

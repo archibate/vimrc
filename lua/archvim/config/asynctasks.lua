@@ -34,3 +34,8 @@ function! AsyncTaskMultiple(first, ...)
 endfunction
 command! -nargs=+ AsyncTasks   :call AsyncTaskMultiple(1, <f-args>)
 ]]
+
+local map = require'archvim/mappings'
+map("n", "<F5>", "<cmd>AsyncTasks project-build project-run<CR>")
+map("n", "<F6>", "<cmd>AsyncTask project-build<CR>")
+map("n", "<F7>", "<cmd>AsyncTasks file-build file-run<CR>")
