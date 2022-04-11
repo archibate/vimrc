@@ -28,9 +28,13 @@ local plugins = {
     },
     {
         'neovim/nvim-lspconfig',
-        'williamboman/nvim-lsp-installer',
-        'onsails/lspkind-nvim',
         config = function() require'archvim/config/lspconfig' end,
+    },
+    'williamboman/nvim-lsp-installer',
+    'onsails/lspkind-nvim',
+    {
+        "tami5/lspsaga.nvim",
+        config = function() require'archvim/config/lspsaga' end,
     },
 
     -- syntax highlighting
