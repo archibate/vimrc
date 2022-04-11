@@ -28,6 +28,7 @@ Current supported Linux distros are:
 - Fedora (thanks to @justiceeem)
 - OpenSUSE (thanks to @sleeplessai)
 - CentOS (thanks to @xxy-im)
+- Deepin (thanks to @zhangasia)
 
 If other Linux distro is used, the script will try to build fzf and ripgrep from source (slow).
 
