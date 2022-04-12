@@ -18,11 +18,11 @@ if [ "x$UID" == "x0" ] && [ "x$FORCE" != "xy" ]; then
 fi
 
 if [ "x$VIMEXE" == "x" ]; then
-    if which vim; then VIM=vim
-    elif which nvim; then VIM=nvim
+    if which vim; then VIMEXE=vim
+    elif which nvim; then VIMEXE=nvim
     elif [ "x$FORCE" != "xy" ]; then
         echo -n '-- Please specify vim executable path: '
-        read VIM
+        read VIMEXE
         if ! "$VIMEXE" --version; then
             echo "ERROR: not a valid vim executable: $VIMEXE"
             exit 1
