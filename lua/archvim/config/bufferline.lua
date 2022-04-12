@@ -1,11 +1,13 @@
 require'bufferline'.setup {
     options = {
-        offsets = {{
-            filetype = "NvimTree",
-            text = "File Explorer",
-            highlight = "Directory",
-            text_align = "left",
-        }},
+        offsets = {
+            {
+                filetype = "NvimTree",
+                text = "File Explorer",
+                highlight = "Directory",
+                text_align = "left",
+            },
+        },
         close_command = function(bufnum)
             require('bufdelete').bufdelete(bufnum, true)
         end,
@@ -25,6 +27,9 @@ require'bufferline'.setup {
 
 local map = require'archvim/mappings'
 map("n", "<F2>", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+map("n", "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })
+map("n", "gb", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+map("n", "gt", "<cmd>BufferLineCycleNext<CR>", { silent = true })
 map("n", "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })
 map("n", "<F14>", "<cmd>BufferLineMovePrev<CR>", { silent = true })
 map("n", "<F15>", "<cmd>BufferLineMoveNext<CR>", { silent = true })

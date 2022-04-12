@@ -35,10 +35,10 @@ nnoremap <silent> ga <cmd>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent> ga :<C-u>lua require('lspsaga.codeaction').range_code_action()<CR>
 
 " rename, close rename win use <C-c> in insert mode or `q` in noremal mode or `:q`
-nnoremap <silent> gr <cmd>lua require('lspsaga.rename').rename()<CR>
+nnoremap <silent> gR <cmd>lua require('lspsaga.rename').rename()<CR>
 
 " preview definition
-nnoremap <silent> gd <cmd>lua require('lspsaga.provider').preview_definition()<CR>
+nnoremap <silent> gD <cmd>lua require('lspsaga.provider').preview_definition()<CR>
 
 " show hover doc
 nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
@@ -50,11 +50,5 @@ nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 
 " show diagnostic on current line
-nnoremap <silent> gl <cmd>lua require('lspsaga.diagnostic').show_line_diagnostics()<CR>
-" only show diagnostic if cursor is over the area
-nnoremap <silent> gL <cmd>lua require('lspsaga.diagnostic').show_cursor_diagnostics()<CR>
-
-" jump diagnostic
-"nnoremap <silent> [g <cmd>lua require('lspsaga.diagnostic').lsp_jump_diagnostic_prev()<CR>
-"nnoremap <silent> ]g <cmd>lua require('lspsaga.diagnostic').lsp_jump_diagnostic_next()<CR>
+nnoremap <silent> gA <cmd>lua require('lspsaga.diagnostic').show_line_diagnostics()<CR>
 ]]
