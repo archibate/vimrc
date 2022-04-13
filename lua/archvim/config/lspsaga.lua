@@ -38,7 +38,7 @@ vnoremap <silent> ga :<C-u>lua require('lspsaga.codeaction').range_code_action()
 nnoremap <silent> gR <cmd>lua require('lspsaga.rename').rename()<CR>
 
 " preview definition
-nnoremap <silent> gD <cmd>lua require('lspsaga.provider').preview_definition()<CR>
+nnoremap <silent> gK <cmd>lua require('lspsaga.provider').preview_definition()<CR>
 
 " show hover doc
 nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>

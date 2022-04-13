@@ -3,6 +3,7 @@ require'nvim-tree'.setup {
     hijack_cursor = false,
     open_on_setup = false,
     open_on_setup_file = true,
+    hijack_unnamed_buffer_when_opening = false,
     view = {
         width = 30,
         height = 30,
@@ -10,6 +11,7 @@ require'nvim-tree'.setup {
         color = "#3f0af0",
         preserve_window_proportions = false,
     },
+    sort_by = "name",
 }
 
 vim.cmd [[
