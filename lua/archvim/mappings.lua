@@ -22,6 +22,8 @@ map("n", "<F4>", "<cmd>wa<CR>")
 -- map("n", "<F10>", "<cmd>PackerCompile<CR>")
 map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
 map("i", "kj", "<Esc>", { silent = true })
+map("n", "Z", "ZZ", { silent = true })
+map("n", "Q", "<cmd>wa<CR><cmd>qa!<CR>", { silent = true })
 
 vim.cmd [[
 augroup disable_formatoptions_cro

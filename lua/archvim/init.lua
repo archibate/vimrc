@@ -10,6 +10,7 @@ set signcolumn=yes
 set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
 set showbreak=↪
 set list
+set clipboard+=unnamedplus
 ]]
 
 require('archvim/plugins')

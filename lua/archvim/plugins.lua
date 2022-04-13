@@ -5,7 +5,10 @@ local plugins = {
     'wbthomason/packer.nvim',
     "nvim-lua/popup.nvim",
     "nvim-lua/plenary.nvim",
-    "rcarriga/nvim-notify",
+    {
+        "rcarriga/nvim-notify",
+        config = function() vim.notify = require("notify") end,
+    },
 
     -- auto completions
     {
@@ -189,17 +192,17 @@ local plugins = {
         "phaazon/hop.nvim",
         config = function() require"archvim/config/hop" end,
     },
-    {
-        "RRethy/vim-illuminate",
-        config = function()
-            vim.g.Illuminate_ftblacklist = {
-                "NvimTree",
-                "vista_kind",
-                "toggleterm",
-                "lsp-installer",
-            }
-        end,
-    },
+    -- {
+    --     "RRethy/vim-illuminate",
+    --     config = function()
+    --         vim.g.Illuminate_ftblacklist = {
+    --             "NvimTree",
+    --             "vista_kind",
+    --             "toggleterm",
+    --             "lsp-installer",
+    --         }
+    --     end,
+    -- },
 }
 
 require'packer'.startup(function(use)
