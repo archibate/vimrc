@@ -17,13 +17,17 @@ end
 map({"v", "n"}, "H", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1) . 'l')", { silent = true, expr = true })
 map({"v", "n"}, "L", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
 map("n", "<F4>", "<cmd>wa<CR>")
--- map("n", "<F9>", "<cmd>PackerInstall<CR>")
--- map("n", "<F21>", "<cmd>PackerUpdate<CR>")
--- map("n", "<F10>", "<cmd>PackerCompile<CR>")
+map("n", "<F9>", "<cmd>cp<CR>")
+map("n", "<F10>", "<cmd>cn<CR>")
 map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
 map("i", "kj", "<Esc>", { silent = true })
 map("n", "Z", "ZZ", { silent = true })
 map("n", "Q", "<cmd>wa<CR><cmd>qa!<CR>", { silent = true })
+
+vim.cmd [[
+command! -nargs=0 A :ClangdSwitchSourceHeader
+command! -nargs=? F :Neoformat <f-args>
+]]
 
 vim.cmd [[
 augroup disable_formatoptions_cro

@@ -11,6 +11,7 @@ set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
 set showbreak=↪
 set list
 set clipboard+=unnamedplus
+set switchbuf=useopen
 ]]
 
 require('archvim/plugins')

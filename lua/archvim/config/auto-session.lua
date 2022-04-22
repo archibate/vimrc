@@ -13,7 +13,7 @@ require("auto-session").setup {
     -- 状态，会破坏会话的保存
     pre_save_cmds = {
         "tabdo NvimTreeClose",
-        "tabdo bufdo exec \"if &bt == 'terminal' | bdelete | endif\"",
+        "tabdo noautocmd bufdo exec \"if &bt == 'terminal' | bdelete | endif\"",
     },
 }
 

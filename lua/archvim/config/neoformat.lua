@@ -6,6 +6,3 @@ vim.g.neoformat_basic_format_trim = 1
 vim.g.neoformat_basic_format_retab = 1
 -- 只提示错误消息
 vim.g.neoformat_only_msg_on_error = 1
-
-local map = require'archvim/mappings'
-map("n", "<F12>", "<cmd>Neoformat<CR>")
