@@ -20,8 +20,6 @@ rm -rf .vim/plugged/*/.git
 tar zcvf "$payload" .vimrc .vim
 rm -rf "$workspace"
 
-cd "`dirname "${0}"`/.."
-
 # https://stackoverflow.com/questions/29418050/package-tar-gz-into-a-shell-script
 printf "#!/bin/bash
 set -e

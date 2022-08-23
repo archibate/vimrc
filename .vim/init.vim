@@ -894,9 +894,9 @@ nnoremap <silent> glg  :<C-u>CocList --normal gstatus<CR>
 
 " }}} END_COC_NVIM
 
-" no longer used coc-snippets:
+" for coc-snippets:
 
-"let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_next = '<tab>'
 
 " for vim-floaterm:
 
@@ -1067,7 +1067,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tikhomirov/vim-glsl', {'for': 'glsl'}
 "Plug 'junegunn/vim-slash'
 "Plug 'vim-scripts/a.vim', {'for': ['c', 'cpp', 'cuda']}
-Plug 'machakann/vim-swap'
+"Plug 'machakann/vim-swap'
 Plug 'preservim/nerdcommenter'
 "Plug 'preservim/vimux'
 "Plug 'peterhoeg/vim-qml', {'for': 'qml'}
@@ -1094,7 +1094,7 @@ Plug 'skywind3000/asyncrun.vim'
 "Plug 'haya14busa/incsearch-fuzzy.vim'
 "Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'findango/vim-mdx', {'for': 'mdx'}
+"Plug 'findango/vim-mdx', {'for': 'mdx'}
 Plug 'Yggdroot/LeaderF' ", { 'do': ':LeaderfInstallCExtension' }
 "Plug 'voldikss/LeaderF-floaterm'
 Plug 'liuchengxu/vista.vim', {'on': 'Vista!!'}
