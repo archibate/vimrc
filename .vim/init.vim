@@ -429,7 +429,7 @@ endif
 function! s:uni_bd() abort
     let l:nr = win_getid()
     let l:wi = getwininfo(l:nr)[0]
-    let l:ty = win_gettype(l:nr)
+    let l:ty = &buftype
     if l:ty == 'popup'
         FloatermKill
     elseif l:ty == 'quickfix'
@@ -450,7 +450,7 @@ endfunction
 function! s:uni_wq() abort
     let l:nr = win_getid()
     let l:wi = getwininfo(l:nr)[0]
-    let l:ty = win_gettype(l:nr)
+    let l:ty = &buftype
     if l:ty == 'popup'
         FloatermKill
     elseif l:ty == 'quickfix'
@@ -894,9 +894,9 @@ nnoremap <silent> glg  :<C-u>CocList --normal gstatus<CR>
 
 " }}} END_COC_NVIM
 
-" for coc-snippets:
+" no longer used coc-snippets:
 
-let g:coc_snippet_next = '<tab>'
+"let g:coc_snippet_next = '<tab>'
 
 " for vim-floaterm:
 

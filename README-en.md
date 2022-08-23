@@ -4,15 +4,15 @@
 
 # Quick Install
 
-Download `vimrc-release.tar.gz` from [GitHub release](https://github.com/archibate/vimrc/releases).
+Download `vimrc-install.sh` from [GitHub release](https://github.com/archibate/vimrc/releases).
 
 For speed, Chinese users may download using the [Gitee mirror](https://gitee.com/archibate/vimrc/releases).
 
-Extract it, then execute the script `.vim/install.sh` in it.
+Execute this script directly: `bash vimrc-install.sh`
 
-It will take some time to detect your Linux distro and install required packages for you:
+It will take some time to detect your Linux distro and install all the required packages for you:
 
-> fzf, ripgrep, ccls, nodejs (12.x or above)
+> ripgrep, ccls, nodejs (12.x or above)
 
 ... as well as many Vim plugins. After it finish, start `vim` to enjoy playing it.
 
@@ -32,15 +32,15 @@ Current supported Linux distros are:
 
 If other Linux distro is used, the script will try to build fzf and ripgrep from source (slow).
 
-## Contribute
+## How to Contribute
 
 If you know how to install these packages on your Linux distro (or MacOS / Windows), please feel
-free to contribute by modifying the [src/install.sh](src/install.sh) in this repository.
+free to contribute by modifying the [.vim/install.sh](.vim/install.sh) in this repository.
 
-To test, run [src/package.sh](src/package.sh) to generate the `vimrc-release.tar.gz`.
-Then use it in Docker or other corresponding environment.
+To test, run [.vim/package.sh](.vim/package.sh) to generate the installation script `vimrc-install.sh`.
+Then run it in Docker or other corresponding environment to test.
 
-# Manual Install
+# Manual Install (not recommended)
 
 See the comments in [.vim/init.vim](.vim/init.vim) for manual installation steps.
 
