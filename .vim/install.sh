@@ -69,7 +69,7 @@ get_linux_distro() {
         echo "Gentoo"
     elif grep -Eq "alpine" /etc/*-release 2> /dev/null; then
         echo "Alpine"
-    elif [ "x$(uname -s)" == "xDrawin" ]; then
+    elif [ "x$(uname -s)" == "xDarwin" ]; then
         echo "MacOS"
     else
         echo "Unknown"
