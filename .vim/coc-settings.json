@@ -3,7 +3,7 @@
          "ccls": {
              "command": "ccls",
              "filetypes": ["c", "cpp", "cuda"],
-             "rootPatterns": [".git/", "build/", ".ccls-root"],
+             "rootPatterns": [".git/", "build/", ".ccls"],
              "initializationOptions": {
                  "compilationDatabaseDirectory": "build",
                  "client": {
@@ -11,9 +11,6 @@
                  },
                  "cache": {
                      "directory": "/tmp/ccls"
-                 },
-                 "index": {
-                     "onChange": true
                  },
                  "highlight": {
                      "lsRanges": true
