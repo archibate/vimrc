@@ -8,7 +8,7 @@ payload=/tmp/vimrc-release.tar.gz
 script=/tmp/vimrc-install.sh
 tmp=/tmp/__extract__$RANDOM
 
-src/package.sh
+.vim/package.sh
 
 printf "#!/bin/bash
 set -e

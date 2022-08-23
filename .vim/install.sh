@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 echo '-- Welcome to ArchVim installation script :)'
+echo '-- Make sure you have fast GitHub connection for best experience'
 
 # ./install.sh nvim, for using NeoVim
 # ./install.sh vim y, for not asking from terminal
@@ -18,8 +19,8 @@ if [ "x$UID" == "x0" ] && [ "x$FORCE" != "xy" ]; then
 fi
 
 if [ "x$VIMEXE" == "x" ]; then
-    if which vim; then VIMEXE=vim
-    elif which nvim; then VIMEXE=nvim
+    if which vim 2> /dev/null; then VIMEXE=vim
+    elif which nvim 2> /dev/null; then VIMEXE=nvim
     elif [ "x$FORCE" != "xy" ]; then
         echo -n '-- Please specify vim executable path: '
         read VIMEXE
@@ -36,37 +37,37 @@ echo "-- Installing for vim executable: $VIMEXE"
 
 
 get_linux_distro() {
-    if grep -Eq "Ubuntu" /etc/*-release; then
+    if grep -Eq "Ubuntu" /etc/*-release 2> /dev/null; then
         echo "Ubuntu"
-    elif grep -Eq "Deepin" /etc/*-release; then
+    elif grep -Eq "Deepin" /etc/*-release 2> /dev/null; then
         echo "Deepin"
-    elif grep -Eq "Raspbian" /etc/*-release; then
+    elif grep -Eq "Raspbian" /etc/*-release 2> /dev/null; then
         echo "Raspbian"
-    elif grep -Eq "uos" /etc/*-release; then
+    elif grep -Eq "uos" /etc/*-release 2> /dev/null; then
         echo "UOS"
-    elif grep -Eq "LinuxMint" /etc/*-release; then
+    elif grep -Eq "LinuxMint" /etc/*-release 2> /dev/null; then
         echo "LinuxMint"
-    elif grep -Eq "elementary" /etc/*-release; then
+    elif grep -Eq "elementary" /etc/*-release 2> /dev/null; then
         echo "elementaryOS"
-    elif grep -Eq "Debian" /etc/*-release; then
+    elif grep -Eq "Debian" /etc/*-release 2> /dev/null; then
         echo "Debian"
-    elif grep -Eq "Kali" /etc/*-release; then
+    elif grep -Eq "Kali" /etc/*-release 2> /dev/null; then
         echo "Kali"
-    elif grep -Eq "Parrot" /etc/*-release; then
+    elif grep -Eq "Parrot" /etc/*-release 2> /dev/null; then
         echo "Parrot"
-    elif grep -Eq "CentOS" /etc/*-release; then
+    elif grep -Eq "CentOS" /etc/*-release 2> /dev/null; then
         echo "CentOS"
-    elif grep -Eq "fedora" /etc/*-release; then
+    elif grep -Eq "fedora" /etc/*-release 2> /dev/null; then
         echo "fedora"
-    elif grep -Eq "openSUSE" /etc/*-release; then
+    elif grep -Eq "openSUSE" /etc/*-release 2> /dev/null; then
         echo "openSUSE"
-    elif grep -Eq "Arch Linux" /etc/*-release; then
+    elif grep -Eq "Arch Linux" /etc/*-release 2> /dev/null; then
         echo "ArchLinux"
-    elif grep -Eq "ManjaroLinux" /etc/*-release; then
+    elif grep -Eq "ManjaroLinux" /etc/*-release 2> /dev/null; then
         echo "ManjaroLinux"
-    elif grep -Eq "Gentoo" /etc/*-release; then
+    elif grep -Eq "Gentoo" /etc/*-release 2> /dev/null; then
         echo "Gentoo"
-    elif grep -Eq "alpine" /etc/*-release; then
+    elif grep -Eq "alpine" /etc/*-release 2> /dev/null; then
         echo "Alpine"
     elif [ "x$(uname -s)" == "xDrawin" ]; then
         echo "MacOS"
@@ -123,7 +124,6 @@ EOF
 
 
 install_pacman() {
-    sudo pacman -S --noconfirm fzf
     sudo pacman -S --noconfirm ripgrep
     sudo pacman -S --noconfirm nodejs
     sudo pacman -S --noconfirm ccls
@@ -160,7 +160,7 @@ install_ccls_from_source() {
 
 install_nodejs_lts() {
     if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
-        echo '-- Upgrading Node.js version to 12.x'
+        echo '-- Upgrading Node.js version to 12.x (it takes a long time)...'
         sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
         node --version
         #if [ "x$FORCE" != "xy" ]; then
@@ -172,6 +172,7 @@ install_nodejs_lts() {
 
 
 install_ripgrep_deb() {
+    echo '-- Downloading ripgrep.deb from GitHub (please wait)...'
     RIPGREP_VERSION=$(curl -s "https://api.github.com/repos/BurntSushi/ripgrep/releases/latest" | grep -Po '"tag_name": "\K[0-9.]+')
     curl -Lo /tmp/vimrc-$$-ripgrep.deb "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_${RIPGREP_VERSION}_amd64.deb"
     sudo apt install -y /tmp/vimrc-$$-ripgrep.deb
@@ -182,7 +183,6 @@ install_ripgrep_deb() {
 install_apt() {
     sudo apt-get install -y curl
     sudo apt-get install -y ripgrep || install_ripgrep_deb   # Ubuntu 18.04 doesn't have the ripgrep package...
-    sudo apt-get install -y fzf
 
     sudo apt-get install -y ccls || (sudo apt-get install -y clang libclang-dev cmake make g++ && install_ccls_from_source)
     install_nodejs_lts   # Ubuntu 20.04 only have Node.js version 11.x, the coc.nvim plugin requires 12.x and above however..
@@ -192,8 +192,6 @@ install_apt() {
 
 
 install_yum() {
-    install_fzf_from_source
-
     sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
     sudo yum install -y ripgrep
     sudo yum install -y cmake make
@@ -212,7 +210,7 @@ install_yum() {
 
 
 install_brew() {
-    brew install fzf ripgrep 
+    brew install ripgrep 
     brew install cmake make gcc curl
     brew install node ccls
 
@@ -222,7 +220,7 @@ install_brew() {
 
 
 install_dnf() {
-    sudo dnf install -y fzf ripgrep
+    sudo dnf install -y ripgrep
     sudo dnf install -y clang clang-devel
     sudo dnf install -y cmake make g++
     sudo dnf install -y curl
@@ -235,20 +233,10 @@ install_dnf() {
 
 
 install_zypper() {
-    sudo zypper in --no-confirm fzf ripgrep ccls nodejs
+    sudo zypper in --no-confirm ripgrep ccls nodejs
 
     install_vimrc
     install_coc_plugins
-}
-
-
-install_fzf_from_source() {
-    cd .vim
-    echo '-- Cloning fzf source code from GitHub (please wait)...'
-    git clone https://github.com/junegunn/fzf.git --depth=1
-    cd fzf
-    ./install --key-bindings --completion --update-rc
-    cd ../..
 }
 
 
@@ -279,7 +267,6 @@ install_llvm_from_source() {
 
 
 install_any() {
-    install_fzf_from_source
     install_ripgrep_from_source
     install_ccls_from_source
     install_nodejs_lts
@@ -316,8 +303,8 @@ elif [ $distro == "CentOS" ]; then
 else
     # TODO: add more Linux distros here..
     echo "-- WARNING: Unsupported Linux distro: $distro"
-    echo "-- The script will try to install these packages from source: fzf ripgrep ccls"
-    echo "-- Note that fzf requires Go, ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
+    echo "-- The script will try to install these packages from source: ripgrep ccls"
+    echo "-- Note that ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
     echo "-- If you know how to install them, feel free to contribute to this GitHub repository: github.com/archibate/vimrc"
     echo "-- Also, Node.js 12.x or above is required. Try the following patch script if you meet issues about coc.nvim:"
     cat <<EOF
