@@ -116,7 +116,7 @@ detect_arch() {
 }
 
 
-install_vimrc() {
+backup_vimrc() {
     if [ "x$PWD" != "x$HOME" ]; then
         if [ -f ~/.vimrc ]; then
             echo "-- Backup existing .vimrc to ~/.vimrc.backup.$$"
@@ -126,6 +126,12 @@ install_vimrc() {
             echo "-- Backup existing .vim to ~/.vim.backup.$$"
             mv ~/.vim ~/.vim.backup.$$
         fi
+    fi
+}
+
+
+install_vimrc() {
+    if [ "x$PWD" != "x$HOME" ]; then
         echo "-- Installing .vimrc and .vim"
         cp -r .vimrc .vim ~/
     else
@@ -200,12 +206,10 @@ install_nodejs_lts() {
         echo "-- Downloading file from $NODEURL"
         sudo rm -rf /opt/archvim-nodejs
         sudo mkdir -p /opt/archvim-nodejs
-        sudo bash -c "cd /opt/archvim-nodejs && (curl -sLf $NODEURL | tar -Jx)"
+        sudo bash -c "cd /opt/archvim-nodejs && (curl -Lf $NODEURL | tar -Jx)"
         NODEEXEC=/opt/archvim-nodejs/$NODEFILE/bin/node
         "$NODEEXEC" --version
-        echo "let g:coc_node_path = '$NODEEXEC'" > /tmp/_extract_.$$.vim
-        cat .vim/init.vim >> /tmp/_extract_.$$.vim
-        cat /tmp/_extract_.$$.vim > .vim/init.vim
+        printf "let g:coc_node_path = '$NODEEXEC'\nlet g:coc_disable_startup_warning = 1\nsource ~/.vim/init.vim\n" > .vimrc
     fi
 }
 
@@ -318,6 +322,7 @@ do_install() {
     distro=`get_linux_distro`
     echo "-- Linux distro detected: $distro"
 
+    backup_vimrc
 
     if [ $distro == "Ubuntu" ]; then
         install_apt

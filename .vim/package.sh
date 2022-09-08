@@ -32,7 +32,6 @@ printf "\n__VIMRC_PAYLOAD_EOF__
 cd /tmp/_extract_.\$\$
 base64 -d /tmp/_extract_.\$\$.tar.gz.b64 | tar -xz
 .vim/install.sh
-cd
 rm -rf /tmp/_extract_.\$\$ /tmp/_extract_.\$\$.tar.gz.b64
 \n" >> "$script"
 
