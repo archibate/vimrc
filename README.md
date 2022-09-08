@@ -40,11 +40,55 @@
 要测试的话，先运行 [.vim/package.sh](.vim/package.sh) 来生成一键安装脚本 `vimrc-install.sh`。
 然后用 Docker 等工具在相应的隔离环境中测试是否能正确安装。
 
+## 常见问题
+
+Q: I got error whenever starting Vim:
+```
+coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
+You can add this to your vimrc to avoid this message:
+    let g:coc_disable_startup_warning = 1
+Note that some features may behave incorrectly.
+```
+
+Please upgrade to Vim 8.2 or above for best experience.
+
+Q: I got error when editing `.cpp` files in Vim:
+```
+[coc.nvim] Server languageserver.ccls failed to start: Error: invalid params of initialize: expected array for /workspaceFolders
+```
+
+A: This is a bug of ccls. Please do not directly edit `.cpp` files in `/home/YourName` or `/tmp`. Create `.cpp` files in sub-folders of `/home/YourName` instead, for example:
+
+```bash
+mkdir ~/MyProject
+cd ~/MyProject
+vim MyFile.cpp
+```
+
+Q: How to set the project root folder?
+
+A: My Vim configuration will regard the folder where `.tasks` or `.git` is found to be the project root.
+So if you are already working in a git repo then it's root will be automatically considered to be project root.
+Otherwise please manually create a dummy file `.tasks` to help it determine the project root:
+
+```bash
+cd ~/MyProject
+touch .tasks
+```
+
+Q: Why didn't Vim auto-completition recognize my compiler flags in `CMakeLists.txt`?
+
+A: As I said above, it regards the folder where `.tasks` or `.git` is found to be the project root.
+Also it only reads compiler flags from the specific path `build/compile_commands.json`.
+So make sure **the `build` folder of CMake is located in the same directory as `.tasks` or `.git`**.
+And make sure you have **specified the flag `-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON`** to make CMake
+generate `compile_commands.json`. (But if you use `<F5>` shortcut of my vimrc, this flag is specified automatically).
+
 ## 手动安装（不推荐）
 
 手动安装方法见 [.vim/init.vim](.vim/init.vim) 中的注释。
 
-# NeoVim 用户
+## NeoVim 用户
 
 使用 NeoVim 的用户，请创建一个文件 `~/.config/nvim/init.vim`，内容如下：
 

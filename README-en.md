@@ -40,11 +40,61 @@ free to contribute by modifying the [.vim/install.sh](.vim/install.sh) in this r
 To test, run [.vim/package.sh](.vim/package.sh) to generate the installation script `vimrc-install.sh`.
 Then run it in Docker or other corresponding environment to test.
 
-# Manual Install (not recommended)
+## FAQs
+
+Q: I got error whenever starting Vim:
+```
+coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
+You can add this to your vimrc to avoid this message:
+    let g:coc_disable_startup_warning = 1
+Note that some features may behave incorrectly.
+```
+
+Please upgrade to Vim 8.2 or above for best experience.
+
+Q: I got error when editing `.cpp` files in Vim:
+```
+[coc.nvim] Server languageserver.ccls failed to start: Error: invalid params of initialize: expected array for /workspaceFolders
+```
+
+A: This is a bug of ccls. Please do not directly edit `.cpp` files in `/home/YourName` or `/tmp`. Create `.cpp` files in sub-folders of `/home/YourName` instead, for example:
+
+```bash
+mkdir ~/MyProject
+cd ~/MyProject
+vim MyFile.cpp
+```
+
+Q: How to set the project root folder?
+
+A: My Vim configuration will regard the folder where `.tasks` or `.git` is found to be the project root.
+So if you are already working in a git repo then it's root will be automatically considered to be project root.
+Otherwise please manually create a dummy file `.tasks` to help it determine the project root:
+
+```bash
+cd ~/MyProject
+touch .tasks
+```
+
+Q: Why didn't Vim auto-completition recognize my compiler flags in `CMakeLists.txt`?
+
+A: As I said above, it regards the folder where `.tasks` or `.git` is found to be the project root.
+Also it only reads compiler flags from the specific path `build/compile_commands.json`.
+So make sure **the `build` folder of CMake is located in the same directory as `.tasks` or `.git`**.
+And make sure you have **specified the flag `-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON`** to make CMake
+generate `compile_commands.json`. (But if you use `<F5>` shortcut of my vimrc, this flag is specified automatically).
+
+```bash
+cd ~/MyProject
+touch .tasks
+cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON
+```
+
+## Manual Install (not recommended)
 
 See the comments in [.vim/init.vim](.vim/init.vim) for manual installation steps.
 
-# NeoVim tips
+## NeoVim tips
 
 For NeoVim users, please create a file `~/.config/nvim/init.vim` containing following contents:
 
