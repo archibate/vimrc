@@ -1,21 +1,22 @@
 {
-     "languageserver": {
-         "ccls": {
-             "command": "ccls",
-             "filetypes": ["c", "cpp", "cuda"],
-             "rootPatterns": [".git/", "build/", ".ccls"],
-             "initializationOptions": {
-                 "compilationDatabaseDirectory": "build",
-                 "client": {
-                     "snippetSupport": true
-                 },
-                 "cache": {
-                     "directory": "/tmp/ccls"
-                 },
-                 "highlight": {
-                     "lsRanges": true
-                 }
-             }
+    "suggest.noselect": true,
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": ["c", "cpp", "cuda"],
+            "rootPatterns": [".tasks", ".git/", "build/"],
+            "initializationOptions": {
+                "compilationDatabaseDirectory": "build",
+                "client": {
+                    "snippetSupport": true
+                },
+                "cache": {
+                    "directory": "/tmp/ccls"
+                },
+                "highlight": {
+                    "lsRanges": true
+                }
+            }
         }
     }
 }

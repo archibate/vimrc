@@ -250,7 +250,6 @@
 " ,i - fuzzy find string under cursor in current file (may visual)
 " ,a - fuzzy find string under cursor in project directory (may visual)
 " ,. - recall last fuzzy find window
-" ,, - alias for ,b (find buffer names)
 "
 " <C-j> - select next fuzzy candidate (in fuzzy find window)
 " <C-k> - select previous fuzzy candidate (in fuzzy find window)
@@ -683,7 +682,7 @@ let g:Lf_PreviewCode = 1
 "let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
 let g:Lf_ShortcutF = ''
-noremap ,, :Leaderf! buffer<CR>
+let g:Lf_ShortcutB = ''
 noremap ,k :Leaderf rg<CR>
 noremap ,o :Leaderf file<CR>
 noremap ,b :Leaderf! buffer<CR>
@@ -759,16 +758,16 @@ endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#pum#visible() ? coc#_select_confirm() : coc#refresh()
+  inoremap <silent><expr> <c-space> coc#pum#visible() ? coc#pum#confirm() : coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#pum#visible() ? coc#_select_confirm() : coc#refresh()
+  inoremap <silent><expr> <c-@> coc#pum#visible() ? coc#pum#confirm() : coc#refresh()
 endif
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
-"inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm()
+"inoremap <silent><expr> <cr> coc#pum#visible() ? coc#pum#confirm()
                               "\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-"inoremap <silent><expr> <space> coc#pum#visible() ? (<SID>check_back_space() ? "\<space>" : coc#_select_confirm()) : "\<space>"
+"inoremap <silent><expr> <space> coc#pum#visible() ? (<SID>check_back_space() ? "\<space>" : coc#pum#confirm()) : "\<space>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
