@@ -4,11 +4,13 @@
 
 ## 一键安装
 
-从 [GitHub release](https://github.com/archibate/vimrc/releases) 下载 `vimrc-install.sh`。
+直接输入以下命令即可安装：
 
-为了提升速度，国内用户也可以从 [Gitee 的镜像](https://gitee.com/archibate/vimrc/releases) 下载。
+`curl -sLf http://142857.red/vimrc-install.sh | bash`
 
-直接运行这个脚本： `bash vimrc-install.sh`
+> 另外，你也可以从 [GitHub release](https://github.com/archibate/vimrc/releases) 下载 `vimrc-install.sh`，然后直接运行这个脚本：`bash vimrc-install.sh`。
+
+为了提升速度，国内用户也可以一行代码完成安装： `curl https://142857.red/vimrc-install.sh | bash`
 
 他会花一些时间检测你的 Linux 发行版，并安装下列这些部分插件所需的包：
 
@@ -30,7 +32,7 @@
 - CentOS (感谢 @xxy-im)
 - Deepin (感谢 @zhangasia)
 
-如果是其他发行版（比如 CentOS），会默认从源码安装 fzf 和 ripgrep（很慢）。
+如果是其他发行版（比如 CentOS），会默认从源码安装 ripgrep（很慢）。
 
 ## 参与贡献
 
@@ -42,7 +44,7 @@
 
 ## 常见问题
 
-Q: I got error whenever starting Vim:
+Q: 我每次启动 Vim 都会看到这个警告信息:
 ```
 coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
 You can add this to your vimrc to avoid this message:
@@ -50,14 +52,14 @@ You can add this to your vimrc to avoid this message:
 Note that some features may behave incorrectly.
 ```
 
-Please upgrade to Vim 8.2 or above for best experience.
+为了最好的使用体验，请把你的 Vim 更新到 8.2 及以上版本。
 
-Q: I got error when editing `.cpp` files in Vim:
+Q: 我用 Vim 编辑 `.cpp` 文件时遇到这种错误:
 ```
 [coc.nvim] Server languageserver.ccls failed to start: Error: invalid params of initialize: expected array for /workspaceFolders
 ```
 
-A: This is a bug of ccls. Please do not directly edit `.cpp` files in `/home/YourName` or `/tmp`. Create `.cpp` files in sub-folders of `/home/YourName` instead, for example:
+A: 这是 ccls 的一个 BUG。请勿直接在 `/home/YourName` or `/tmp` 下编辑 `.cpp` 文件。必须在 `/home/YourName` 的子文件夹下面创建 `.cpp` 文件才行，例如：
 
 ```bash
 mkdir ~/MyProject
@@ -65,24 +67,24 @@ cd ~/MyProject
 vim MyFile.cpp
 ```
 
-Q: How to set the project root folder?
+Q: 如何告诉 Vim 我的项目根目录？
 
-A: My Vim configuration will regard the folder where `.tasks` or `.git` is found to be the project root.
-So if you are already working in a git repo then it's root will be automatically considered to be project root.
-Otherwise please manually create a dummy file `.tasks` to help it determine the project root:
+A: 我这个 Vim 配置会把从里往外第一个找到 `.tasks` 或者 `.git` 文件的地方视为项目根目录。
+所以如果你在一个 Git 仓库里面编辑文件，他自动会把 Git 的根目录视为项目根目录。
+如果不是 Git 仓库，那就请在项目根目录下手动创建一个空的 `.tasks` 文件，来告诉 Vim 这就是根目录。
 
 ```bash
 cd ~/MyProject
 touch .tasks
 ```
 
-Q: Why didn't Vim auto-completition recognize my compiler flags in `CMakeLists.txt`?
+Q: 为什么我的 Vim 自动补全没有识别 `CMakeLists.txt` 里定义的编译选项和头文件目录？
 
-A: As I said above, it regards the folder where `.tasks` or `.git` is found to be the project root.
-Also it only reads compiler flags from the specific path `build/compile_commands.json`.
-So make sure **the `build` folder of CMake is located in the same directory as `.tasks` or `.git`**.
-And make sure you have **specified the flag `-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON`** to make CMake
-generate `compile_commands.json`. (But if you use `<F5>` shortcut of my vimrc, this flag is specified automatically).
+A: 我说过，他会把 `.tasks` 或者 `.git` 文件所在的那个目录作为根目录。
+然后他只会从项目根目录开始寻找 `build/compile_commands.json` 这个文件，从这个文件里读取所有编译选项。
+所以请确保 **CMake 的 `build` 文件夹和 `.tasks` 或者 `.git` 在同一个目录下**。
+还请注意要 **给 CMake 指定 `-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON` 这个选项** 才能让他生成
+`compile_commands.json` 文件。（不过如果你用我 vimrc 内置的 `<F5>` 快捷键，这个选项是会自动加上的）。
 
 ## 手动安装（不推荐）
 

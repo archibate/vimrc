@@ -4,11 +4,11 @@
 
 # Quick Install
 
-Download `vimrc-install.sh` from [GitHub release](https://github.com/archibate/vimrc/releases).
+Type these code into your shell:
 
-For speed, Chinese users may download using the [Gitee mirror](https://gitee.com/archibate/vimrc/releases).
+`curl -sLf http://142857.red/vimrc-install.sh | bash`
 
-Execute this script directly: `bash vimrc-install.sh`
+> Alternatively, you may download `vimrc-install.sh` from [GitHub release](https://github.com/archibate/vimrc/releases). Then execute this script directly: `bash vimrc-install.sh`.
 
 It will take some time to detect your Linux distro and install all the required packages for you:
 
@@ -30,7 +30,7 @@ Current supported Linux distros are:
 - CentOS (thanks to @xxy-im)
 - Deepin (thanks to @zhangasia)
 
-If other Linux distro is used, the script will try to build fzf and ripgrep from source (slow).
+If other Linux distro is used, the script will try to build ripgrep from source (slow).
 
 ## How to Contribute
 
