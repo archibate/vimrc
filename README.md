@@ -42,16 +42,6 @@
 
 ## 常见问题
 
-Q: 我每次启动 Vim 都会看到这个警告信息:
-```
-coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
-You can add this to your vimrc to avoid this message:
-    let g:coc_disable_startup_warning = 1
-Note that some features may behave incorrectly.
-```
-
-为了最好的使用体验，请把你的 Vim 更新到 8.2 及以上版本。
-
 Q: 我用 Vim 编辑 `.cpp` 文件时遇到这种错误:
 ```
 [coc.nvim] Server languageserver.ccls failed to start: Error: invalid params of initialize: expected array for /workspaceFolders
@@ -83,6 +73,16 @@ A: 我说过，他会把 `.tasks` 或者 `.git` 文件所在的那个目录作�
 所以请确保 **CMake 的 `build` 文件夹和 `.tasks` 或者 `.git` 在同一个目录下**。
 还请注意要 **给 CMake 指定 `-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON` 这个选项** 才能让他生成
 `compile_commands.json` 文件。（不过如果你用我 vimrc 内置的 `<F5>` 快捷键，这个选项是会自动加上的）。
+
+Q: 我每次启动 Vim 都会看到这个警告信息:
+```
+coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
+You can add this to your vimrc to avoid this message:
+    let g:coc_disable_startup_warning = 1
+Note that some features may behave incorrectly.
+```
+
+A: 为了最好的使用体验，请把你的 Vim 更新到 8.2 及以上版本。
 
 ## 手动安装（不推荐）
 

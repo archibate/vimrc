@@ -42,16 +42,6 @@ Then run it in Docker or other corresponding environment to test.
 
 ## FAQs
 
-Q: I got error whenever starting Vim:
-```
-coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
-You can add this to your vimrc to avoid this message:
-    let g:coc_disable_startup_warning = 1
-Note that some features may behave incorrectly.
-```
-
-Please upgrade to Vim 8.2 or above for best experience.
-
 Q: I got error when editing `.cpp` files in Vim:
 ```
 [coc.nvim] Server languageserver.ccls failed to start: Error: invalid params of initialize: expected array for /workspaceFolders
@@ -89,6 +79,16 @@ cd ~/MyProject
 touch .tasks
 cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON
 ```
+
+Q: I got error whenever starting Vim:
+```
+coc.nvim works best on vim >= 8.2.0750 and neovim >= 0.5.0, consider upgrade your vim.
+You can add this to your vimrc to avoid this message:
+    let g:coc_disable_startup_warning = 1
+Note that some features may behave incorrectly.
+```
+
+A: Please upgrade to Vim 8.2 or above for best experience.
 
 ## Manual Install (not recommended)
 

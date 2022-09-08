@@ -72,28 +72,64 @@ get_linux_distro() {
 }
 
 
+detect_platform() {
+  local platform="$(uname -s | tr '[:upper:]' '[:lower:]')"
+
+  # check for MUSL
+  if [ "${platform}" = "linux" ]; then
+    if ldd /bin/sh | grep -i musl >/dev/null; then
+      platform=linux_musl
+    fi
+  fi
+
+  # mingw is Git-Bash
+  if echo "${platform}" | grep -i mingw >/dev/null; then
+    platform=win
+  fi
+
+  echo "${platform}"
+}
+
+
+detect_arch() {
+  local arch="$(uname -m | tr '[:upper:]' '[:lower:]')"
+
+  if echo "${arch}" | grep -i arm >/dev/null; then
+    # ARM is fine
+    echo "${arch}"
+  else
+    if [ "${arch}" = "i386" ]; then
+      arch=x86
+    elif [ "${arch}" = "x86_64" ]; then
+      arch=x64
+    elif [ "${arch}" = "aarch64" ]; then
+      arch=arm64
+    fi
+
+    # `uname -m` in some cases mis-reports 32-bit OS as 64-bit, so double check
+    if [ "${arch}" = "x64" ] && [ "$(getconf LONG_BIT)" -eq 32 ]; then
+      arch=x86
+    fi
+
+    echo "${arch}"
+  fi
+}
+
+
 install_vimrc() {
     if [ "x$PWD" != "x$HOME" ]; then
         if [ -f ~/.vimrc ]; then
-            echo "-- backup existing .vimrc to ~/.vimrc.backup.$$"
+            echo "-- Backup existing .vimrc to ~/.vimrc.backup.$$"
             mv ~/.vimrc ~/.vimrc.backup.$$
         fi
         if [ -d ~/.vim ]; then
-            echo "-- backup existing .vim to ~/.vim.backup.$$"
+            echo "-- Backup existing .vim to ~/.vim.backup.$$"
             mv ~/.vim ~/.vim.backup.$$
         fi
-        echo "-- installing .vimrc and .vim"
+        echo "-- Installing .vimrc and .vim"
         cp -r .vimrc .vim ~/
-        if which nvim; then
-            if [ -d ~/.vim ]; then
-                echo "-- backup existing nvim to ~/.config/nvim.backup.$$"
-                mv ~/.config/nvim ~/.config/nvim.backup.$$
-            fi
-            echo "-- creating symbolic link to ~/.config/nvim"
-            ln -sf ~/.vim/ ~/.config/nvim
-        fi
     else
-        echo "-- already in home directory, skipping..."
+        echo "-- Already in home directory, skipping..."
     fi
 }
 
@@ -129,7 +165,7 @@ install_pacman() {
 
 
 install_ccls_from_source() {
-    if which ccls && ccls --version; then
+    if which ccls 2> /dev/null && ccls --version; then
         echo '-- ccls already installed, skipping...'
     else
         if ! [ -d .vim/ccls ]; then
@@ -154,14 +190,22 @@ install_ccls_from_source() {
 
 
 install_nodejs_lts() {
-    if ! which node || [ `node --version | sed s/v// | cut -f1 -d.` -lt 12 ]; then
-        echo '-- Upgrading Node.js version to 12.x (it takes a long time)...'
-        sudo bash -c 'curl -sL install-node.vercel.app/lts | bash -s - --force --prefix /usr'
-        node --version
-        #if [ "x$FORCE" != "xy" ]; then
-            #echo -n "-- Would you like to switch the npm source to aliyun now (y/N)? "; read -n1 x; echo
-            #if [ "x$x" == "xy" ]; then echo "OK, press Ctrl-D when you done..."; bash; fi
-        #fi
+    if ! which node 2> /dev/null || [ `node --version | sed s/v// | cut -f1 -d.` -lt 16 ]; then
+        echo '-- Upgrading Node.js version to 16.x (it takes some time, please wait)...'
+        NODEPLAT=$(detect_platform)
+        NODEARCH=$(detect_arch)
+        NODEVER=16.17.0
+        NODEFILE=node-v$NODEVER-$NODEPLAT-$NODEARCH
+        NODEURL=https://nodejs.org/dist/v$NODEVER/$NODEFILE.tar.xz
+        echo "-- Downloading file from $NODEURL"
+        sudo rm -rf /opt/archvim-nodejs
+        sudo mkdir -p /opt/archvim-nodejs
+        sudo bash -c "cd /opt/archvim-nodejs && (curl -sLf $NODEURL | tar -Jx)"
+        NODEEXEC=/opt/archvim-nodejs/$NODEFILE/bin/node
+        "$NODEEXEC" --version
+        echo "let g:coc_node_path = '$NODEEXEC'" > /tmp/_extract_.$$.vim
+        cat .vim/init.vim >> /tmp/_extract_.$$.vim
+        cat /tmp/_extract_.$$.vim > .vim/init.vim
     fi
 }
 
@@ -270,47 +314,52 @@ install_any() {
 }
 
 
-distro=`get_linux_distro`
-echo "-- Linux distro detected: $distro"
+do_install() {
+    distro=`get_linux_distro`
+    echo "-- Linux distro detected: $distro"
 
-if [ $distro == "Ubuntu" ]; then
-    install_apt
-elif [ $distro == "Deepin" ]; then
-    install_apt
-elif [ $distro == "Debian" ]; then
-    install_apt
-elif [ $distro == "Kali" ]; then
-    install_apt
-elif [ $distro == "Raspbian" ]; then
-    install_apt
-elif [ $distro == "ArchLinux" ]; then
-    install_pacman
-elif [ $distro == "ManjaroLinux" ]; then
-    install_pacman
-elif [ $distro == "MacOS" ]; then
-    install_brew
-elif [ $distro == "fedora" ]; then
-    install_dnf
-elif [ $distro == "openSUSE" ]; then
-    install_zypper
-elif [ $distro == "CentOS" ]; then
-    install_yum
-else
-    # TODO: add more Linux distros here..
-    echo "-- WARNING: Unsupported Linux distro: $distro"
-    echo "-- The script will try to install these packages from source: ripgrep ccls"
-    echo "-- Note that ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
-    echo "-- If you know how to install them, feel free to contribute to this GitHub repository: github.com/archibate/vimrc"
-    echo "-- Also, Node.js 12.x or above is required. Try the following patch script if you meet issues about coc.nvim:"
-    cat <<EOF
-  mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
-  ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
+
+    if [ $distro == "Ubuntu" ]; then
+        install_apt
+    elif [ $distro == "Deepin" ]; then
+        install_apt
+    elif [ $distro == "Debian" ]; then
+        install_apt
+    elif [ $distro == "Kali" ]; then
+        install_apt
+    elif [ $distro == "Raspbian" ]; then
+        install_apt
+    elif [ $distro == "ArchLinux" ]; then
+        install_pacman
+    elif [ $distro == "ManjaroLinux" ]; then
+        install_pacman
+    elif [ $distro == "MacOS" ]; then
+        install_brew
+    elif [ $distro == "fedora" ]; then
+        install_dnf
+    elif [ $distro == "openSUSE" ]; then
+        install_zypper
+    elif [ $distro == "CentOS" ]; then
+        install_yum
+    else
+        # TODO: add more Linux distros here..
+        echo "-- WARNING: Unsupported Linux distro: $distro"
+        echo "-- The script will try to install these packages from source: ripgrep ccls"
+        echo "-- Note that ripgrep requires Rust, ccls requires Clang and LLVM to build, make sure you have them.."
+        echo "-- If you know how to install them, feel free to contribute to this GitHub repository: github.com/archibate/vimrc"
+        echo "-- Also, Node.js 12.x or above is required. Try the following patch script if you meet issues about coc.nvim:"
+        cat <<EOF
+mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
+ln -sf node_modules/ws/lib ~/.config/coc/extensions/node_modules/coc-ccls/lib
 EOF
-    if [ "x$FORCE" != "xy" ]; then
-        echo -n "-- Continue installing from source anyway (y/N)? "; read -n1 x; echo
-        if [ "x$x" != "xy" ]; then exit 1; fi
+        if [ "x$FORCE" != "xy" ]; then
+            echo -n "-- Continue installing from source anyway (y/N)? "; read -n1 x; echo
+            if [ "x$x" != "xy" ]; then exit 1; fi
+        fi
+        install_any
     fi
-    install_any
-fi
 
-echo "-- Installation complete, thank you for choosing ArchVim"
+    echo "-- Installation complete, thank you for choosing ArchVim"
+}
+
+do_install
