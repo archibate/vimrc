@@ -21,15 +21,9 @@ fi
 if [ "x$VIMEXE" == "x" ]; then
     if which vim 2> /dev/null; then VIMEXE=vim
     elif which nvim 2> /dev/null; then VIMEXE=nvim
-    elif [ "x$FORCE" != "xy" ]; then
-        echo -n '-- Please specify vim executable path: '
-        read VIMEXE
-        if ! "$VIMEXE" --version; then
-            echo "ERROR: not a valid vim executable: $VIMEXE"
-            exit 1
-        fi
     else
-        echo 'ERROR: cannot find vim executable!'
+        echo 'ERROR: cannot find vim or nvim executable!'
+        echo 'ERROR: Please install vim first: apt install vim'
         exit 1
     fi
 fi

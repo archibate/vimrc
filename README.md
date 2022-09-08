@@ -10,8 +10,6 @@
 
 > 另外，你也可以从 [GitHub release](https://github.com/archibate/vimrc/releases) 下载 `vimrc-install.sh`，然后直接运行这个脚本：`bash vimrc-install.sh`。
 
-为了提升速度，国内用户也可以一行代码完成安装： `curl https://142857.red/vimrc-install.sh | bash`
-
 他会花一些时间检测你的 Linux 发行版，并安装下列这些部分插件所需的包：
 
 > ripgrep, ccls, nodejs (12.x 及以上)
