@@ -28,6 +28,7 @@ if [ "x$VIMEXE" == "x" ]; then
     fi
 fi
 echo "-- Installing for vim executable: $VIMEXE"
+echo "-- Installing for user: $USER ($UID)"
 
 
 get_linux_distro() {
@@ -102,10 +103,10 @@ install_coc_plugins() {
 set -e
 pushd ~/
 
-echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit"
+echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" -c "set mouse= | echo 'installing all Vim plugins, please wait...' | PlugInstall | echo 'done' | quit" 2>&1 | grep -v Warning
 for x in coc-ccls coc-pyright coc-git coc-json; do
     echo "-- Installing coc plugin '\$x', please wait..."
-    echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit"
+    echo -e '\\n\\nZZZZ\\n\\n' | "$VIMEXE" -c "set mouse= | echo 'installing \$x, please wait...' | CocInstall -sync \$x | echo 'done' | quit" 2>&1 | grep -v Warning
 done
 
 mkdir -p ~/.config/coc/extensions/node_modules/coc-ccls
