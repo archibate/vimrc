@@ -1074,7 +1074,7 @@ Plug 'preservim/nerdcommenter'
 "Plug 'honza/vim-snippets'
 "Plug 'neoclide/coc-snippets'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'mbbill/undotree', {'on': 'UndoTreeToggle'}
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 "Plug 'ilyachur/cmake4vim', {'on': ['CMake', 'CMakeBuild', 'CMakeInfo', 'CMakeRun']}
 "Plug 'puremourning/vimspector'
 "Plug 'ctrlpvim/ctrlp.vim', {'on': ['CtrlP']}
