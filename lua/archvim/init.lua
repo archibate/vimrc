@@ -8,6 +8,7 @@ set nu rnu ru ls=2
 set et sts=0 ts=4 sw=4
 set signcolumn=yes
 set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
+set cinoptions=j1,(0,ws,Ws,g0
 set showbreak=↪
 set list
 set clipboard+=unnamedplus

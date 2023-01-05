@@ -81,6 +81,7 @@ local plugins = {
     },
     'glepnir/zephyr-nvim',
     'shaunsingh/nord.nvim',
+    'tikhomirov/vim-glsl',
 
     -- git and status line
     {

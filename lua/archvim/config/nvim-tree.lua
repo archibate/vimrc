@@ -9,7 +9,7 @@ require'nvim-tree'.setup {
         width = 30,
         height = 30,
         side = "right",
-        color = "#3f0af0",
+        --color = "#3f0af0",
         preserve_window_proportions = false,
     },
 }
