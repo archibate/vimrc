@@ -27,7 +27,6 @@ cmp.setup {
         {name = "buffer"},
         {name = "cmdline"},
         {name = "spell"},
-        {name = "cmp_git"},
         -- {name = "cmp_tabnine"}, -- INFO: uncomment this for AI completion
     },
 
@@ -99,12 +98,5 @@ cmp.setup.cmdline(':', {
     sources = cmp.config.sources {
         { name = 'path' },
         { name = 'cmdline' },
-    }
-})
-
-cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources {
-        { name = 'cmp_git' },
-        { name = 'buffer' },
     }
 })

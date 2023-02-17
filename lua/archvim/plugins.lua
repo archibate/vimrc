@@ -20,19 +20,17 @@ local plugins = {
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             'f3fora/cmp-spell',
-            'petertriho/cmp-git',
             "lukas-reineke/cmp-under-comparator",
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
             'saadparwaiz1/cmp_luasnip',
             {
-                "L3MON4D3/LuaSnip",
-                -- follow latest release.
-                tag = "v<CurrentMajor>.*",
-                -- install jsregexp (optional!:).
-                run = "make install_jsregexp",
+                'L3MON4D3/LuaSnip',
+                tag = 'v<CurrentMajor>.*',
+                run = 'make install_jsregexp',
                 requires = {
                     'rafamadriz/friendly-snippets',
                 },
+                config = function() require'archvim/config/luasnip' end,
             },
         },
         config = function() require'archvim/config/nvim-cmp' end,
@@ -43,6 +41,12 @@ local plugins = {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
     },
+    {
+        "folke/trouble.nvim",
+        requires = "nvim-tree/nvim-web-devicons",
+        config = function() require("trouble").setup{} end,
+    },
+
     -- 'williamboman/nvim-lsp-installer',
     {
         'williamboman/mason.nvim',
@@ -171,14 +175,14 @@ local plugins = {
         'akinsho/bufferline.nvim',
         tag = '*',
         requires = {
-            'kyazdani42/nvim-web-devicons',
+            'nvim-tree/nvim-web-devicons',
             'famiu/bufdelete.nvim',
         },
         config = function() require'archvim/config/bufferline' end,
     },
     {
         'kyazdani42/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons',
+        requires = 'nvim-tree/nvim-web-devicons',
         config = function() require'archvim/config/nvim-tree' end,
     },
 

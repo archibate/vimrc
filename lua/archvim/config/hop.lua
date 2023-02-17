@@ -1,5 +1,7 @@
 require("hop").setup()
 
 local map = require'archvim/mappings'
-map("n", "<leader><leader>", "<cmd>HopChar1<CR>")
-map("v", "<leader><leader>", "<cmd>HopChar1<CR>")
+map("n", "<Space>", "<cmd>nohls|HopChar1<CR>")
+map("v", "<Space>", "<cmd>nohls|HopChar1<CR>")
+map("n", "<C-Space>", "<cmd>nohls|HopAnywhere<CR>")
+map("v", "<C-Space>", "<cmd>nohls|HopAnywhere<CR>")

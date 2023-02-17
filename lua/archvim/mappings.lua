@@ -1,6 +1,6 @@
 
 -- Functional wrapper for mapping custom keybindings
-function map(mode, lhs, rhs, opts)
+local function map(mode, lhs, rhs, opts)
     if type(mode) == 'table' then
         for i = 1, #mode do
             map(mode[i], lhs, rhs, opts)
@@ -14,12 +14,14 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-map({"v", "n"}, "H", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1) . 'l')", { silent = true, expr = true })
-map({"v", "n"}, "L", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
+-- map({"v", "n"}, "H", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1) . 'l')", { silent = true, expr = true })
+-- map({"v", "n"}, "L", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
 map("n", "<F4>", "<cmd>wa<CR>")
-map("n", "<F9>", "<cmd>cp<CR>")
-map("n", "<F10>", "<cmd>cn<CR>")
-map("n", "<Space>", "<cmd>nohlsearch<CR><Space>", { silent = true })
+-- map("n", "<F9>", "<cmd>cp<CR>")
+-- map("n", "<F10>", "<cmd>cn<CR>")
+map("n", "<BS>", "<cmd>TroubleToggle<CR>")
+map("n", "<CR>", "<cmd>nohlsearch<CR>", { silent = true })
+map("v", "<CR>", "<Esc><CR>", { silent = true, noremap = false })
 map("i", "kj", "<Esc>", { silent = true })
 map("n", "Z", "ZZ", { silent = true })
 map("n", "Q", "<cmd>wa<CR><cmd>qa!<CR>", { silent = true })
@@ -39,6 +41,12 @@ vim.cmd [[
 augroup disable_swap_exists_warning
 autocmd!
 autocmd SwapExists * let v:swapchoice = "e"
+augroup end
+]]
+vim.cmd [[
+augroup disable_n_more_files_to_edit
+autocmd!
+autocmd VimEnter * args %
 augroup end
 ]]
 

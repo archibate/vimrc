@@ -23,3 +23,11 @@ colorscheme gruvbox
 ]]
 
 require('archvim/mappings')
+
+vim.g_printed = ''
+vim.g_print = function(msg)
+    vim.g_printed = vim.g_printed .. tostring(msg) .. '\n'
+end
+vim.g_dump = function()
+    print(vim.g_printed)
+end
