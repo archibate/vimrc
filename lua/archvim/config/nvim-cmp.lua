@@ -5,11 +5,11 @@ cmp.setup {
     -- 指定 snippet 引擎
     snippet = {
         expand = function(args)
-            -- For `vsnip` users.
-            vim.fn["vsnip#anonymous"](args.body)
+            -- -- For `vsnip` users.
+            -- vim.fn["vsnip#anonymous"](args.body)
 
             -- For `luasnip` users.
-            -- require('luasnip').lsp_expand(args.body)
+            require('luasnip').lsp_expand(args.body)
 
             -- For `ultisnips` users.
             -- vim.fn["UltiSnips#Anon"](args.body)
@@ -21,12 +21,13 @@ cmp.setup {
 
     -- 来源
     sources = cmp.config.sources {
-        {name = "vsnip"},
+        {name = "luasnip"},
         {name = "nvim_lsp"},
         {name = "path"},
         {name = "buffer"},
         {name = "cmdline"},
         {name = "spell"},
+        {name = "cmp_git"},
         -- {name = "cmp_tabnine"}, -- INFO: uncomment this for AI completion
     },
 
@@ -87,7 +88,7 @@ cmp.setup {
 }
 
 -- Use buffer source for `/`.
-cmp.setup.cmdline('/', {
+cmp.setup.cmdline({'/', '?'}, {
     sources = {
         { name = 'buffer' },
     }
@@ -98,5 +99,12 @@ cmp.setup.cmdline(':', {
     sources = cmp.config.sources {
         { name = 'path' },
         { name = 'cmdline' },
+    }
+})
+
+cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources {
+        { name = 'cmp_git' },
+        { name = 'buffer' },
     }
 })

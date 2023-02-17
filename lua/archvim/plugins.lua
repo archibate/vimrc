@@ -20,17 +20,22 @@ local plugins = {
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             'f3fora/cmp-spell',
+            'petertriho/cmp-git',
             "lukas-reineke/cmp-under-comparator",
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
+            'saadparwaiz1/cmp_luasnip',
+            {
+                "L3MON4D3/LuaSnip",
+                -- follow latest release.
+                tag = "v<CurrentMajor>.*",
+                -- install jsregexp (optional!:).
+                run = "make install_jsregexp",
+                requires = {
+                    'rafamadriz/friendly-snippets',
+                },
+            },
         },
         config = function() require'archvim/config/nvim-cmp' end,
-    },
-    {
-        'hrsh7th/cmp-vsnip',
-        requires = {
-            'rafamadriz/friendly-snippets',
-            'hrsh7th/vim-vsnip',
-        },
     },
 
     -- lsp syntax diagnostics
@@ -38,7 +43,11 @@ local plugins = {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
     },
-    'williamboman/nvim-lsp-installer',
+    -- 'williamboman/nvim-lsp-installer',
+    {
+        'williamboman/mason.nvim',
+        config = function() require'archvim/config/mason' end,
+    },
     {
         "tami5/lspsaga.nvim",
         config = function() require'archvim/config/lspsaga' end,
@@ -106,10 +115,10 @@ local plugins = {
     "terryma/vim-expand-region",
 
     -- session and projects
-    {
-        "rmagatti/auto-session",
-        config = function() require'archvim/config/auto-session' end,
-    },
+    --{
+        --"rmagatti/auto-session",
+        --config = function() require'archvim/config/auto-session' end,
+    --},
     {
         "ethanholz/nvim-lastplace",
         config = function() require'nvim-lastplace'.setup{} end,

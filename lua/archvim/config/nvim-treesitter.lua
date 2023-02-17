@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"c", "cpp", "python", "cmake"},  -- INFO: add your language here
+  ensure_installed = {"c", "cpp", "python", "cmake", "lua", "rust"},  -- INFO: add your language here
   sync_install = true,
   highlight = {
     enable = true,
@@ -18,7 +18,7 @@ require'nvim-treesitter.configs'.setup {
     enable = false,
   },
   rainbow = {
-    enable = false,
+    enable = true,
     extended_mode = true,
   },
   context_commentstring = {
