@@ -1,0 +1,3 @@
+What's the difference between these two functions?
+lines = content.split('\n')
+lines = content.splitlines()

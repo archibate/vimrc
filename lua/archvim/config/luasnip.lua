@@ -8,7 +8,7 @@ vim.cmd [[
 " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
 imap <silent><expr> <CR> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<CR>'
 " -1 for jumping backwards.
-inoremap <silent> <S-CR> <cmd>lua require'luasnip'.jump(-1)<CR>
+inoremap <silent> <S-CR> <cmd>lua require('luasnip').jump(-1)<CR>
 
 snoremap <silent> <CR> <cmd>lua require('luasnip').jump(1)<CR>
 snoremap <silent> <S-CR> <cmd>lua require('luasnip').jump(-1)<CR>

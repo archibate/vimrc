@@ -14,12 +14,12 @@ require'nvim-tree'.setup {
     },
 }
 
-vim.cmd [[
-augroup exit_if_nvim_tree_only_tab
-autocmd!
-autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | wqa | endif
-augroup end
-]]
+-- vim.cmd [[
+-- augroup exit_if_nvim_tree_only_tab
+-- autocmd!
+-- autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | wqa | endif
+-- augroup end
+-- ]]
 
 local function open_nvim_tree(data)
   -- -- buffer is a real file on the disk
@@ -37,10 +37,10 @@ local function open_nvim_tree(data)
 
   if not directory then
       -- open the tree, find the file but don't focus it
-      require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
+      -- require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
   else
       -- create a new, empty buffer
-      vim.cmd.enew()
+      -- vim.cmd.enew()
       -- wipe the directory buffer
       vim.cmd.bw(data.buf)
       -- change to the directory
@@ -51,3 +51,6 @@ local function open_nvim_tree(data)
 end
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+
+local map = require'archvim/mappings'
+map({"n", "i"}, "<F9>", "<cmd>NvimTreeFindFileToggle<CR>")

@@ -2,6 +2,11 @@ local lspkind = require('lspkind')
 local cmp = require'cmp'
 
 cmp.setup {
+    preselect = 'none',
+    completion = {
+        completeopt = 'menu,menuone,noinsert,noselect'
+    },
+
     -- 指定 snippet 引擎
     snippet = {
         expand = function(args)
@@ -25,8 +30,10 @@ cmp.setup {
         {name = "nvim_lsp"},
         {name = "path"},
         {name = "buffer"},
-        {name = "cmdline"},
+        -- {name = "cmdline"},
         {name = "spell"},
+        {name = "calc"},
+        -- {name = "copilot"}, -- INFO: uncomment this for AI completion
         -- {name = "cmp_tabnine"}, -- INFO: uncomment this for AI completion
     },
 
@@ -40,8 +47,8 @@ cmp.setup {
             require("cmp-under-comparator").under,
             -- require("cmp_tabnine.compare"), -- INFO: uncomment this for AI completion
             cmp.config.compare.kind,
-            cmp.config.compare.sort_text,
             cmp.config.compare.length,
+            cmp.config.compare.sort_text,
             cmp.config.compare.order
         }
     },
@@ -75,13 +82,13 @@ cmp.setup {
     -- 使用 lspkind-nvim 显示类型图标
     formatting = {
         format = lspkind.cmp_format {
-            with_text = true, -- do not show text alongside icons
+            with_text = false, -- do not show text alongside icons
             maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            before = function (entry, vim_item)
-                -- Source 显示提示来源
-                vim_item.menu = "["..string.upper(entry.source.name).."]"
-                return vim_item
-            end
+            -- before = function (entry, vim_item)
+            --     -- Source 显示提示来源
+            --     vim_item.menu = "["..string.upper(entry.source.name).."]"
+            --     return vim_item
+            -- end,
         },
     },
 }

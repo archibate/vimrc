@@ -11,9 +11,9 @@ require("telescope").setup{
 
 local map = require'archvim/mappings'
 -- 查找文件
-map("n", "<leader>u", "<cmd>Telescope find_files<CR>")
+map("n", "<leader>u", "<cmd>Telescope find_files initial_mode=insert<CR>")
 -- 查找 git 仓库中的文件
-map("n", "<leader>i", "<cmd>Telescope git_files<CR>")
+map("n", "<leader>i", "<cmd>Telescope git_files initial_mode=insert<CR>")
 -- 查找最近打开过的文件
 map("n", "<leader>o", "<cmd>Telescope oldfiles<CR>")
 -- 查找 git status 中的文件
@@ -33,7 +33,7 @@ map("n", "<leader>:", "<cmd>Telescope command_history<CR>")
 -- 查找所有 vim 命令
 map("n", "<leader>;", "<cmd>Telescope commands<CR>")
 -- 查找帮助文档
-map("n", "<leader>?", "<cmd>Telescope help_tags<CR>")
+map("n", "<leader>?", "<cmd>Telescope help_tags initial_mode=insert<CR>")
 -- 查找 todo 等事项
 map("n", "<leader>t", "<cmd>TodoTelescope<CR>")
 -- 查找 git 仓库的 commit 历史

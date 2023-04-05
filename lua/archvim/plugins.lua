@@ -7,7 +7,7 @@ local plugins = {
     "nvim-lua/plenary.nvim",
     {
         "rcarriga/nvim-notify",
-        config = function() vim.notify = require("notify") end,
+        config = function() require'archvim/config/notify' end,
     },
 
     -- auto completions
@@ -20,12 +20,13 @@ local plugins = {
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             'f3fora/cmp-spell',
+            'hrsh7th/cmp-calc',
+            -- 'hrsh7th/cmp-copilot', -- INFO: uncomment this for AI completion
             "lukas-reineke/cmp-under-comparator",
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
             'saadparwaiz1/cmp_luasnip',
             {
                 'L3MON4D3/LuaSnip',
-                tag = 'v<CurrentMajor>.*',
                 run = 'make install_jsregexp',
                 requires = {
                     'rafamadriz/friendly-snippets',
@@ -46,7 +47,6 @@ local plugins = {
         requires = "nvim-tree/nvim-web-devicons",
         config = function() require("trouble").setup{} end,
     },
-
     -- 'williamboman/nvim-lsp-installer',
     {
         'williamboman/mason.nvim',
@@ -60,14 +60,14 @@ local plugins = {
         "sbdchd/neoformat",
         config = function() require"archvim/config/neoformat" end,
     },
-    {
-        "petertriho/nvim-scrollbar",
-        config = function() require"scrollbar".setup{} end,
-    },
-    -- {   -- INFO: uncomment to enable cpplint
-    --     'mfussenegger/nvim-lint',
-    --     config = function() require"archvim/config/nvim-lint" end,
+    -- {
+    --     "petertriho/nvim-scrollbar",
+    --     config = function() require"scrollbar".setup{} end,
     -- },
+    {   -- INFO: uncomment to enable cpplint
+        'mfussenegger/nvim-lint',
+        config = function() require"archvim/config/nvim-lint" end,
+    },
 
     -- semantic highlighting
     {
@@ -78,6 +78,7 @@ local plugins = {
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
         requires = 'nvim-treesitter/nvim-treesitter',
     },
     {
@@ -101,37 +102,46 @@ local plugins = {
         'lewis6991/gitsigns.nvim',
         config = function() require'archvim/config/gitsigns' end,
     },
+    -- {
+    --     'windwp/windline.nvim',
+    --     config = function() require'archvim/config/windline' end,
+    -- },
     {
-        'windwp/windline.nvim',
-        config = function() require'archvim/config/windline' end,
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        config = function() require'archvim/config/lualine' end,
     },
     'tpope/vim-fugitive',
 
     -- vim command tools
+    -- {
+    --     "ur4ltz/surround.nvim",
+    --     config = function() require 'archvim/config/surround' end,
+    -- },
     {
-        "ur4ltz/surround.nvim",
-        config = function() require 'archvim/config/surround' end,
+        'kylechui/nvim-surround',
+        config = function() require 'archvim/config/nvim-surround' end,
     },
     {
 	    "terrortylor/nvim-comment",
         config = function() require 'archvim/config/nvim-comment' end,
 	},
-    "terryma/vim-expand-region",
+    -- "terryma/vim-expand-region",
 
     -- session and projects
-    --{
-        --"rmagatti/auto-session",
-        --config = function() require'archvim/config/auto-session' end,
-    --},
+    {
+        "rmagatti/auto-session",
+        config = function() require'archvim/config/auto-session' end,
+    },
     {
         "ethanholz/nvim-lastplace",
         config = function() require'nvim-lastplace'.setup{} end,
     },
-    {
-        "mbbill/undotree",
-        config = function() require'archvim/config/undotree' end,
-    },
-    -- {   -- INFO: uncomment to enable cpplint
+    --{
+        --"mbbill/undotree",
+        --config = function() require'archvim/config/undotree' end,
+    --},
+    -- {   -- INFO: uncomment to enable autosave
     --     'Pocco81/AutoSave.nvim',
     --     config = function() require'archvim/config/autosave' end,
     -- },
@@ -191,11 +201,39 @@ local plugins = {
         'akinsho/toggleterm.nvim',
         config = function() require'archvim/config/toggleterm' end,
     },
-    {
-        'skywind3000/asynctasks.vim',
-        requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},
-        config = function() require'archvim/config/asynctasks' end,
-    },
+    -- {
+    --     'skywind3000/asynctasks.vim',
+    --     requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},
+    --     config = function() require'archvim/config/asynctasks' end,
+    -- },
+
+    -- streaming keywords
+    -- {  "jackMort/ChatGPT.nvim",
+    --     config = function()
+    --         require("chatgpt").setup({
+    --             openai_params = {
+    --                 model = "gpt-3.5-turbo",
+    --                 frequency_penalty = 0,
+    --                 presence_penalty = 0,
+    --                 max_tokens = 300,
+    --                 temperature = 0,
+    --                 top_p = 1,
+    --                 n = 1,
+    --             },
+    --             openai_edit_params = {
+    --                 model = "gpt-3.5-turbo",
+    --                 temperature = 0,
+    --                 top_p = 1,
+    --                 n = 1,
+    --             },
+    --         })
+    --     end,
+    --     requires = {
+    --         "MunifTanjim/nui.nvim",
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-telescope/telescope.nvim",
+    --     },
+    -- },
 
     -- miscellaneous
     {
@@ -206,6 +244,13 @@ local plugins = {
         "phaazon/hop.nvim",
         config = function() require"archvim/config/hop" end,
     },
+    {
+        "MunifTanjim/nui.nvim",
+    },
+    -- {
+    --     "arnamak/stay-centered.nvim",
+    --     config = function() require"stay-centered" end,
+    -- },
     -- {
     --     "RRethy/vim-illuminate",
     --     config = function()

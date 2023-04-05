@@ -24,6 +24,9 @@ require'bufferline'.setup {
             if vim.bo[buf_number].buftype == "terminal" then
                 return false
             end
+            if vim.bo[buf_number].buftype == "nofile" then
+                return false
+            end
             if vim.bo[buf_number].filetype == "Trouble" then
                 return false
             end
@@ -37,23 +40,23 @@ require'bufferline'.setup {
 
 local map = require'archvim/mappings'
 
-map("n", "gb", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
-map("n", "gt", "<cmd>BufferLineCycleNext<CR>", { silent = true })
-map("n", "gB", "<cmd>BufferLineMovePrev<CR>", { silent = true })
-map("n", "gT", "<cmd>BufferLineMoveNext<CR>", { silent = true })
-map("n", "g<Tab>", "<cmd>BufferLineSortByMRU<CR>", { silent = true })
-map("n", "g<C-b>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
-map("n", "g<C-t>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
-map("n", "g<Space>", "<cmd>BufferLinePick<CR>", { silent = true })
-map("n", "g<C-Space>", "<cmd>BufferLinePickClose<CR>", { silent = true })
+map({"v", "n"}, "gb", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+map({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", { silent = true })
+map({"v", "n"}, "gB", "<cmd>BufferLineMovePrev<CR>", { silent = true })
+map({"v", "n"}, "gT", "<cmd>BufferLineMoveNext<CR>", { silent = true })
+map({"v", "n"}, "g<Tab>", "<cmd>BufferLineSortByMRU<CR>", { silent = true })
+map({"v", "n"}, "g<C-b>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
+map({"v", "n"}, "g<C-t>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
+map({"v", "n"}, "g<Space>", "<cmd>BufferLinePick<CR>", { silent = true })
+map({"v", "n"}, "g<C-Space>", "<cmd>BufferLinePickClose<CR>", { silent = true })
 
-map("n", "<F2>", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
-map("n", "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })
-map("n", "<F14>", "<cmd>BufferLineMovePrev<CR>", { silent = true })
-map("n", "<F15>", "<cmd>BufferLineMoveNext<CR>", { silent = true })
-map("n", "<F1>", "<cmd>BufferLineSortByMRU<CR>", { silent = true })
-map("n", "<C-F14>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
-map("n", "<C-F15>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
+map({"v", "n", "i"}, "<F2>", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+map({"v", "n", "i"}, "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })
+map({"v", "n", "i"}, "<F14>", "<cmd>BufferLineMovePrev<CR>", { silent = true })
+map({"v", "n", "i"}, "<F15>", "<cmd>BufferLineMoveNext<CR>", { silent = true })
+map({"v", "n", "i"}, "<F1>", "<cmd>BufferLineSortByMRU<CR>", { silent = true })
+map({"v", "n", "i"}, "<C-F14>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
+map({"v", "n", "i"}, "<C-F15>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
 
 vim.cmd [[
 aug buffer_accessed_time

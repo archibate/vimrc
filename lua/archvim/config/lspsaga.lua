@@ -31,8 +31,8 @@ require("lspsaga").setup {
 
 vim.cmd [[
 " code action
-nnoremap <silent> ga <cmd>lua require('lspsaga.codeaction').code_action()<CR>
-vnoremap <silent> ga :<C-u>lua require('lspsaga.codeaction').range_code_action()<CR>
+nnoremap <silent> gA <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+vnoremap <silent> gA :<C-u>lua require('lspsaga.codeaction').range_code_action()<CR>
 
 " rename, close rename win use <C-c> in insert mode or `q` in noremal mode or `:q`
 nnoremap <silent> gR <cmd>lua require('lspsaga.rename').rename()<CR>
@@ -50,5 +50,18 @@ nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 
 " show diagnostic on current line
-nnoremap <silent> gA <cmd>lua require('lspsaga.diagnostic').show_line_diagnostics()<CR>
+nnoremap <silent> ga <cmd>lua require('lspsaga.diagnostic').show_line_diagnostics()<CR>
+
 ]]
+
+-- Diagnostic jump
+-- You can use <C-o> to jump back to your previous location
+vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+-- Diagnostic jump with filters such as only jumping to an error
+vim.keymap.set("n", "[E", function()
+  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end)
+vim.keymap.set("n", "]E", function()
+  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+end)
