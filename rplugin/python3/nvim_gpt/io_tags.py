@@ -11,6 +11,9 @@ class UpdateParams:
 class Done:
     pass
 
+class Shutdown:
+    pass
+
 
 __all__ = [
     'Reset',

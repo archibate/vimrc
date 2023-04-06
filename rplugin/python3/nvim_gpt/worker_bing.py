@@ -1,15 +1,9 @@
 import async_to_sync as sync
-import asyncio
 import json
 import os
 
 from .worker import IWorker, WorkerFactory
-from .io_tags import Done, UpdateParams, Reset
-
-
-def get_api():
-    import EdgeGPT
-    return EdgeGPT
+from .io_tags import Done, UpdateParams, Reset, Rewind
 
 
 class Worker_BingAI(IWorker):
@@ -24,12 +18,12 @@ class Worker_BingAI(IWorker):
 
     def _worker(self):
         print('BingAI started')
-        api = get_api()
+        import EdgeGPT
         cookies_path = '~/.bing-cookies.json'
         cookies_path = os.path.expanduser(cookies_path)
         with open(cookies_path, 'r') as f:
             cookies = json.load(f)
-        bot = api.Chatbot(cookies=cookies)
+        bot = EdgeGPT.Chatbot(cookies=cookies)
 
         while True:
             print('BingAI waiting for question')
@@ -53,7 +47,7 @@ class Worker_BingAI(IWorker):
                     self._answers.put(part)
 
             print('BingAI starts request...')
-            style = getattr(api.ConversationStyle, self._model)
+            style = getattr(EdgeGPT.ConversationStyle, self._model)
             sync.function(self._async_ask)(bot, question, style, callback)
 
             print('BingAI replies:')

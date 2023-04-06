@@ -1,7 +1,7 @@
 import threading
 import queue
 
-from .io_tags import Reset, Rewind, UpdateParams
+from .io_tags import Reset, Rewind, UpdateParams, Shutdown
 
 
 class IWorker:
@@ -19,6 +19,10 @@ class IWorker:
         self._task.start()
 
     def push_question(self, question):
+        if not self._task.is_alive():
+            print('try restarting worker')
+            self._task = threading.Thread(target=self._worker)
+            self._task.start()
         try:
             if not self._pending_questions.empty():
                 old_question = self._pending_questions.get_nowait()
@@ -32,7 +36,10 @@ class IWorker:
         try:
             c = self._answers.get_nowait()
         except queue.Empty:
-            return None
+            if not self._task.is_alive():
+                return Shutdown()
+            else:
+                return None
         else:
             return c  # maybe Done
 
@@ -59,17 +66,30 @@ class WorkerFactory:
         assert __private_construct is self.__private_construct
         self._worker_instances = {}
         self._worker_factories = {}
+        self._worker_type_of_model = {}
+        self._model_list = []
 
     def register_worker_type(self, worker_type, constructor):
         self._worker_factories[worker_type] = constructor
+        for model in constructor.MODELS:
+            assert model not in self._worker_type_of_model, 'worker model name conflict'
+            self._worker_type_of_model[model] = worker_type
+            self._model_list.append(model)
 
-    def get_worker(self, worker_type, model, params):
-        if (worker_type, model) in self._worker_instances:
-            worker = self._worker_instances[worker_type, model]
+    def model_worker_type(self, model):
+        return self._worker_type_of_model[model]
+
+    def available_models(self):
+        return list(self._model_list)
+
+    def get_worker(self, model, params):
+        if model in self._worker_instances:
+            worker = self._worker_instances[model]
             worker.may_update_params(params)
             return worker
+        worker_type = self._worker_type_of_model[model]
         worker = self._worker_factories[worker_type](model, params)
-        self._worker_instances[worker_type, model] = worker
+        self._worker_instances[model] = worker
         return worker
 
     @classmethod

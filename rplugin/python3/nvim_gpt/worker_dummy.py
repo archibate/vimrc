@@ -1,13 +1,14 @@
 import time
 
 from .worker import IWorker, WorkerFactory
-from .io_tags import Done, UpdateParams, Reset
+from .io_tags import Done, UpdateParams, Reset, Rewind
 
 
 class Worker_Dummy(IWorker):
     MODELS = [
-        'lazy-dummy',
-        'repeater-dummy',
+        'lazy',
+        'crasher',
+        'repeater',
     ]
 
     PARAMS = dict(
@@ -17,7 +18,9 @@ class Worker_Dummy(IWorker):
 
     def _worker(self):
         ctx = ''
+        last_ctx = ''
         print('dummy started')
+
         while True:
             print('dummy waiting for question')
             question = self._questions.get()
@@ -26,6 +29,9 @@ class Worker_Dummy(IWorker):
 
             if isinstance(question, Reset):
                 ctx = ''
+                continue
+            if isinstance(question, Rewind):
+                ctx = last_ctx
                 continue
             elif isinstance(question, UpdateParams):
                 self._params = dict(question.params)
@@ -44,13 +50,24 @@ class Worker_Dummy(IWorker):
                     print(part, end='', flush=True)
                     answer += part
                     self._answers.put(part)
-                    time.sleep(0.42)
+                    import random
+                    time.sleep(random.randint(1, 80) / 1000)
 
+            last_ctx = ctx
             print('dummy got context:')
             print(ctx)
-            if self._model == 'repeater-dummy':
+            if self._model == 'repeater':
                 for c in question:
                     callback(c)
+            if self._model == 'crasher':
+                callback('execuse')
+                callback(' me')
+                callback('?')
+                callback(' I')
+                callback(' am')
+                callback(' going')
+                callback(' to')
+                raise RuntimeError('crasher bot crashed!')
             else:
                 callback('execuse')
                 callback(' me')

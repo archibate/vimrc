@@ -67,13 +67,14 @@ vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 -- vim.keymap.set('i', '<M-[>', [[<Plug>(copilot-previous)]])
 -- vim.keymap.set('i', '<M-/>', [[<Plug>(copilot-suggest)]])
 
-local gpt_add_key_map_timer = vim.loop.new_timer()
-gpt_add_key_map_timer:start(100, 100, vim.schedule_wrap(function ()
-    if gpt_add_key_map_timer and pcall(function () vim.cmd [[GPTSuggestedKeymaps]] end) then
-        gpt_add_key_map_timer:stop()
-        gpt_add_key_map_timer = nil
+local _gpt_add_key_map_timer = vim.loop.new_timer()
+_gpt_add_key_map_timer:start(100, 100, vim.schedule_wrap(function ()
+    if _gpt_add_key_map_timer and pcall(function () vim.cmd [[GPTSuggestedKeymaps]] end) then
+        _gpt_add_key_map_timer:stop()
+        _gpt_add_key_map_timer = nil
     end
 end))
 
+vim.cmd [[ hi Normal guifg=#ebdbb2 guibg=none ]]
 
 return map
