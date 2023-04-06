@@ -56,12 +56,12 @@ nnoremap <silent> ga <cmd>lua require('lspsaga.diagnostic').show_line_diagnostic
 
 -- Diagnostic jump
 -- You can use <C-o> to jump back to your previous location
-vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
--- Diagnostic jump with filters such as only jumping to an error
-vim.keymap.set("n", "[E", function()
-  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end)
-vim.keymap.set("n", "]E", function()
-  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
-end)
+vim.keymap.set("n", "[a", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+vim.keymap.set("n", "]a", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+-- -- Diagnostic jump with filters such as only jumping to an error
+-- vim.keymap.set("n", "[E", function()
+--   require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+-- end)
+-- vim.keymap.set("n", "]E", function()
+--   require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+-- end)

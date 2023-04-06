@@ -28,9 +28,10 @@ class GPTPlugin:
             self._model = 'gpt-3.5-turbo'
         if 0:
             self._model = 'raven-3B'
-        if 1:
+        if 0:
             self._model = 'crasher'
         self._params = {}     # specific parameters like temperature depends on bot types
+
         self._cursors = '|/_\\'  # '_ ' for blinking '_' and ' '
         self._code_quote = '{question}\n```{filetype}\n{code}\n```'
         self._question_title = '\n🙂:'
@@ -48,6 +49,7 @@ class GPTPlugin:
             "{} here! Looking for some help?",
             "{}! Nice to meet you! Question?",
             "Coding? Worry not, just ask {}!",
+            "Coding? Worry not, {} now here!",
             "Coding? That's {}'s speciality!",
             "Bugs? Let {} get your solution!",
             "Anything may {} help? Just ask!",
@@ -68,10 +70,11 @@ class GPTPlugin:
     @neovim.command('GPTSuggestedKeymaps')
     def gpt_suggested_keymaps(self):
         with self._critical_section():
+            if self._keymap_trigger is None:
+                return
             from .keymaps import suggested_keymaps
             for line in suggested_keymaps.format(trigger=self._keymap_trigger).splitlines():
                 if line:
-                    # print('adding keymap:', line)
                     self.nvim.command(line)
 
     def get_bot(self):
@@ -171,11 +174,10 @@ class GPTPlugin:
         from .keymaps import gpt_window_keymaps
         for line in gpt_window_keymaps.splitlines():
             if line:
-                # print('adding gpt keymap:', line)
                 self.nvim.command(line)
 
-    @neovim.command('GPTReset')
-    def gpt_reset(self):  # plan: (d)iscard
+    @neovim.command('GPTDiscard')
+    def gpt_discard(self):  # plan: (d)iscard
         with self._critical_section():
             self._do_gpt_open()
             self._do_gpt_reset()
@@ -200,8 +202,8 @@ class GPTPlugin:
             self._rid_last_line_cursor()
             self._transit_state('idle')
 
-    @neovim.command('GPTAsk', nargs='*')  # type: ignore
-    def gpt_ask(self, args):  # plan: <Space>
+    @neovim.command('GPTInput', nargs='*')  # type: ignore
+    def gpt_input(self, args):  # plan: <Space>
         with self._critical_section():
             if self._state != 'idle':
                 return
@@ -264,8 +266,8 @@ class GPTPlugin:
         self._transit_state('running')
         self._lock_cursor_to_end()
 
-    @neovim.command('GPTPaste', bang=True)
-    def gpt_paste(self, bang):  # plan: (a)ccept
+    @neovim.command('GPTAccept', bang=True)
+    def gpt_accept(self, bang):  # plan: (a)ccept
         with self._critical_section():
             self._do_gpt_open()
             answer, full_answer = self._fetch_maybe_quoted_answer()
@@ -294,6 +296,13 @@ class GPTPlugin:
             self.nvim.funcs.setreg('+', answer, 'l')
             self._do_gpt_open(toggle=True)
 
+    @neovim.command('GPTExecute')
+    def gpt_execute(self):  # plan: e(x)ecute
+        answer, _ = self._fetch_maybe_quoted_answer()
+        answer = '\n'.join(answer)
+        # execute python expressions directly in rplugin process
+        exec(compile(answer, '<GPTExecute>', 'exec'))
+
     @neovim.command('GPTSync')
     def gpt_sync(self):
         with self._critical_section():
@@ -315,7 +324,8 @@ class GPTPlugin:
                     self._transit_state('idle')
                     return
                 if isinstance(answer, Shutdown):  # shutdown means worker thread crashed
-                    self._append_last_line(full_answer + '[GPT WORKER CRASHED]')
+                    self._append_last_line(full_answer + '\n**GPT WORKER CRASHED** -'
+                                           + ' see :GPTLog for more details\n')
                     self._rid_last_line_cursor()
                     self._transit_state('idle')
                     return
