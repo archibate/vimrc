@@ -1,5 +1,3 @@
-vim.cmd [[packadd packer.nvim]]
-
 local plugins = {
     -- plugin utilities
     'wbthomason/packer.nvim',
@@ -108,7 +106,7 @@ local plugins = {
     -- },
     {
         'nvim-lualine/lualine.nvim',
-        'archibate/lualine-ctime',
+        'archibate/lualine-time',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
         config = function() require'archvim/config/lualine' end,
     },
@@ -271,8 +269,102 @@ local plugins = {
     -- },
 }
 
-require'packer'.startup(function(use)
-    for _, item in pairs(plugins) do
+----- {{{ BEGIN_CIHOU_PREDOWNLOAD
+local archvim_predownload = vim.g.archvim_predownload or tonumber(os.getenv("ARCHVIM_PREDOWNLOAD_MODE"))
+if archvim_predownload and archvim_predownload ~= 0 then
+    local predownload
+    if archvim_predownload == 2 then
+        local thisdir = '/tmp/archvim-build'
+        assert(os.execute(string.format('mkdir -p %s/predownload', thisdir)))
+        function predownload(repo)
+            local path = string.format('%s/predownload/%s', thisdir, repo)
+            if os.execute(string.format('test -d %s', path)) ~= 0 then
+                assert(os.execute(string.format('git clone https://github.com/%s.git %s --depth=1', repo, path)) == 0)
+                -- vim.fn.system({'git', 'clone', string.format("https://github.com/%s.git %s", repo, path), '--depth=1'})
+                os.execute(string.format('rm -rf %s/.git', path))
+                -- vim.gg = path .. " downloaded"
+            end
+            return repo
+        end
+    else
+        local thisdir = debug.getinfo(1).source:sub(2):match("(.*)/")
+        function predownload(repo)
+            -- if repo == 'wbthomason/packer.nvim' then
+            --     return vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+            -- end
+            local path = string.format('%s/predownload/%s', thisdir, repo)
+            return path
+        end
+    end
+    ---@generic T: table|string|number|boolean
+    ---@param orig T
+    ---@return T
+    local function deepcopy(orig)
+        local copy
+        if type(orig) == 'table' then
+            copy = {}
+            for orig_key, orig_value in next, orig, nil do
+                copy[deepcopy(orig_key)] = deepcopy(orig_value)
+            end
+            setmetatable(copy, deepcopy(getmetatable(orig)))
+        else -- number, string, boolean, etc
+            copy = orig
+        end
+        return copy
+    end
+    ---@generic T: table|string
+    ---@param item T
+    ---@return T
+    local function recursivedownload(item)
+        item = deepcopy(item)
+        if type(item) == 'string' then
+            item = predownload(item)
+        elseif type(item) == 'table' then
+            for index, subitem in ipairs(item) do
+                item[index] = recursivedownload(subitem)
+            end
+            if item['requires'] then
+                item['requires'] = recursivedownload(item['requires'])
+            end
+        end
+        return item
+    end
+    plugins = recursivedownload(plugins)
+    -- for k, v in pairs(plugins) do
+    --     print(k, v)
+    -- end
+    -- debug.debug()
+    -- if archvim_predownload == 2 then
+    --     vim.cmd [[qa!]]
+    --     os.exit()
+    -- end
+end
+----- }}} END_CIHOU_PREDOWNLOAD
+
+local function ensure_packer()
+    local fn = vim.fn
+    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+    if fn.empty(fn.glob(install_path)) > 0 then
+        if archvim_predownload == 1 then
+            local thisdir = debug.getinfo(1).source:sub(2):match("(.*)/")
+            fn.system({'mkdir', '-p', install_path})
+            fn.system({'rm', '-rf', install_path})
+            local downloaded_path = string.format('%s/predownload/wbthomason/packer.nvim', thisdir)
+            fn.system({'cp', '-r', downloaded_path, install_path})
+        else
+            fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+        end
+        vim.cmd [[packadd packer.nvim]]
+        return true
+    end
+    return false
+end
+local packer_bootstrap = ensure_packer()
+return require('packer').startup(function(use)
+    for _, item in ipairs(plugins) do
         use(item)
+    end
+    if packer_bootstrap then
+        require('packer').sync()
     end
 end)

@@ -1,4 +1,3 @@
-
 -- Functional wrapper for mapping custom keybindings
 local function map(mode, lhs, rhs, opts)
     if type(mode) == 'table' then
@@ -34,19 +33,6 @@ map({"v", "n", "i"}, "<F10>", "<cmd>Neoformat<CR>", { silent = true })
 -- command! -nargs=? F :Neoformat <f-args>
 -- ]]
 
-vim.cmd [[
-augroup disable_formatoptions_cro
-autocmd!
-autocmd BufEnter * setlocal formatoptions-=cro
-augroup end
-]]
-vim.cmd [[
-augroup disable_swap_exists_warning
-autocmd!
-autocmd SwapExists * let v:swapchoice = "e"
-augroup end
-]]
-
 -- vim.api.nvim_create_autocmd({"VimEnter"}, {
 --     -- disable_n_more_files_to_edit
 --     callback = function (data)
@@ -69,14 +55,12 @@ vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 -- vim.keymap.set('i', '<M-[>', [[<Plug>(copilot-previous)]])
 -- vim.keymap.set('i', '<M-/>', [[<Plug>(copilot-suggest)]])
 
-local _gpt_add_key_map_timer = vim.loop.new_timer()
-_gpt_add_key_map_timer:start(100, 100, vim.schedule_wrap(function ()
-    if _gpt_add_key_map_timer and pcall(function () vim.cmd [[GPTSuggestedKeymaps]] end) then
-        _gpt_add_key_map_timer:stop()
-        _gpt_add_key_map_timer = nil
-    end
-end))
-
-vim.cmd [[ hi Normal guifg=#ebdbb2 guibg=none ]]
+-- local _gpt_add_key_map_timer = vim.loop.new_timer()
+-- _gpt_add_key_map_timer:start(100, 100, vim.schedule_wrap(function ()
+--     if _gpt_add_key_map_timer and pcall(function () vim.cmd [[GPTSuggestedKeymaps]] end) then
+--         _gpt_add_key_map_timer:stop()
+--         _gpt_add_key_map_timer = nil
+--     end
+-- end))
 
 return map
