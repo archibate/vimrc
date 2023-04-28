@@ -1,7 +1,7 @@
 set -e
 cd "$(dirname "$0")"
 # test -d /tmp/archvim-build/predownload || ARCHVIM_PREDOWNLOAD_MODE=2 nvim -c 'q'
-ARCHVIM_PREDOWNLOAD_MODE=2 nvim -c 'q'
+nvim --cmd 'let g:archvim_predownload=2' -c 'q'
 git --version > /dev/null
 rm -rf /tmp/archvim-release
 mkdir -p /tmp/archvim-release
@@ -54,7 +54,6 @@ test -d ~/.config/nvim && mv ~/.config/nvim ~/.config/.nvim.backup.\$\$
 mkdir -p ~/.config
 rm -rf ~/.config/nvim
 cp -r . ~/.config/nvim
-nvim -c 'echo \"manually quit after install complete\"'
 rm -rf /tmp/_extract_.\$\$ /tmp/_extract_.\$\$.tar.gz.b64
 echo \"-- OK, installed into ~/.config/nvim, now run 'nvim' to play\"
 \n" >> "$script"

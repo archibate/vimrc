@@ -270,7 +270,7 @@ local plugins = {
 }
 
 ----- {{{ BEGIN_CIHOU_PREDOWNLOAD
-local archvim_predownload = vim.g.archvim_predownload or tonumber(os.getenv("ARCHVIM_PREDOWNLOAD_MODE"))
+local archvim_predownload = vim.g.archvim_predownload
 if archvim_predownload and archvim_predownload ~= 0 then
     local predownload
     if archvim_predownload == 2 then
@@ -365,6 +365,10 @@ return require('packer').startup(function(use)
         use(item)
     end
     if packer_bootstrap then
+        -- if archvim_predownload == 1 then
+        --     local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+        --     vim.fn.system({'rm', '-rf', install_path})
+        -- end
         require('packer').sync()
     end
 end)
