@@ -100,10 +100,10 @@ cmp.setup.cmdline({'/', '?'}, {
     }
 })
 
--- Use cmdline & path source for ':'.
-cmp.setup.cmdline(':', {
-    sources = cmp.config.sources {
-        { name = 'path' },
-        { name = 'cmdline' },
-    }
-})
+-- -- Use cmdline & path source for ':'.
+-- cmp.setup.cmdline(':', {
+--     sources = cmp.config.sources {
+--         { name = 'path' },
+--         { name = 'cmdline' },
+--     }
+-- })

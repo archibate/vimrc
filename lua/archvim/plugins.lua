@@ -81,11 +81,11 @@ local plugins = {
         after = "nvim-treesitter",
         requires = 'nvim-treesitter/nvim-treesitter',
     },
-    {
-        "romgrk/nvim-treesitter-context",
-        "SmiteshP/nvim-gps",
-        requires = 'nvim-treesitter/nvim-treesitter',
-    },
+    -- {
+    --     -- "romgrk/nvim-treesitter-context",
+    --     "SmiteshP/nvim-navic",
+    --     requires = 'nvim-treesitter/nvim-treesitter',
+    -- },
     'JoosepAlviste/nvim-ts-context-commentstring',
 
     -- color and themes
@@ -108,6 +108,7 @@ local plugins = {
     -- },
     {
         'nvim-lualine/lualine.nvim',
+        'archibate/lualine-ctime',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
         config = function() require'archvim/config/lualine' end,
     },
@@ -246,6 +247,12 @@ local plugins = {
     },
     {
         "MunifTanjim/nui.nvim",
+    },
+    {
+        'archibate/nvim-gpt',
+        -- '/home/bate/Codes/nvim-gpt',
+        requires = { 'nvim-telescope/telescope.nvim' },
+        config = function() require"archvim/config/nvim-gpt" end,
     },
     -- {
     --     "arnamak/stay-centered.nvim",

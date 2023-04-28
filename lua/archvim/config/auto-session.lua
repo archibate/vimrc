@@ -18,6 +18,7 @@ require("auto-session").setup {
     -- 这是因为 nvim-tree 如果处于开启
     -- 状态，会破坏会话的保存
     pre_save_cmds = {
+        -- [[tabdo GPTClose]],
         [[tabdo NvimTreeClose]],
         [[tabdo TroubleClose]],
         -- [[tabdo noautocmd bufdo exec "if &bt == 'terminal' | bdelete | endif"]],

@@ -47,7 +47,7 @@ nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 " scroll up hover doc
 nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
 " show signature help
-nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent> <C-g> <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 
 " show diagnostic on current line
 nnoremap <silent> ga <cmd>lua require('lspsaga.diagnostic').show_line_diagnostics()<CR>
