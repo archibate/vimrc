@@ -55,6 +55,7 @@ mkdir -p ~/.config
 rm -rf ~/.config/nvim
 cp -r . ~/.config/nvim
 rm -rf /tmp/_extract_.\$\$ /tmp/_extract_.\$\$.tar.gz.b64
+\$SUDO bash ~/.config/nvim/install_deps.sh
 echo \"-- OK, installed into ~/.config/nvim, now run 'nvim' to play\"
 \n" >> "$script"
 
