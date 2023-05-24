@@ -106,10 +106,10 @@ local plugins = {
     -- },
     {
         'nvim-lualine/lualine.nvim',
-        'archibate/lualine-time',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
         config = function() require'archvim/config/lualine' end,
     },
+    'archibate/lualine-time',
     'tpope/vim-fugitive',
 
     -- vim command tools

@@ -16,7 +16,8 @@ require("toggleterm").setup{
   insert_mappings = true, -- whether or not the open mapping applies in insert mode
   terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
   persist_size = true,
-  direction = 'horizontal',
+  -- direction = 'horizontal',
+  direction = 'vertical',
   close_on_exit = true, -- close the terminal window when the process exits
   -- This field is only relevant if direction is set to 'float'
   float_opts = {
@@ -31,7 +32,7 @@ require("toggleterm").setup{
   }
 }
 
-local Terminal = require('toggleterm.terminal').Terminal
+-- local Terminal = require('toggleterm.terminal').Terminal
 
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
@@ -42,12 +43,12 @@ function _G.set_terminal_keymaps()
   vim.keymap.set('n', '<Down>', [[<Cmd>startinsert<CR><Down>]], opts)
   vim.keymap.set('n', '<Right>', [[<Cmd>startinsert<CR><Right>]], opts)
   vim.keymap.set('n', '<Left>', [[<Cmd>startinsert<CR><Left>]], opts)
-  -- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-  -- -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
-  -- vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-  -- vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-  -- vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-  -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
 end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
