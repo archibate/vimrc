@@ -67,12 +67,6 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 {"clangd", "cmake", "pyright", "lua_ls", "rust_analyzer"}
 ```
 
-## 默认开启的代码规范检测
-
-```
-{"pylint", "clangtidy", "cmakelint", "eslint", "eslint", "golangcilint", "vale", "yamllint", "shellcheck", "luacheck"}
-```
-
 可以通过执行 `:TSInstall` 和修改 [`lua/archvim/config/lspconfig.lua`](lua/archvim/config/lspconfig.lua) 来安装更多语法高亮和智能补全。
 
 ## 以下为小彭老师自己看的
