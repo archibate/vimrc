@@ -12,6 +12,10 @@ local plugins = {
     {
         'hrsh7th/nvim-cmp',
         requires = {
+            -- {
+            --     'yehuohan/cmp-im',
+            --     'yehuohan/cmp-im-zh',
+            -- },
             'onsails/lspkind-nvim',
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
@@ -25,7 +29,7 @@ local plugins = {
             'saadparwaiz1/cmp_luasnip',
             {
                 'L3MON4D3/LuaSnip',
-                run = 'make install_jsregexp',
+                run = 'make install_jsregexp || true',
                 requires = {
                     'rafamadriz/friendly-snippets',
                 },
@@ -70,7 +74,7 @@ local plugins = {
     -- semantic highlighting
     {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
+        -- run = ':TSUpdate',
         config = function() require'archvim/config/nvim-treesitter' end,
         requires = 'p00f/nvim-ts-rainbow',
     },
@@ -128,6 +132,7 @@ local plugins = {
     -- "terryma/vim-expand-region",
 
     -- session and projects
+    'djoshea/vim-autoread',
     {
         "rmagatti/auto-session",
         config = function() require'archvim/config/auto-session' end,
@@ -153,7 +158,7 @@ local plugins = {
             "BurntSushi/ripgrep",
             {
                 "nvim-telescope/telescope-fzf-native.nvim",
-                run = "make",
+                run = "make || true",
             },
             {
                 "nvim-telescope/telescope-frecency.nvim",
@@ -360,6 +365,9 @@ local function ensure_packer()
     return false
 end
 local packer_bootstrap = ensure_packer()
+require('packer').init {
+    autoremove = true,
+}
 return require('packer').startup(function(use)
     for _, item in ipairs(plugins) do
         use(item)
