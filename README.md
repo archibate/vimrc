@@ -7,7 +7,7 @@
 无需克隆本仓库，直接在命令行中输入以下命令即可安装：
 
 ```bash
-curl -sLf http://142857.red/vimrc-install.sh | bash
+curl -sLf http://142857.red/nvimrc-install.sh | bash
 ```
 
 * 目前只支持 Linux 系统，暂时不支持 MacOS 等系统。
@@ -18,6 +18,10 @@ curl -sLf http://142857.red/vimrc-install.sh | bash
 * 安装脚本运行中可能产生一些冗余错误信息，属于正常现象，不影响使用，请忽视他们。
 
 安装完成后，输入 `nvim` 即可使用，第一次启动时，可能需要花一些时间下载第三方插件数据包。
+
+## 旧版本 Vimrc
+
+本分支为最新 NeoVim 版插件整合包，对于来自 BV1H44y1V7DW 视频想领取老版 Vim 插件的同学，请移步 [main 分支](https://github.com/archibate/vimrc/tree/main)。
 
 ## 支持的 Linux 发行版
 
