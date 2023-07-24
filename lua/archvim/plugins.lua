@@ -23,8 +23,8 @@ local plugins = {
             'hrsh7th/cmp-cmdline',
             'f3fora/cmp-spell',
             'hrsh7th/cmp-calc',
-            -- 'hrsh7th/cmp-copilot', -- INFO: uncomment this for AI completion
             "lukas-reineke/cmp-under-comparator",
+            -- 'hrsh7th/cmp-copilot', -- INFO: uncomment this for AI completion
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
             'saadparwaiz1/cmp_luasnip',
             {
@@ -52,6 +52,9 @@ local plugins = {
     -- 'williamboman/nvim-lsp-installer',
     {
         'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        requires = "mason-org/mason-registry",
+        -- run = ":MasonUpdate",
         config = function() require'archvim/config/mason' end,
     },
     {

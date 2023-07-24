@@ -5,7 +5,7 @@ nvim --cmd 'let g:archvim_predownload=2' -c 'q'
 git --version > /dev/null
 rm -rf /tmp/archvim-release
 mkdir -p /tmp/archvim-release
-cp -r ./lua ./init.vim /tmp/archvim-release
+cp -r ./lua ./init.vim ./install_deps.sh /tmp/archvim-release
 sed -i "s/\"let g:archvim_predownload=1/let g:archvim_predownload=1/" /tmp/archvim-release/init.vim
 rm -rf /tmp/archvim-release/lua/archvim/predownload
 cp -r /tmp/archvim-build/predownload /tmp/archvim-release/lua/archvim
@@ -37,29 +37,35 @@ cd /tmp/_extract_.\$\$
 base64 -d /tmp/_extract_.\$\$.tar.gz.b64 | tar -zxv
 fix_nvim_appimage() {
     \$SUDO mv /usr/bin/nvim /usr/bin/nvim.appimage.noextract
-    echo 'oldpwd=\$PWD; x=\$\$; mkdir -p /tmp/_nvim_appimg_.\$x && cd /tmp/_nvim_appimg_.\$x && (/usr/bin/nvim.appimage.noextract --appimage-extract && cd \"\$oldpwd\" > /dev/null 2>&1) && /tmp/_nvim_appimg_.\$x/squashfs-root/AppRun \"\$@\"; x=\$?; rm -rf /tmp/_nvim_appimg_.\$x exit \$x' | \$SUDO tee /usr/bin/nvim
+    echo 'x=\$\$; mkdir -p /tmp/_nvim_appimg_.\$x && bash -c \"cd /tmp/_nvim_appimg_.\$x && /usr/bin/nvim.appimage.noextract --appimage-extract > /dev/null 2>&1\" && /tmp/_nvim_appimg_.\$x/squashfs-root/AppRun \"\$@\"; x=\$?; rm -rf /tmp/_nvim_appimg_.\$x exit \$x' | \$SUDO tee /usr/bin/nvim
     chmod u+x /usr/bin/nvim
 }
 install_nvim() {
-    echo \"NeoVim 0.8.0 or above not found, installing latest for you\"
+    echo \"NeoVim 0.9.1 or above not found, installing latest for you\"
     test -f ./nvim.appimage || curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -o ~/.config/nvim/nvim.appimage
     chmod u+x ./nvim.appimage
     test -f /usr/bin/nvim && \$SUDO mv /usr/bin/nvim /tmp/.nvim-executable-backup
     \$SUDO cp ./nvim.appimage /usr/bin/nvim
     nvim --version || fix_nvim_appimage
 }
-(nvim --version && [ \"1\$(nvim --version | head -n1 | cut -f2 -dv | sed s/\\.//g)\" -ge 1080 ]) || install_nvim
+(nvim --version && [ \"1\$(nvim --version | head -n1 | cut -f2 -dv | sed s/\\\\.//g)\" -ge 1091 ]) || install_nvim
 nvim --version
 test -d ~/.config/nvim && mv ~/.config/nvim ~/.config/.nvim.backup.\$\$
 mkdir -p ~/.config
 rm -rf ~/.config/nvim
 cp -r . ~/.config/nvim
-# \$SUDO bash ~/.config/nvim/install_deps.sh
+bash ~/.config/nvim/install_deps.sh || echo -e \"\\n\\n--\\n--\\n-- WARNING: some dependency installation failed, please check your internet connection.\\n-- ArchVim can still run without those dependencies, though.\\n-- You can always try run dependency installation again by running: bash ~/.config/nvim/install_deps.sh\\n\\n\"
+
 # rm -rf ~/.local/share/nvim/site/pack/packer
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerClean'
 rm -rf /tmp/_extract_.\$\$ /tmp/_extract_.\$\$.tar.gz.b64
-echo \"-- OK, installed into ~/.config/nvim, now run 'nvim' to play\"
+echo
+echo \"--\"
+echo \"--\"
+echo \"-- There might be some error generated above, please ignore, that doesn't effect use!\"
+echo \"-- Ignore these error messages, as soon as you see this message, your nvim is fine.\"
+echo \"-- All OK, ArchVim plugins installed into ~/.config/nvim, now run 'nvim' to play.\"
 \n" >> "$script"
 
 rm "$payload"

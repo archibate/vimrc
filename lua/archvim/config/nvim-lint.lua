@@ -18,4 +18,4 @@ require("lint").linters_by_ft = {
 -- autocmd BufEnter,BufWritePost * lua require('lint').try_lint()
 -- augroup end
 -- ]]
--- vim.keymap.set({"n", "v"}, "gq", function () require('lint').try_lint() end)
+vim.keymap.set({"n", "v"}, "gq", function () require('lint').try_lint() end)
