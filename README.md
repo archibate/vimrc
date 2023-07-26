@@ -1,6 +1,6 @@
 # 小彭老师自用 NeoVim 整合包
 
-本整合包内含大量实用插件，包括智能补全、语法高亮、错误提示、快速跳转、全局搜索、集成终端、文件浏览、Git 支持等，且安装方便，小彭老师自用同款，是您基于 NeoVim 的 IDE 不二之选。
+本整合包内含大量实用插件，包括智能补全、语法高亮、错误提示、快速跳转、全局搜索、集成终端、文件浏览、Git 支持等。且安装方便，小彭老师自用同款，纯 Lua 配置，是您基于 NeoVim 的 IDE 不二之选。
 
 ## 安装方法
 
@@ -10,6 +10,8 @@
 curl -sLf http://142857.red/nvimrc-install.sh | bash
 ```
 
+如果安装遇到问题，欢迎通过 [GitHub issue](github.com/archibate/vimrc/issues) 反映，我会尽快帮您解决。
+
 * 目前只支持 Linux 系统，暂时不支持 MacOS 等系统。
 * 请勿以 root 身份运行，否则会为 root 安装 nvim 插件而不是当前用户，插件安装后仅对当前用户有效。
 * 您的系统中无需事先安装有 nvim，本整合包内部已经自带了最新版 nvim 的 AppImage，可无依赖直接运行。
@@ -17,7 +19,9 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 * 为了能够使用补全，会为您安装如 clangd 一类的包，但即使其中一个安装失败，也不影响其他语言和编辑器整体的使用。
 * 安装脚本运行中可能产生一些冗余错误信息，属于正常现象，不影响使用，请忽视他们。
 
-安装完成后，输入 `nvim` 即可使用，第一次启动时，可能需要花一些时间下载第三方插件数据包。
+安装完成后，输入 `nvim` 即可使用，按 Shift+Z 或 :wqa 即可退出。
+
+> 第一次启动时，可能需要花一些时间下载第三方插件数据包，请耐心等待。如果不等待，可能会部分语言的失去语义高亮功能。
 
 ## 旧版本 Vimrc
 
@@ -41,7 +45,7 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 
 ```
 /usr/bin/nvim
-/usr/bin/nvim.appimage.noextract
+/usr/bin/.nvim.appimage.noextract
 ~/.config/nvim
 ~/.local/share/nvim
 ```
