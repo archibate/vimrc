@@ -41,43 +41,57 @@ local plugins = {
 
     -- lsp syntax diagnostics
     {
+        'williamboman/mason.nvim',
+        requires = {
+            'williamboman/mason-lspconfig.nvim',
+            "mason-org/mason-registry",
+        },
+        run = ":MasonUpdate",
+        config = function() require'archvim/config/mason' end,
+    },
+    {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
+    },
+    {
+        "tami5/lspsaga.nvim",
+        config = function() require'archvim/config/lspsaga' end,
+    },
+
+    -- lints and error signs
+    {
+        "petertriho/nvim-scrollbar",
+        config = function() require"scrollbar".setup{} end,
     },
     {
         "folke/trouble.nvim",
         requires = "nvim-tree/nvim-web-devicons",
         config = function() require("trouble").setup{} end,
     },
-    -- 'williamboman/nvim-lsp-installer',
-    {
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
-        requires = "mason-org/mason-registry",
-        -- run = ":MasonUpdate",
-        config = function() require'archvim/config/mason' end,
-    },
-    {
-        "tami5/lspsaga.nvim",
-        config = function() require'archvim/config/lspsaga' end,
-    },
     {
         "sbdchd/neoformat",
         config = function() require"archvim/config/neoformat" end,
     },
-    -- {
-    --     "petertriho/nvim-scrollbar",
-    --     config = function() require"scrollbar".setup{} end,
+    -- {   -- INFO: uncomment to enable cpplint
+    --     'mfussenegger/nvim-lint',
+    --     config = function() require"archvim/config/nvim-lint" end,
     -- },
-    {   -- INFO: uncomment to enable cpplint
-        'mfussenegger/nvim-lint',
-        config = function() require"archvim/config/nvim-lint" end,
+
+    -- dap and debuggers
+    -- {
+    --     'folke/neodev.nvim',
+    --     config = function() require'archvim/config/neodev' end,
+    -- },
+    {
+        'rcarriga/nvim-dap-ui',
+        requires = 'mfussenegger/nvim-dap',
+        config = function() require"archvim/config/nvim-dap" end,
     },
 
     -- semantic highlighting
     {
         'nvim-treesitter/nvim-treesitter',
-        -- run = ':TSUpdate',
+        run = ':TSUpdate',
         config = function() require'archvim/config/nvim-treesitter' end,
         requires = 'p00f/nvim-ts-rainbow',
     },
@@ -107,10 +121,6 @@ local plugins = {
         'lewis6991/gitsigns.nvim',
         config = function() require'archvim/config/gitsigns' end,
     },
-    -- {
-    --     'windwp/windline.nvim',
-    --     config = function() require'archvim/config/windline' end,
-    -- },
     {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },

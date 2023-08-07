@@ -1,7 +1,7 @@
 require("lint").linters_by_ft = {
     python = {"pylint"},
     c = {"clangtidy"},
-    cpp = {"clangtidy"},
+    cpp = {"cpplint"},
     cmake = {"cmakelint"},
     javascript = {"eslint"},
     typescript = {"eslint"},
