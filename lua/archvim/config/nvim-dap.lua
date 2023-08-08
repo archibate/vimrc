@@ -16,13 +16,16 @@ end
 
 local dap = require('dap')
 
+dap.defaults.fallback.switchbuf = true
+
 dap.adapters.codelldb = {
   type = 'server',
   port = "${port}",
   executable = {
-    -- CHANGE THIS to your path!
-    command = function() return os_capture('which codelldb') end,
+    command = vim.fn.stdpath("data") .. '/mason/packages/codelldb/codelldb',
     args = {"--port", "${port}"},
+    -- command = os_capture('which sh'),
+    -- args = {"-c", "codelldb --port ${port}"},
     -- On windows you may have to uncomment this:
     -- detached = false,
   }
@@ -48,6 +51,32 @@ dap.configurations.cpp = {
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
 
+dap.adapters.python = function(cb, config)
+  if config.request == 'attach' then
+    ---@diagnostic disable-next-line: undefined-field
+    local port = (config.connect or config).port
+    ---@diagnostic disable-next-line: undefined-field
+    local host = (config.connect or config).host or '127.0.0.1'
+    cb({
+      type = 'server',
+      port = assert(port, '`connect.port` is required for a python `attach` configuration'),
+      host = host,
+      options = {
+        source_filetype = 'python',
+      },
+    })
+  else
+    cb({
+      type = 'executable',
+      command = vim.fn.stdpath("data") .. '/mason/packages/debugpy/bin/python',
+      args = { '-m', 'debugpy.adapter' },
+      options = {
+        source_filetype = 'python',
+      },
+    })
+  end
+end
+
 dap.configurations.python = {
     {
         type = 'python';
@@ -60,7 +89,66 @@ dap.configurations.python = {
     },
 }
 
+dap.adapters.bashdb = {
+  type = 'executable';
+  command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter';
+  name = 'bashdb';
+}
+
+dap.configurations.sh = {
+  {
+    type = 'bashdb';
+    request = 'launch';
+    name = "Launch file";
+    showDebugOutput = true;
+    pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';
+    pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';
+    trace = true;
+    file = "${file}";
+    program = "${file}";
+    cwd = '${workspaceFolder}';
+    pathCat = "cat";
+    pathBash = "/bin/bash";
+    pathMkfifo = "mkfifo";
+    pathPkill = "pkill";
+    args = {};
+    env = {};
+    terminalKind = "integrated";
+  }
+}
+
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {vim.fn.stdpath("data") .. '/mason/packages/node-debug2-adapter/out/src/nodeDebug.js'},
+}
+
+dap.configurations.javascript = {
+    {
+        name = 'Launch file',
+        type = 'node2',
+        request = 'launch',
+        program = '${file}',
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+    },
+    {
+        -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+        name = 'Attach to process',
+        type = 'node2',
+        request = 'attach',
+        processId = require'dap.utils'.pick_process,
+    },
+}
+dap.configurations.typescript = dap.configurations.javascript
+dap.configurations.javascriptreact = dap.configurations.javascript
+dap.configurations.typescriptreact = dap.configurations.typescript
+
 local dapui = require('dapui')
+
+dapui.setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
@@ -71,3 +159,6 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
+
+vim.cmd [[vnoremap gsK <Cmd>lua require("dapui").eval()<CR>]]
+vim.cmd [[nnoremap gsK <Cmd>lua require("dapui").eval()<CR>]]

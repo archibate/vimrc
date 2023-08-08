@@ -52,5 +52,4 @@ end
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
-local map = require'archvim/mappings'
-map({"n", "i"}, "<F9>", "<cmd>NvimTreeFindFileToggle<CR>")
+-- local map = require'archvim/mappings'
