@@ -69,6 +69,14 @@ local plugins = {
         config = function() require("trouble").setup{} end,
     },
     {
+        'kevinhwang91/nvim-bqf',
+        ft = 'qf',
+        config = function() require('bqf').setup{} end,
+        requires = {
+            {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
+        },
+    },
+    {
         "sbdchd/neoformat",
         config = function() require"archvim/config/neoformat" end,
     },
@@ -292,7 +300,7 @@ local archvim_predownload = vim.g.archvim_predownload
 if archvim_predownload and archvim_predownload ~= 0 then
     local predownload
     if archvim_predownload == 2 then
-        local thisdir = '/tmp/archvim-build'
+        local thisdir = assert(vim.g.archvim_predownload_cachedir)
         assert(os.execute(string.format('mkdir -p %s/predownload', thisdir)))
         function predownload(repo)
             local path = string.format('%s/predownload/%s', thisdir, repo)
