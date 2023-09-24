@@ -6,3 +6,10 @@ vim.g.neoformat_basic_format_trim = 1
 vim.g.neoformat_basic_format_retab = 1
 -- 只提示错误消息
 vim.g.neoformat_only_msg_on_error = 1
+
+-- vim.cmd [[
+-- augroup fmt
+--   autocmd!
+--   autocmd BufWritePre * if index(['c', 'cpp', 'cuda'], &filetype) != -1 && filereadable(".clang-format") | undojoin | Neoformat | endif
+-- augroup END
+-- ]]

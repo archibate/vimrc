@@ -40,9 +40,18 @@ dap.configurations.cpp = {
       local exepath = os_capture('sh -c "$SHELL -ic cmxp"')
       if file_exists(exepath) then
         return exepath
-      else
-        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
       end
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = false,
+  },
+  {
+    name = "Attach to process",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+      return vim.fn.input('Process PID: ', vim.fn.getcwd() .. '/', 'file')
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
@@ -162,3 +171,9 @@ end
 
 vim.cmd [[vnoremap gsK <Cmd>lua require("dapui").eval()<CR>]]
 vim.cmd [[nnoremap gsK <Cmd>lua require("dapui").eval()<CR>]]
+
+vim.fn.sign_define('DapBreakpoint', {text='🔴', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointCondition', {text='⭕', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='🚫', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapLogPoint', {text='📔', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='👉', texthl='', linehl='', numhl=''})

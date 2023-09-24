@@ -40,3 +40,5 @@ hi Normal guifg=#ebdbb2 guibg=none
 -- vim.g_dump = function()
 --     print(vim.g_printed)
 -- end
+
+vim.lsp.set_log_level("off")

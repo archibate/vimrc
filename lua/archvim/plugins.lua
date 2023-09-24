@@ -95,6 +95,10 @@ local plugins = {
         requires = 'mfussenegger/nvim-dap',
         config = function() require"archvim/config/nvim-dap" end,
     },
+    -- {
+    --     'cpiger/NeoDebug',
+    --     config = function() end,
+    -- },
 
     -- semantic highlighting
     {
@@ -154,10 +158,10 @@ local plugins = {
 
     -- session and projects
     'djoshea/vim-autoread',
-    {
-        "rmagatti/auto-session",
-        config = function() require'archvim/config/auto-session' end,
-    },
+    -- {
+    --     "rmagatti/auto-session",
+    --     config = function() require'archvim/config/auto-session' end,
+    -- },
     {
         "ethanholz/nvim-lastplace",
         config = function() require'nvim-lastplace'.setup{} end,
@@ -293,6 +297,45 @@ local plugins = {
     --         }
     --     end,
     -- },
+
+    -- markdown editing
+    {
+        'iamcco/markdown-preview.nvim',
+        run = function() vim.fn["mkdp#util#install"]() end,
+        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+        config = function() vim.cmd [[let g:mkdp_browser = '/usr/bin/chromium']] end,
+        ft = { "markdown" },
+        requires = 'iamcco/mathjax-support-for-mkdp',
+    },
+    'mzlogin/vim-markdown-toc',
+    {
+        'plasticboy/vim-markdown',
+        requires = 'godlygeek/tabular',
+        config = function() vim.cmd [[let g:vim_markdown_math = 1]] end,
+        ft = { "markdown" },
+    },
+    {
+        'ferrine/md-img-paste.vim',
+        config = function() vim.cmd [[
+let g:mdip_imgdir = 'img' " save image in ./img
+let g:mdip_imgname = 'image'
+autocmd FileType markdown nnoremap <silent> <C-v> :call mdip#MarkdownClipboardImage()<CR>
+        ]] end,
+        ft = { "markdown" },
+    },
+
+    -- pinyin input method
+    {
+        'ZSaberLv0/ZFVimIM',
+        requires = {
+            'ZSaberLv0/ZFVimJob',
+            -- 'ZSaberLv0/ZFVimGitUtil',
+            'ZSaberLv0/ZFVimIM_openapi',
+            -- 'ZSaberLv0/ZFVimIM_pinyin_huge',
+        },
+        config = function() require'archvim/config/zfvimim' end,
+    },
+    -- 'ZSaberLv0/ZFVimIM_english_base',
 }
 
 ----- {{{ BEGIN_CIHOU_PREDOWNLOAD

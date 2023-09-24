@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = lazy_load_snippets })
 vim.cmd [[
 " press <C-E> to expand or jump in a snippet. These can also be mapped separately
 " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-imap <silent><expr> <CR> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<CR>'
+imap <silent><expr> <CR> luasnip#jumpable(1) ? '<Plug>luasnip-expand-or-jump' : '<CR>'
 " -1 for jumping backwards.
 inoremap <silent> <S-CR> <cmd>lua require('luasnip').jump(-1)<CR>
 
