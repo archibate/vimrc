@@ -2,6 +2,7 @@ vim.g.mapleader = ','
 
 vim.cmd [[
 set mouse=a
+set updatetime=1000
 set nu rnu ru ls=2
 set et sts=0 ts=4 sw=4
 set signcolumn=yes
@@ -30,7 +31,9 @@ augroup end
 vim.cmd [[
 set termguicolors
 colorscheme gruvbox
-hi Normal guifg=#ebdbb2 guibg=none
+" hi Normal guibg=none
+" hi TreesitterContext gui=NONE guibg=#282828
+hi TreesitterContextBottom gui=underline guisp=Grey
 ]]
 
 -- vim.g_printed = ''

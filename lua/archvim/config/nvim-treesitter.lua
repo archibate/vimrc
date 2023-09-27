@@ -21,6 +21,9 @@ require'nvim-treesitter.configs'.setup {
         enable = false,
         extended_mode = true,
     },
+    matchup = {
+        enable = true,
+    },
     context_commentstring = {
         enable = true,
     },
@@ -43,12 +46,12 @@ require'nvim-treesitter.configs'.setup {
                 ["ii"] = "@call.inner",
                 ["ad"] = "@conditional.outer",
                 ["id"] = "@conditional.inner",
-                ["ao"] = "@loop.outer",
-                ["io"] = "@loop.inner",
-                ["ag"] = "@parameter.outer",
-                ["ig"] = "@parameter.inner",
-                ["ae"] = "@block.outer",
-                ["ie"] = "@block.inner",
+                ["ae"] = "@loop.outer",
+                ["ie"] = "@loop.inner",
+                ["ap"] = "@parameter.outer",
+                ["ip"] = "@parameter.inner",
+                ["ab"] = "@block.outer",
+                ["ib"] = "@block.inner",
                 ["at"] = "@comment.outer",
                 ["it"] = "@comment.inner",
                 ["ar"] = "@return.outer",
@@ -103,10 +106,10 @@ require'nvim-treesitter.configs'.setup {
                 ["]i"] = "@call.*",
                 ["]d"] = "@conditional.*",
                 ["]o"] = "@loop.*",
-                ["]g"] = "@parameter.*",
-                ["]e"] = "@block.outer",
+                ["]p"] = "@parameter.inner",
+                ["]b"] = "@block.outer",
                 ["]t"] = "@comment.*",
-                ["]r"] = "@return.*",
+                ["]r"] = "@return.inner",
                 ["]l"] = "@statement.*",
                 ["]n"] = "@number.outer",
                 ["]h"] = "@assignment.outer",
@@ -118,11 +121,11 @@ require'nvim-treesitter.configs'.setup {
                 ["]Z"] = { query = "@fold", query_group = "folds" },
                 ["]I"] = "@call.*",
                 ["]D"] = "@conditional.*",
-                ["]O"] = "@loop.*",
-                ["]G"] = "@parameter.*",
-                ["]E"] = "@block.outer",
+                ["]E"] = "@loop.*",
+                ["]P"] = "@parameter.inner",
+                ["]B"] = "@block.outer",
                 ["]T"] = "@comment.*",
-                ["]R"] = "@return.*",
+                ["]R"] = "@return.inner",
                 ["]L"] = "@statement.*",
                 ["]N"] = "@number.outer",
                 ["]H"] = "@assignment.outer",
@@ -134,11 +137,11 @@ require'nvim-treesitter.configs'.setup {
                 ["[z"] = { query = "@fold", query_group = "folds" },
                 ["[i"] = "@call.*",
                 ["[d"] = "@conditional.*",
-                ["[o"] = "@loop.*",
-                ["[g"] = "@parameter.*",
-                ["[e"] = "@block.outer",
+                ["[e"] = "@loop.*",
+                ["[p"] = "@parameter.inner",
+                ["[b"] = "@block.outer",
                 ["[t"] = "@comment.*",
-                ["[r"] = "@return.*",
+                ["[r"] = "@return.inner",
                 ["[l"] = "@statement.*",
                 ["[n"] = "@number.outer",
                 ["[h"] = "@assignment.outer",
@@ -150,11 +153,11 @@ require'nvim-treesitter.configs'.setup {
                 ["[Z"] = { query = "@fold", query_group = "folds" },
                 ["[I"] = "@call.*",
                 ["[D"] = "@conditional.*",
-                ["[O"] = "@loop.*",
-                ["[G"] = "@parameter.*",
-                ["[E"] = "@block.outer",
+                ["[E"] = "@loop.*",
+                ["[P"] = "@parameter.*",
+                ["[B"] = "@block.outer",
                 ["[T"] = "@comment.*",
-                ["[R"] = "@return.*",
+                ["[R"] = "@return.inner",
                 ["[L"] = "@statement.*",
                 ["[N"] = "@number.outer",
                 ["[H"] = "@assignment.outer",
@@ -179,7 +182,90 @@ require'nvim-treesitter.configs'.setup {
             },
         },
     },
+    autotag = {
+        enable = true,
+    },
+    -- refactor = {
+    --     highlight_definitions = {
+    --         enable = false,
+    --         -- Set to false if you have an `updatetime` of ~100.
+    --         clear_on_cursor_move = true,
+    --     },
+    --     highlight_current_scope = {
+    --         enable = false,
+    --     },
+    --     smart_rename = {
+    --         enable = true,
+    --         -- Assign keymaps to false to disable them, e.g. `smart_rename = false`.
+    --         keymaps = {
+    --             smart_rename = "gnr",
+    --         },
+    --     },
+    --     navigation = {
+    --         enable = true,
+    --         -- Assign keymaps to false to disable them, e.g. `goto_definition = false`.
+    --         keymaps = {
+    --             goto_definition = "gnd",
+    --             list_definitions = "gnl",
+    --             list_definitions_toc = "gno",
+    --             goto_next_usage = "gn]",
+    --             goto_previous_usage = "gn[",
+    --         },
+    --     },
+    -- },
 }
+
+vim.g.matchup_matchparen_offscreen = { method = "status" }
+vim.g.matchup_surround_enabled = 1
+vim.g.matchup_delim_noskips = 2
+
 vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.wo.foldexpr = 'nvim_#foldexpr()'
 vim.wo.foldlevel = 99
+
+require'treesitter-context'.setup{
+  enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
+  max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+  min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  line_numbers = true,
+  multiline_threshold = 20, -- Maximum number of lines to show for a single context
+  trim_scope = 'inner', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  -- Separator between context and content. Should be a single character string, like '-'.
+  -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+  separator = nil,
+  zindex = 20, -- The Z-index of the context window
+  on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+}
+
+-- vim.keymap.set("n", "[.", function()
+--   require("treesitter-context").go_to_context()
+-- end, { silent = true })
+
+-- use 'vm' to visual select any block like hop.nvim does
+vim.cmd [[
+omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
+xnoremap <silent> m :lua require('tsht').nodes()<CR>
+]]
+
+require 'nt-cpp-tools'.setup({
+    preview = {
+        quit = 'q', -- optional keymapping for quit preview
+        accept = '<tab>' -- optional keymapping for accept preview
+    },
+    header_extension = 'hpp', -- optional
+    source_extension = 'cpp', -- optional
+    custom_define_class_function_commands = { -- optional
+        TSCppImplWrite = {
+            output_handle = require'nt-cpp-tools.output_handlers'.get_add_to_cpp()
+        }
+        --[[
+        <your impl function custom command name> = {
+            output_handle = function (str, context) 
+                -- string contains the class implementation
+                -- do whatever you want to do with it
+            end
+        }
+        ]]
+    }
+})

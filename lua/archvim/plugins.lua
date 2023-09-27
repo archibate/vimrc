@@ -58,11 +58,27 @@ local plugins = {
         config = function() require'archvim/config/lspsaga' end,
     },
 
-    -- lints and error signs
-    {
-        "petertriho/nvim-scrollbar",
-        config = function() require"scrollbar".setup{} end,
-    },
+    -- code refactoring
+    -- {
+    --     'LucHermitte/vim-refactor',
+    --     requires = {
+    --         'LucHermitte/lh-vim-lib',
+    --         'LucHermitte/lh-tags',
+    --         'LucHermitte/lh-dev',
+    --         'LucHermitte/lh-style',
+    --         'LucHermitte/lh-brackets',
+    --     },
+    -- },
+    -- {
+    --     "ThePrimeagen/refactoring.nvim",
+    --     requires = {
+    --         {"nvim-lua/plenary.nvim"},
+    --         {"nvim-treesitter/nvim-treesitter"},
+    --     },
+    --     config = function() require'archvim/config/refactoring' end,
+    -- },
+
+    -- lint and error signs
     {
         "folke/trouble.nvim",
         requires = "nvim-tree/nvim-web-devicons",
@@ -76,14 +92,21 @@ local plugins = {
             {'junegunn/fzf', run = function() vim.fn['fzf#install']() end},
         },
     },
-    {
-        "sbdchd/neoformat",
-        config = function() require"archvim/config/neoformat" end,
-    },
-    -- {   -- INFO: uncomment to enable cpplint
+    -- {   -- uncomment to enable cpplint
     --     'mfussenegger/nvim-lint',
     --     config = function() require"archvim/config/nvim-lint" end,
     -- },
+    {
+        "petertriho/nvim-scrollbar",
+        config = function() require"scrollbar".setup{} end,
+    },
+
+    -- zen-mode
+    "folke/zen-mode.nvim",
+    {
+        "folke/twilight.nvim",
+        config = function() require"archvim/config/twilight" end,
+    },
 
     -- dap and debuggers
     -- {
@@ -92,7 +115,10 @@ local plugins = {
     -- },
     {
         'rcarriga/nvim-dap-ui',
-        requires = 'mfussenegger/nvim-dap',
+        requires = {
+            'mfussenegger/nvim-dap',
+            'theHamsta/nvim-dap-virtual-text',
+        },
         config = function() require"archvim/config/nvim-dap" end,
     },
     -- {
@@ -100,24 +126,28 @@ local plugins = {
     --     config = function() end,
     -- },
 
-    -- semantic highlighting
+    -- semantic highlighting and textobjects
     {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
         config = function() require'archvim/config/nvim-treesitter' end,
-        requires = 'p00f/nvim-ts-rainbow',
-    },
-    {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        after = "nvim-treesitter",
-        requires = 'nvim-treesitter/nvim-treesitter',
+        requires = {
+            {'p00f/nvim-ts-rainbow'},
+            -- {'nvim-treesitter/nvim-treesitter-refactor'},
+            {'nvim-treesitter/nvim-treesitter-textobjects'},
+            {'nvim-treesitter/nvim-treesitter-context'},
+            {'JoosepAlviste/nvim-ts-context-commentstring'},
+            {'windwp/nvim-ts-autotag'},
+            {'andymass/vim-matchup'},
+            {'mfussenegger/nvim-treehopper'},
+            {'Badhi/nvim-treesitter-cpp-tools'},
+        },
     },
     -- {
     --     -- "romgrk/nvim-treesitter-context",
     --     "SmiteshP/nvim-navic",
     --     requires = 'nvim-treesitter/nvim-treesitter',
     -- },
-    'JoosepAlviste/nvim-ts-context-commentstring',
 
     -- color and themes
     {
@@ -128,20 +158,23 @@ local plugins = {
     'shaunsingh/nord.nvim',
     'tikhomirov/vim-glsl',
 
-    -- git and status line
+    -- git support
     {
         'lewis6991/gitsigns.nvim',
         config = function() require'archvim/config/gitsigns' end,
     },
+    'tpope/vim-fugitive',
+
+    -- status line
     {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
         config = function() require'archvim/config/lualine' end,
     },
     'archibate/lualine-time',
-    'tpope/vim-fugitive',
+    'archibate/lualine-lsp-progress',
 
-    -- vim command tools
+    -- brace pairing
     -- {
     --     "ur4ltz/surround.nvim",
     --     config = function() require 'archvim/config/surround' end,
@@ -151,26 +184,41 @@ local plugins = {
         config = function() require 'archvim/config/nvim-surround' end,
     },
     {
+        'windwp/nvim-autopairs',
+        config = function() require'archvim/config/nvim-autopairs' end,
+    },
+    -- "terryma/vim-expand-region",
+
+    -- code actions
+    {
+        "sbdchd/neoformat",
+        config = function() require"archvim/config/neoformat" end,
+    },
+    {
 	    "terrortylor/nvim-comment",
         config = function() require 'archvim/config/nvim-comment' end,
 	},
-    -- "terryma/vim-expand-region",
 
     -- session and projects
     'djoshea/vim-autoread',
-    -- {
-    --     "rmagatti/auto-session",
-    --     config = function() require'archvim/config/auto-session' end,
-    -- },
+    {
+        "Shatur/neovim-session-manager",
+        requires = "nvim-lua/plenary.nvim",
+        config = function() require'archvim/config/neovim-session-manager' end,
+    },
     {
         "ethanholz/nvim-lastplace",
         config = function() require'nvim-lastplace'.setup{} end,
     },
-    --{
+    -- {
+    --     "rmagatti/auto-session",
+    --     config = function() require'archvim/config/auto-session' end,
+    -- },
+    --{ -- this performance stucks, so i disable it
         --"mbbill/undotree",
         --config = function() require'archvim/config/undotree' end,
     --},
-    -- {   -- INFO: uncomment to enable autosave
+    -- {   -- uncomment to enable autosave
     --     'Pocco81/AutoSave.nvim',
     --     config = function() require'archvim/config/autosave' end,
     -- },
@@ -264,7 +312,7 @@ local plugins = {
     --     },
     -- },
 
-    -- miscellaneous
+    -- cursor motion
     {
         "folke/which-key.nvim",
         config = function() require"archvim/config/which-key" end,
@@ -276,16 +324,19 @@ local plugins = {
     {
         "MunifTanjim/nui.nvim",
     },
+    -- {
+    --     "arnamak/stay-centered.nvim",
+    --     config = function() require"stay-centered" end,
+    -- },
+    -- {'mg979/vim-visual-multi'},
+
+    -- neo-pioneering
     {
         'archibate/nvim-gpt',
         -- '/home/bate/Codes/nvim-gpt',
         requires = { 'nvim-telescope/telescope.nvim' },
         config = function() require"archvim/config/nvim-gpt" end,
     },
-    -- {
-    --     "arnamak/stay-centered.nvim",
-    --     config = function() require"stay-centered" end,
-    -- },
     -- {
     --     "RRethy/vim-illuminate",
     --     config = function()
@@ -319,23 +370,22 @@ local plugins = {
         config = function() vim.cmd [[
 let g:mdip_imgdir = 'img' " save image in ./img
 let g:mdip_imgname = 'image'
-autocmd FileType markdown nnoremap <silent> <C-v> :call mdip#MarkdownClipboardImage()<CR>
+autocmd FileType markdown nnoremap <silent> gsp :call mdip#MarkdownClipboardImage()<CR>
         ]] end,
         ft = { "markdown" },
     },
 
     -- pinyin input method
-    {
-        'ZSaberLv0/ZFVimIM',
-        requires = {
-            'ZSaberLv0/ZFVimJob',
-            -- 'ZSaberLv0/ZFVimGitUtil',
-            'ZSaberLv0/ZFVimIM_openapi',
-            -- 'ZSaberLv0/ZFVimIM_pinyin_huge',
-        },
-        config = function() require'archvim/config/zfvimim' end,
-    },
-    -- 'ZSaberLv0/ZFVimIM_english_base',
+    -- {
+    --     'ZSaberLv0/ZFVimIM',
+    --     requires = {
+    --         'ZSaberLv0/ZFVimJob',
+    --         -- 'ZSaberLv0/ZFVimGitUtil',
+    --         'ZSaberLv0/ZFVimIM_openapi',
+    --         'ZSaberLv0/ZFVimIM_pinyin_huge',
+    --     },
+    --     config = function() require'archvim/config/zfvimim' end,
+    -- },
 }
 
 ----- {{{ BEGIN_CIHOU_PREDOWNLOAD

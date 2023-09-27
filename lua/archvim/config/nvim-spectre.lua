@@ -40,8 +40,8 @@ require("spectre").setup {
 
 local map = require'archvim/mappings'
 -- 全项目替换
-map("n", "<leader>rp", "<cmd>lua require('spectre').open()<CR>")
+map("n", "<leader>sp", "<cmd>lua require('spectre').open()<CR>")
 -- 只替换当前文件
-map("n", "<leader>rf", "<cmd>lua require('spectre').open_file_search()<CR>")
+map("n", "<leader>sf", "<cmd>lua require('spectre').open_file_search()<CR>")
 -- 全项目中搜索当前单词
-map("n", "<leader>rw", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>")
+map("n", "<leader>sw", "<cmd>lua require('spectre').open_visual({select_word=true})<CR>")

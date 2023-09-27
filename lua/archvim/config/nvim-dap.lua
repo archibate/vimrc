@@ -177,3 +177,5 @@ vim.fn.sign_define('DapBreakpointCondition', {text='⭕', texthl='', linehl='', 
 vim.fn.sign_define('DapBreakpointRejected', {text='🚫', texthl='', linehl='', numhl=''})
 vim.fn.sign_define('DapLogPoint', {text='📔', texthl='', linehl='', numhl=''})
 vim.fn.sign_define('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
+
+require("nvim-dap-virtual-text").setup()

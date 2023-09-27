@@ -36,8 +36,8 @@ require("toggleterm").setup{
 
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
-  vim.keymap.set('n', '<Esc>', [[<Cmd>ToggleTerm<CR>]], opts)
-  vim.keymap.set('n', 'q', [[<Cmd>ToggleTerm<CR>]], opts)
+  vim.keymap.set('n', '<Esc>', [[<Cmd>quit<CR>]], opts)
+  vim.keymap.set('n', 'q', [[<Cmd>quit<CR>]], opts)
   vim.keymap.set('n', '<C-c>', [[<Cmd>startinsert<CR><C-c>]], opts)
   vim.keymap.set('n', '<CR>', [[<Cmd>startinsert<CR>]], opts)
   vim.keymap.set('n', '<Up>', [[<Cmd>startinsert<CR><Up>]], opts)
