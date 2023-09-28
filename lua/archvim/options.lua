@@ -12,6 +12,7 @@ set showbreak=↪
 set list
 set clipboard+=unnamedplus
 set switchbuf=useopen
+set exrc
 ]]
 
 vim.cmd [[

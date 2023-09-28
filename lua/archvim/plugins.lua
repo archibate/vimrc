@@ -154,6 +154,10 @@ local plugins = {
         'ellisonleao/gruvbox.nvim',
         requires = 'rktjmp/lush.nvim',
     },
+    -- {
+    --     'AlphaTechnolog/pywal.nvim',
+    --     as = 'pywal',
+    -- },
     'glepnir/zephyr-nvim',
     'shaunsingh/nord.nvim',
     'tikhomirov/vim-glsl',
@@ -200,7 +204,6 @@ local plugins = {
 	},
 
     -- session and projects
-    'djoshea/vim-autoread',
     {
         "Shatur/neovim-session-manager",
         requires = "nvim-lua/plenary.nvim",
@@ -210,6 +213,7 @@ local plugins = {
         "ethanholz/nvim-lastplace",
         config = function() require'nvim-lastplace'.setup{} end,
     },
+    -- 'djoshea/vim-autoread',
     -- {
     --     "rmagatti/auto-session",
     --     config = function() require'archvim/config/auto-session' end,
@@ -277,6 +281,15 @@ local plugins = {
     {
         'akinsho/toggleterm.nvim',
         config = function() require'archvim/config/toggleterm' end,
+    },
+    {
+        'Civitasv/cmake-tools.nvim',
+        requires = "nvim-lua/plenary.nvim",
+        config = function() require'archvim/config/cmake-tools' end,
+    },
+    {
+        'stevearc/overseer.nvim',
+        config = function() require'archvim/config/overseer' end,
     },
     -- {
     --     'skywind3000/asynctasks.vim',

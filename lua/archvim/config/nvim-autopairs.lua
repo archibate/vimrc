@@ -1,7 +1,7 @@
 
 
 local npairs = require("nvim-autopairs")
-local Rule = require('nvim-autopairs.rule')
+-- local Rule = require('nvim-autopairs.rule')
 
 npairs.setup({
     check_ts = true,
@@ -17,6 +17,6 @@ npairs.setup({
         keys = 'qwertyuiopzxcvbnmasdfghjkl',
         manual_position = true,
         highlight = 'Search',
-        highlight_grey='Comment'
+        highlight_grey = 'Comment',
     },
 })
