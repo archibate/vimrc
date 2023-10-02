@@ -3,6 +3,23 @@ local icons = require("archvim/icons")
 local c = {
     {
         function()
+            local kit = cmake.get_kit()
+            return "[" .. (kit or "No Kit") .. "]"
+        end,
+        icon = icons.ui.Pencil,
+        cond = cmake.is_cmake_project,
+        on_click = function(n, mouse)
+            if (n == 1) then
+                if (mouse == "l") then
+                    vim.cmd("CMakeSelectKit")
+                elseif (mouse == "r") then
+                    vim.cmd("edit CMakeKits.json")
+                end
+            end
+        end
+    },
+    {
+        function()
             if cmake.has_cmake_preset() then
                 local b_preset = cmake.get_build_preset()
                 return "[" .. (b_preset or "No Preset") .. "]"
@@ -83,7 +100,7 @@ require'lualine'.setup {
     sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename', c[1], c[2], c[3], c[4], 'lsp_progress'},
+        lualine_c = {'filename', c[1], c[2], c[3], c[4], c[5], 'lsp_progress'},
         lualine_x = {'cdate', 'ctime'},
         lualine_y = {'progress'},
         lualine_z = {'location'},
