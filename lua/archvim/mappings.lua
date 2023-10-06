@@ -19,18 +19,26 @@ map({"v", "n"}, "gl", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 
 map({"v", "n", "i"}, "<F4>", "<cmd>wa<CR>")
 map({"v", "n", "i", "t"}, "<F7>", "<cmd>NvimTreeFindFileToggle<CR>")
 map({"v", "n", "i", "t"}, "<F19>", "<cmd>TroubleToggle<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>TermExec cmd='cmr'<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>TermExec cmd='cmb'<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>TermExec cmd='!!'<CR>", { silent = true })
-map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('OverseerRun user.run_script')|endif<CR>", { silent = true })
-map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('OverseerClose')|endif<CR>", { silent = true })
+local found_cmake, cmake = pcall(require, "cmake-tools")
+if found_cmake then
+    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('OverseerRun user.run_script')|endif<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('OverseerClose')|endif<CR>", { silent = true })
+else
+    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>TermExec cmd='cmr'<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>TermExec cmd='!!'<CR>", { silent = true })
+end
 map({"v", "n", "i", "t"}, "<F10>", "<cmd>DapToggleBreakpoint<CR>", { silent = true })
 map({"v", "n", "i", "t"}, "<F22>", "<cmd>DapToggleRepl<CR>", { silent = true })
 map({"v", "n", "i", "t"}, "<F12>", "<cmd>DapStepOver<CR>", { silent = true })
 map({"v", "n", "i", "t"}, "<F24>", "<cmd>DapStepInto<CR>", { silent = true })
 map({"v", "n", "i", "t"}, "<C-F12>", "<cmd>DapStepOut<CR>", { silent = true })
-map({"v", "n", "i", "t"}, "<F9>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeDebug')|else|DapContinue|endif<CR>", { silent = true })
-map({"v", "n", "i", "t"}, "<F21>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeStop')|else|DapTerminate|endif<CR>", { silent = true })
+if found_cmake then
+    map({"v", "n", "i", "t"}, "<F9>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeDebug')|else|call execute('DapContinue')|endif<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F21>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeStop')|else|call execute('DapTerminate')|endif<CR>", { silent = true })
+else
+    map({"v", "n", "i", "t"}, "<F9>", "<cmd>DapContinue<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F21>", "<cmd>DapTerminate<CR>", { silent = true })
+end
 vim.keymap.set({'v', 'n', 'i', 't'}, '<Ins>', [[<Cmd>ZenMode<CR>]])
 -- map({"v", "n"}, "<CR>", "<cmd>nohlsearch<CR>", { silent = true })
 map("i", "kj", "<Esc>", { silent = true })

@@ -32,7 +32,7 @@ augroup end
 vim.cmd [[
 set termguicolors
 colorscheme gruvbox
-" hi Normal guibg=none
+hi Normal guibg=none
 " hi TreesitterContext gui=NONE guibg=#282828
 hi TreesitterContextBottom gui=underline guisp=Grey
 ]]

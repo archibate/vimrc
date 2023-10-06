@@ -1,4 +1,9 @@
-local cmake = require("cmake-tools")
+local found_cmake, cmake = pcall(require, "cmake-tools")
+if not found_cmake then
+    cmake = {
+        is_cmake_project = function() return false end,
+    }
+end
 local icons = require("archvim/icons")
 local c = {
     {
