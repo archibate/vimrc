@@ -37,7 +37,8 @@ base64 "$payload" >> "$script"
 
 printf "\n__VIMRC_PAYLOAD_EOF__
 cd /tmp/_extract_.\$\$
-base64 -d -i /tmp/_extract_.\$\$.tar.gz.b64 | tar -zxv
+base64 -d < /tmp/_extract_.\$\$.tar.gz.b64 | tar -zxv
+test -f ./install_deps.sh || echo \"ERROR: cannot extract file, make sure you have base64 and tar working\"
 fix_nvim_appimage() {
     \$SUDO mv /usr/bin/nvim /usr/bin/.nvim.appimage.noextract
     echo 'x=\$\$; mkdir -p /tmp/_nvim_appimg_.\$x && bash -c \"cd /tmp/_nvim_appimg_.\$x && /usr/bin/.nvim.appimage.noextract --appimage-extract > /dev/null 2>&1\" && /tmp/_nvim_appimg_.\$x/squashfs-root/AppRun \"\$@\"; x=\$?; rm -rf /tmp/_nvim_appimg_.\$x exit \$x' | \$SUDO tee /usr/bin/nvim
