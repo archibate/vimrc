@@ -303,10 +303,10 @@ local plugins = {
     --     config = function() require'xmake'.setup{} end,
     --     branch = 'v1',
     -- },
-    {
-        'stevearc/overseer.nvim',
-        config = function() require'archvim/config/overseer' end,
-    },
+    -- {
+    --     'stevearc/overseer.nvim',
+    --     config = function() require'archvim/config/overseer' end,
+    -- },
     -- {
     --     'skywind3000/asynctasks.vim',
     --     requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},

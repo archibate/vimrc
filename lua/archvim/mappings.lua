@@ -21,11 +21,11 @@ map({"v", "n", "i", "t"}, "<F7>", "<cmd>NvimTreeFindFileToggle<CR>")
 map({"v", "n", "i", "t"}, "<F19>", "<cmd>TroubleToggle<CR>", { silent = true })
 local found_cmake, cmake = pcall(require, "cmake-tools")
 if found_cmake then
-    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('OverseerRun user.run_script')|endif<CR>", { silent = true })
-    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('OverseerClose')|endif<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('TermExec cmd=cmr')|endif<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('TermExec cmd=!!')|endif<CR>", { silent = true })
 else
-    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>TermExec cmd='cmr'<CR>", { silent = true })
-    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>TermExec cmd='!!'<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>TermExec cmd=cmr<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>TermExec cmd=!!<CR>", { silent = true })
 end
 map({"v", "n", "i", "t"}, "<F10>", "<cmd>DapToggleBreakpoint<CR>", { silent = true })
 map({"v", "n", "i", "t"}, "<F22>", "<cmd>DapToggleRepl<CR>", { silent = true })

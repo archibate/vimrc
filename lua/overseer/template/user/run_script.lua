@@ -15,6 +15,10 @@ return {
             cmd = { "perl", file }
         elseif vim.bo.filetype == "ruby" then
             cmd = { "ruby", file }
+        elseif vim.bo.filetype == "c" then
+            cmd = { "bash", "-c", "gcc '" .. file .. "' -o /tmp/a.out && /tmp/a.out" }
+        elseif vim.bo.filetype == "cpp" then
+            cmd = { "bash", "-c", "g++ '" .. file .. "' -O3 -DNDEBUG -std=c++20 -o /tmp/a.out && /tmp/a.out" }
         end
         return {
             cmd = cmd,
@@ -33,6 +37,8 @@ return {
             "javascript",
             "perl",
             "ruby",
+            "c",
+            "cpp",
         },
     },
 }
