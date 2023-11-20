@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"c", "cpp", "python", "cmake", "lua", "rust", "help", "vim", "cuda", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json", "yaml"},  -- INFO: add your language here
+    ensure_installed = {"c", "cpp", "python", "cmake", "lua", "rust", "vim", "cuda", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json", "yaml"},  -- INFO: add your language here
     sync_install = true,
     highlight = {
         enable = true,

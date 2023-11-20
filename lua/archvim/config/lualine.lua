@@ -12,7 +12,9 @@ local c = {
             return "[" .. (kit or "No Kit") .. "]"
         end,
         icon = icons.ui.Pencil,
-        cond = cmake.is_cmake_project,
+        cond = function()
+            return cmake.is_cmake_project() and cmake.get_kit()
+        end,
         on_click = function(n, mouse)
             if (n == 1) then
                 if (mouse == "l") then
@@ -97,6 +99,23 @@ local c = {
         end
     },
 }
+local xmake_component = {
+    function()
+        local xmake = require("xmake.project_config").info
+        if xmake.target.tg == "" then
+            return ""
+        end
+        return xmake.target.tg .. "(" .. xmake.mode .. ")"
+    end,
+
+    cond = function()
+        return pcall(require, 'xmake.project_config') and vim.o.columns > 100
+    end,
+
+    on_click = function()
+        require("xmake.project_config._menu").init() -- Add the on-click ui
+    end,
+}
 
 require'lualine'.setup {
     options = {
@@ -105,7 +124,7 @@ require'lualine'.setup {
     sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename', c[1], c[2], c[3], c[4], c[5], 'lsp_progress'},
+        lualine_c = {'filename', c[1], c[2], c[3], c[4], c[5], xmake_component, 'lsp_progress'},
         lualine_x = {'cdate', 'ctime'},
         lualine_y = {'progress'},
         lualine_z = {'location'},

@@ -7,7 +7,8 @@ require("cmake-tools").setup {
   --       ${kit}
   --       ${kitGenerator}
   --       ${variant:xx}
-  cmake_build_directory = "out/${variant:buildType}", -- this is used to specify generate directory for cmake, allows macro expansion
+  -- cmake_build_directory = "out/${variant:buildType}", -- this is used to specify generate directory for cmake, allows macro expansion
+  cmake_build_directory = "build", -- this is used to specify generate directory for cmake, allows macro expansion
   cmake_soft_link_compile_commands = false, -- this will automatically make a soft link from compile commands file to project root dir
   cmake_compile_commands_from_lsp = true, -- this will automatically set compile commands file location using lsp, to use it, please set `cmake_soft_link_compile_commands` to false
   cmake_kits_path = nil, -- this is used to specify global cmake kits path, see CMakeKits for detailed usage
@@ -45,7 +46,7 @@ require("cmake-tools").setup {
       name = "Main Terminal",
       prefix_name = "[CMakeTools]: ", -- This must be included and must be unique, otherwise the terminals will not work. Do not use a simple spacebar " ", or any generic name
       split_direction = "horizontal", -- "horizontal", "vertical"
-      split_size = 5,
+      split_size = 8,
 
       -- Window handling
       single_terminal_per_instance = true, -- Single viewport, multiple windows

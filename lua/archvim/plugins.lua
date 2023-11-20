@@ -167,7 +167,17 @@ local plugins = {
         'lewis6991/gitsigns.nvim',
         config = function() require'archvim/config/gitsigns' end,
     },
-    'tpope/vim-fugitive',
+    -- 'tpope/vim-fugitive',
+    {
+        "NeogitOrg/neogit",
+        requires = {
+            "nvim-lua/plenary.nvim",         -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim",        -- optional
+            "ibhagwan/fzf-lua",              -- optional
+        },
+        config = function() require'neogit'.setup{} end,
+    },
 
     -- status line
     {
@@ -283,24 +293,20 @@ local plugins = {
         config = function() require'archvim/config/toggleterm' end,
     },
     {
-        "NeogitOrg/neogit",
-        requires = {
-            "nvim-lua/plenary.nvim",         -- required
-            "nvim-telescope/telescope.nvim", -- optional
-            "sindrets/diffview.nvim",        -- optional
-            "ibhagwan/fzf-lua",              -- optional
-        },
-        config = function() require'neogit'.setup{} end,
+        'Civitasv/cmake-tools.nvim',
+        requires = "nvim-lua/plenary.nvim",
+        config = function() require'archvim/config/cmake-tools' end,
     },
     -- {
-    --     'Civitasv/cmake-tools.nvim',
-    --     requires = "nvim-lua/plenary.nvim",
-    --     config = function() require'archvim/config/cmake-tools' end,
+    --     "Mythos-404/xmake.nvim",
+    --     requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    --     config = function() require'xmake'.setup{} end,
+    --     branch = 'v1',
     -- },
-    -- {
-    --     'stevearc/overseer.nvim',
-    --     config = function() require'archvim/config/overseer' end,
-    -- },
+    {
+        'stevearc/overseer.nvim',
+        config = function() require'archvim/config/overseer' end,
+    },
     -- {
     --     'skywind3000/asynctasks.vim',
     --     requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},

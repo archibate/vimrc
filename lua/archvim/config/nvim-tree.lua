@@ -14,12 +14,12 @@ require'nvim-tree'.setup {
     },
 }
 
-vim.cmd [[
-augroup exit_if_nvim_tree_only_tab
-autocmd!
-autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | wqa | endif
-augroup end
-]]
+-- vim.cmd [[
+-- augroup exit_if_nvim_tree_only_tab
+-- autocmd!
+-- autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | wqa | endif
+-- augroup end
+-- ]]
 
 local function open_nvim_tree(data)
   -- -- buffer is a real file on the disk

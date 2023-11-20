@@ -37,6 +37,12 @@ dap.configurations.cpp = {
     type = "codelldb",
     request = "launch",
     program = function()
+      local ok, xmakepath = pcall(function()
+        return require("xmake.project_config").info.target.exec_path
+      end)
+      if ok then
+        return xmakepath
+      end
       local exepath = os_capture('sh -c "$SHELL -ic cmxp"')
       if file_exists(exepath) then
         return exepath
