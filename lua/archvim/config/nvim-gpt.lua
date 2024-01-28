@@ -1,8 +1,9 @@
 require'nvim-gpt'.setup {
-    -- which backend to use: gpt-3.5-turbo, creative, balanced, percise, google-search
+    -- which backend to use: gpt-3.5-turbo, gpt-4, gpt-4-32k, creative, balanced, percise, google-search
     model = 'gpt-3.5-turbo',
+    -- model = 'deepseek-ai/deepseek-llm-7b-chat',
     -- model = 'balanced',
-    -- model = 'repeater',
+    -- model = 'dummy',
     -- may provide specific parameters like temperature depends on models
     params = {
         ['gpt-3.5-turbo'] = {
@@ -23,14 +24,18 @@ require'nvim-gpt'.setup {
         },
     },
     -- '|/_\\' = rotating loading symbol, '_ ' = blinking on and off, '' = disable
-    cursors = '|/_\\',
-    -- cursors = '🌑🌒🌓🌔🌕🌖🌗🌘',
+    -- cursors = '|/_\\',
+    cursors = '🌑🌒🌓🌔🌕🌖🌗🌘',
     -- cursors = '▙▛▜▟',
     -- cursors = '',
     -- this is how we quote code when :'<,'>GPTCode
     code_quote = '{question}\n```{filetype}\n{code}\n```',
-    -- this is how we quote language type when :GPTWrite
-    in_language = '{question}\n(in {filetype})',
+    -- this is how we ask for code insertion when :GPTWrite
+    code_insertion = {
+        '### File: {file}\n',
+        '### <do code insertion here>',
+        '\n### Instruction\nDo code insertion at the <do code insertion here> mark. Note that you only need to output the text to be inserted, with no additional text.',
+    },
     -- title indicating human question in GPT window
     question_title = '\n🙂:',
     -- title indicating bot answer in GPT window

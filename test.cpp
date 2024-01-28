@@ -8,3 +8,6 @@ template <class T>
 int Hello<T>::func(int x)
 {
 }
+```
+
+```

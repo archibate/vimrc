@@ -12,13 +12,13 @@ cmp.setup {
         expand = function(args)
             -- -- For `vsnip` users.
             -- vim.fn["vsnip#anonymous"](args.body)
-
+    
             -- For `luasnip` users.
             require('luasnip').lsp_expand(args.body)
-
+    
             -- For `ultisnips` users.
             -- vim.fn["UltiSnips#Anon"](args.body)
-
+    
             -- For `snippy` users.
             -- require'snippy'.expand_snippet(args.body)
         end,
@@ -26,13 +26,14 @@ cmp.setup {
 
     -- 来源
     sources = cmp.config.sources {
-        {name = "luasnip"},
         {name = "nvim_lsp"},
+        -- {name = "luasnip"},
         {name = "path"},
+        -- {name = "codeium"}, -- INFO: uncomment this for AI completion
         {name = "buffer"},
-        -- {name = "cmdline"},
         {name = "spell"},
         {name = "calc"},
+        -- {name = "cmdline"},
         -- {name = "copilot"}, -- INFO: uncomment this for AI completion
         -- {name = "cmp_tabnine"}, -- INFO: uncomment this for AI completion
     },
@@ -49,7 +50,7 @@ cmp.setup {
             cmp.config.compare.kind,
             cmp.config.compare.length,
             cmp.config.compare.sort_text,
-            cmp.config.compare.order
+            cmp.config.compare.order,
         }
     },
 
@@ -82,13 +83,16 @@ cmp.setup {
     -- 使用 lspkind-nvim 显示类型图标
     formatting = {
         format = lspkind.cmp_format {
+            -- mode = 'symbol',
             with_text = false, -- do not show text alongside icons
             maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            -- before = function (entry, vim_item)
-            --     -- Source 显示提示来源
-            --     vim_item.menu = "["..string.upper(entry.source.name).."]"
-            --     return vim_item
-            -- end,
+            before = function (entry, vim_item)
+                -- Source 显示提示来源
+                vim_item.menu = "["..string.upper(entry.source.name).."]"
+                return vim_item
+            end,
+            -- ellipsis_char = '...',
+            -- symbol_map = { Codeium = "", },
         },
     },
 }

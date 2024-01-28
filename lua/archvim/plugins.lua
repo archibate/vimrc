@@ -26,15 +26,15 @@ local plugins = {
             "lukas-reineke/cmp-under-comparator",
             -- 'hrsh7th/cmp-copilot', -- INFO: uncomment this for AI completion
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
-            'saadparwaiz1/cmp_luasnip',
-            {
-                'L3MON4D3/LuaSnip',
-                run = 'make install_jsregexp || true',
-                requires = {
-                    'rafamadriz/friendly-snippets',
-                },
-                config = function() require'archvim/config/luasnip' end,
-            },
+            -- 'saadparwaiz1/cmp_luasnip',
+            -- {
+            --     'L3MON4D3/LuaSnip',
+            --     run = 'make install_jsregexp || true',
+            --     requires = {
+            --         'rafamadriz/friendly-snippets',
+            --     },
+            --     config = function() require'archvim/config/luasnip' end,
+            -- },
         },
         config = function() require'archvim/config/nvim-cmp' end,
     },
@@ -96,10 +96,10 @@ local plugins = {
     --     'mfussenegger/nvim-lint',
     --     config = function() require"archvim/config/nvim-lint" end,
     -- },
-    {
-        "petertriho/nvim-scrollbar",
-        config = function() require"scrollbar".setup{} end,
-    },
+    -- {
+    --     "petertriho/nvim-scrollbar",
+    --     config = function() require"scrollbar".setup{} end,
+    -- },
 
     -- zen-mode
     "folke/zen-mode.nvim",
@@ -197,10 +197,14 @@ local plugins = {
         'kylechui/nvim-surround',
         config = function() require 'archvim/config/nvim-surround' end,
     },
-    {
-        'windwp/nvim-autopairs',
-        config = function() require'archvim/config/nvim-autopairs' end,
-    },
+    -- {
+    --     'm4xshen/autoclose.nvim',
+    --     config = function() require 'archvim/config/autoclose' end,
+    -- },
+    -- {
+    --     'windwp/nvim-autopairs',
+    --     config = function() require'archvim/config/nvim-autopairs' end,
+    -- },
     -- "terryma/vim-expand-region",
 
     -- code actions
@@ -208,9 +212,9 @@ local plugins = {
         "sbdchd/neoformat",
         config = function() require"archvim/config/neoformat" end,
     },
-    {
-	    "terrortylor/nvim-comment",
-        config = function() require 'archvim/config/nvim-comment' end,
+	{
+        "terrortylor/nvim-comment",
+        config = function() require'archvim/config/nvim-comment' end,
 	},
 
     -- session and projects
@@ -358,14 +362,6 @@ local plugins = {
     --     config = function() require"stay-centered" end,
     -- },
     -- {'mg979/vim-visual-multi'},
-
-    -- neo-pioneering
-    {
-        'archibate/nvim-gpt',
-        -- '/home/bate/Codes/nvim-gpt',
-        requires = { 'nvim-telescope/telescope.nvim' },
-        config = function() require"archvim/config/nvim-gpt" end,
-    },
     -- {
     --     "RRethy/vim-illuminate",
     --     config = function()
@@ -375,6 +371,32 @@ local plugins = {
     --             "toggleterm",
     --             "lsp-installer",
     --         }
+    --     end,
+    -- },
+
+    -- neo-pioneering
+    -- {
+    --     os.getenv('ARCHIBATE_COMPUTER') and '/home/bate/Codes/nvim-gpt' or 'archibate/nvim-gpt',
+    --     requires = { 'nvim-telescope/telescope.nvim' },
+    --     config = function() require"archvim/config/nvim-gpt" end,
+    -- },
+    {
+        os.getenv('ARCHIBATE_COMPUTER') and '/home/bate/Codes/auto-drive.nvim' or 'archibate/auto-drive.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'MunifTanjim/nui.nvim',
+        },
+        config = function() require"archvim/config/auto-drive" end,
+    },
+    -- 'Exafunction/codeium.vim',
+    -- {
+    --     "Exafunction/codeium.nvim",
+    --     requires = {
+    --         "nvim-lua/plenary.nvim",
+    --         "hrsh7th/nvim-cmp",
+    --     },
+    --     config = function()
+    --         require"codeium".setup{}
     --     end,
     -- },
 

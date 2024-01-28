@@ -21,11 +21,11 @@ map({"v", "n", "i", "t"}, "<F7>", "<cmd>NvimTreeFindFileToggle<CR>")
 map({"v", "n", "i", "t"}, "<F19>", "<cmd>TroubleToggle<CR>", { silent = true })
 local found_cmake, cmake = pcall(require, "cmake-tools")
 if found_cmake then
-    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('TermExec cmd=cmr')|endif<CR>", { silent = true })
-    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('TermExec cmd=!!')|endif<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('TermExec cmd=!!')|endif<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('TermExec cmd=\\<C-c>')|endif<CR>", { silent = true })
 else
-    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>TermExec cmd=cmr<CR>", { silent = true })
-    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>TermExec cmd=!!<CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>call execute('TermExec cmd=!!<')CR>", { silent = true })
+    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>call execute('TermExec cmd=\\<C-c>')<CR>", { silent = true })
 end
 map({"v", "n", "i", "t"}, "<F10>", "<cmd>DapToggleBreakpoint<CR>", { silent = true })
 map({"v", "n", "i", "t"}, "<F22>", "<cmd>DapToggleRepl<CR>", { silent = true })
@@ -97,5 +97,51 @@ vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
 --         _gpt_add_key_map_timer = nil
 --     end
 -- end))
+
+vim.keymap.set('i', '<CR>', 'copilot#Accept("\\<CR>")', {
+    silent = true,
+    expr = true,
+    replace_keycodes = false,
+})
+vim.keymap.set('i', '<M-BS>', '<Plug>(copilot-dismiss)')
+vim.keymap.set('i', '<M-\\>', '<Plug>(copilot-suggest)')
+vim.keymap.set('i', '<M-[>', '<Plug>(copilot-previous)')
+vim.keymap.set('i', '<M-]>', '<Plug>(copilot-next)')
+vim.keymap.set('i', '<M-CR>', '<Plug>(copilot-accept-word)')
+vim.g.copilot_no_tab_map = true
+
+-- fetch
+vim.keymap.set('i', '<F23>', '<Esc>vH0o"+y:let b:_f23="v"<CR>gi', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('t', '<F23>', '<C-\\><C-n>H"+yL:let b:_f23="v"<CR>i', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('n', '<F23>', 'mYH"+yL`Y:let b:_f23="V"<CR>', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('v', '<F23>', 'mY"+y`Y:let b:_f23=getregtype("+")<CR>gv', { silent = true, nowait = true, noremap = true })
+
+-- append
+vim.keymap.set('i', '<F24>', '<Esc>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+pa', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('t', '<F24>', '<C-e><C-\\><C-n>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+pi', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('n', '<F24>', ':cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+p', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('v', '<F24>', '<Esc>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+p', { silent = true, nowait = true, noremap = true })
+
+-- prepend
+vim.keymap.set('i', '<F47>', '<Esc>go:cal setreg("+",getreg("+"),"V")|let b:_f23=""<CR>"+Pgi', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('t', '<F47>', '<C-a><C-\\><C-n>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+pi<C-e>', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('n', '<F47>', 'mYgo:cal setreg("+",getreg("+"),"V")|let b:_f23=""<CR>"+P`Y', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('v', '<F47>', 'mYo<Esc>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+P`Y', { silent = true, nowait = true, noremap = true })
+
+-- overwrite
+vim.keymap.set('i', '<F48>', '<Esc>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|if get(b:,"_f23","")!=""|cal execute("norm!gv")|en|let b:_f23=""<CR>"+pa', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('t', '<F48>', '<C-u><C-\\><C-n>:cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+pi', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('n', '<F48>', ':cal setreg("+",getreg("+"),get(b:,"_f23","v"))|if get(b:,"_f23","")!=""|cal execute("norm!HVL")|en|let b:_f23=""<CR>"+pM', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('v', '<F48>', ':cal setreg("+",getreg("+"),get(b:,"_f23","v"))|let b:_f23=""<CR>"+p', { silent = true, nowait = true, noremap = true })
+
+-- insert
+vim.keymap.set('i', '<F46>', '<Esc>"+pa', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('t', '<F46>', '<C-\\><C-n>"+pi', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('n', '<F46>', '"+pa', { silent = true, nowait = true, noremap = true })
+vim.keymap.set('v', '<F46>', '<Esc>"+pa', { silent = true, nowait = true, noremap = true })
+
+vim.cmd [[
+iabbr `` ```<CR>!cursor!<CR>```<Esc>:call search('!cursor!', 'b')<CR>cf!
+]]
 
 return map

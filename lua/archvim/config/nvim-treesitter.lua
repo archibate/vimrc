@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"c", "cpp", "python", "cmake", "lua", "rust", "vim", "cuda", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json", "yaml"},  -- INFO: add your language here
+    ensure_installed = {"c", "cpp", "python", "cmake", "lua", "rust", "vim", "cuda", "glsl", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json", "yaml"},  -- INFO: add your language here
     sync_install = true,
     highlight = {
         enable = true,
@@ -215,6 +215,9 @@ require'nvim-treesitter.configs'.setup {
     -- },
 }
 
+require('ts_context_commentstring').setup{}
+vim.g.skip_ts_context_commentstring_module = true
+
 vim.g.matchup_matchparen_offscreen = { method = "status" }
 vim.g.matchup_surround_enabled = 1
 vim.g.matchup_delim_noskips = 2
@@ -223,7 +226,7 @@ vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'nvim_#foldexpr()'
 vim.wo.foldlevel = 99
 
-require'treesitter-context'.setup{
+require'treesitter-context'.setup {
   enable = false, -- Enable this plugin (Can be enabled/disabled later via commands)
   max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
   min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
@@ -248,7 +251,7 @@ omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
 xnoremap <silent> m :lua require('tsht').nodes()<CR>
 ]]
 
-require 'nt-cpp-tools'.setup({
+require 'nt-cpp-tools'.setup {
     preview = {
         quit = 'q', -- optional keymapping for quit preview
         accept = '<tab>' -- optional keymapping for accept preview
@@ -268,4 +271,7 @@ require 'nt-cpp-tools'.setup({
         }
         ]]
     }
-})
+}
+
+require'ts_context_commentstring'.setup {
+}

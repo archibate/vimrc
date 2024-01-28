@@ -16,5 +16,12 @@ require('nvim_comment').setup {
   -- Hook function to call before commenting takes place
   hook = function()
       require("ts_context_commentstring.internal").update_commentstring()
+      if vim.bo.commentstring == '' then
+            if vim.bo.filetype == 'glsl' then
+                vim.bo.commentstring = '//%s'
+            else
+                vim.bo.commentstring = '#%s'
+            end
+      end
   end,
 }
