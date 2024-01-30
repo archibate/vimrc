@@ -100,6 +100,7 @@ install_pacman() {
     pacman -S --noconfirm clangd
     pacman -S --noconfirm lua-language-server
     pacman -S --noconfirm pyright
+    pacman -S --noconfirm nerd-fonts
     python -m pip install cmake-language-server || true
 }
 

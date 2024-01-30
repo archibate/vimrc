@@ -13,6 +13,7 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 如果安装遇到问题，欢迎通过 [GitHub issue](github.com/archibate/vimrc/issues) 反映，我会尽快帮您解决。
 
 * 目前只支持 Linux 系统，暂时不支持 MacOS 等系统。
+* 如果终端显示中文乱码（如 #21 中这位同学），那么你需要安装 [Nerd Font](https://www.cnblogs.com/zi-wang/p/12566898.html) 字体。
 * 请勿以 root 身份运行！否则会为 root 安装 nvim 插件而不是当前用户，插件安装后仅对当前用户有效。
 * 您的系统中无需事先安装有 nvim，本整合包内部已经自带了最新版 nvim 的 AppImage，可无依赖直接运行。
 * 无需连接 GitHub，所有插件全部已经预下载在整合包内部，只有 142857.red 一次联网，无需 GitHub 加速器。
@@ -51,7 +52,7 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 ```
 
 * 如果脚本发现您已经存在 `~/.config/nvim` 目录，则会将其备份至 `~/.config/.nvim.backup.随机数字`。
-* 如果脚本发现您已经存在 `/usr/bin/nvim` 可执行文件，且版本不足 0.9.1，则会用本整合包内置的 nvim.AppImage 替换他。
+* 如果脚本发现您已经存在 `/usr/bin/nvim` 可执行文件，但版本不足 0.9.1，则会用本整合包内置的 nvim.AppImage 替换他。
 * 请勿以 sudo 模式运行本脚本，本脚本内部自动会在需要时采取 sudo。
 
 欲了解本整合包安装与打包原理，请看 [`compile.sh`](compile.sh)。
@@ -76,4 +77,4 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 
 ## 以下为小彭老师自己看的
 
-通过运行 `./compile.sh` 得到 `/tmp/nvimrc-install.sh` 这个一键安装脚本（约 20 MiB）后，我会把他发布到 142857.red。
+通过运行 `./compile.sh` 生成 `/tmp/nvimrc-install.sh` 这个一键安装脚本（约 20 MiB）后，我会把他发布到 142857.red。
