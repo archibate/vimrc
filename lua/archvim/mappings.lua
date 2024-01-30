@@ -141,7 +141,7 @@ vim.keymap.set('n', '<F46>', '"+pa', { silent = true, nowait = true, noremap = t
 vim.keymap.set('v', '<F46>', '<Esc>"+pa', { silent = true, nowait = true, noremap = true })
 
 vim.cmd [[
-iabbr `` ```<CR>!cursor!<CR>```<Esc>:call search('!cursor!', 'b')<CR>cf!
+iabbr `` ``!cursor!<CR>```<Esc>:call search('!cursor!', 'b')<CR>cf!
 ]]
 
 return map
