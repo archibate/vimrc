@@ -73,8 +73,10 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 {"clangd", "cmake", "pyright", "lua_ls", "rust_analyzer"}
 ```
 
-可以通过执行 `:TSInstall` 和修改 [`lua/archvim/config/lspconfig.lua`](lua/archvim/config/lspconfig.lua) 来安装更多语法高亮和智能补全。
+可以通过执行 `:Mason` 或 `TSInstall` 或修改 [`lua/archvim/config/lspconfig.lua`](lua/archvim/config/lspconfig.lua) 来安装更多语法高亮和智能补全。
 
 ## 以下为小彭老师自己看的
+
+> npm 笑话：由于煞笔 treesitter（语法高亮）基于 Node.js，其睿智的 npm 不支持离线安装，所以其他包小彭老师都在一键安装包里自带，唯独 TS 不行。
 
 通过运行 `./compile.sh` 生成 `/tmp/nvimrc-install.sh` 这个一键安装脚本（约 20 MiB）后，我会把他发布到 142857.red。
