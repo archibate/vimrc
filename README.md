@@ -77,6 +77,6 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 
 ## 以下为小彭老师自己看的
 
-> npm 笑话：由于煞笔 treesitter（语法高亮）基于 Node.js，其睿智的 npm 不支持离线安装，所以其他包小彭老师都在一键安装包里自带，唯独 TS 不行。
+> npm 笑话：由于煞笔 treesitter（语法高亮）基于 Node.js，其睿智的 npm 不支持离线安装，所以其他包小彭老师都能在一键安装包里自带，唯独 TS 不行，只能劳烦同学自己设置 npm 国内源了。
 
 通过运行 `./compile.sh` 生成 `/tmp/nvimrc-install.sh` 这个一键安装脚本（约 20 MiB）后，我会把他发布到 142857.red。
