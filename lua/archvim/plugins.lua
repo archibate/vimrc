@@ -132,15 +132,13 @@ local plugins = {
         run = ':TSUpdate',
         config = function() require'archvim/config/nvim-treesitter' end,
         requires = {
-            {'p00f/nvim-ts-rainbow'},
-            -- {'nvim-treesitter/nvim-treesitter-refactor'},
-            {'nvim-treesitter/nvim-treesitter-textobjects'},
-            {'nvim-treesitter/nvim-treesitter-context'},
-            {'JoosepAlviste/nvim-ts-context-commentstring'},
-            {'windwp/nvim-ts-autotag'},
-            {'andymass/vim-matchup'},
-            {'mfussenegger/nvim-treehopper'},
-            {'Badhi/nvim-treesitter-cpp-tools'},
+            'p00f/nvim-ts-rainbow',
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            -- 'nvim-treesitter/nvim-treesitter-context',
+            'JoosepAlviste/nvim-ts-context-commentstring',
+            'windwp/nvim-ts-autotag',
+            'andymass/vim-matchup',
+            'mfussenegger/nvim-treehopper',
         },
     },
     -- {
@@ -218,11 +216,11 @@ local plugins = {
 	},
 
     -- session and projects
-    -- {
-    --     "Shatur/neovim-session-manager",
-    --     requires = "nvim-lua/plenary.nvim",
-    --     config = function() require'archvim/config/neovim-session-manager' end,
-    -- },
+    {
+        "Shatur/neovim-session-manager",
+        requires = "nvim-lua/plenary.nvim",
+        config = function() require'archvim/config/neovim-session-manager' end,
+    },
     -- {
     --     "startup-nvim/startup.nvim",
     --     requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"},
@@ -230,10 +228,10 @@ local plugins = {
     --         require"startup".setup()
     --     end,
     -- },
-    -- {
-    --     "ethanholz/nvim-lastplace",
-    --     config = function() require'nvim-lastplace'.setup{} end,
-    -- },
+    {
+        "ethanholz/nvim-lastplace",
+        config = function() require'nvim-lastplace'.setup{} end,
+    },
     -- 'djoshea/vim-autoread',
     -- {
     --     "rmagatti/auto-session",
@@ -520,10 +518,8 @@ packer.init({
     autoremove = true,
 })
 return packer.startup(function (use)
-    for i, item in ipairs(plugins) do
-        if 1 <= i and i <= #plugins / 2 then
-            use(item)
-        end
+    for _, item in ipairs(plugins) do
+        use(item)
     end
     if is_packer_bootstrap then
         -- if archvim_predownload == 1 then
