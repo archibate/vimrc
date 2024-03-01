@@ -26,15 +26,15 @@ local plugins = {
             "lukas-reineke/cmp-under-comparator",
             -- 'hrsh7th/cmp-copilot', -- INFO: uncomment this for AI completion
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
-            -- 'saadparwaiz1/cmp_luasnip',
-            -- {
-            --     'L3MON4D3/LuaSnip',
-            --     run = 'make install_jsregexp || true',
-            --     requires = {
-            --         'rafamadriz/friendly-snippets',
-            --     },
-            --     config = function() require'archvim/config/luasnip' end,
-            -- },
+            'saadparwaiz1/cmp_luasnip',
+            {
+                'L3MON4D3/LuaSnip',
+                run = 'make install_jsregexp || true',
+                requires = {
+                    'rafamadriz/friendly-snippets',
+                },
+                config = function() require'archvim/config/luasnip' end,
+            },
         },
         config = function() require'archvim/config/nvim-cmp' end,
     },
@@ -218,15 +218,22 @@ local plugins = {
 	},
 
     -- session and projects
-    {
-        "Shatur/neovim-session-manager",
-        requires = "nvim-lua/plenary.nvim",
-        config = function() require'archvim/config/neovim-session-manager' end,
-    },
-    {
-        "ethanholz/nvim-lastplace",
-        config = function() require'nvim-lastplace'.setup{} end,
-    },
+    -- {
+    --     "Shatur/neovim-session-manager",
+    --     requires = "nvim-lua/plenary.nvim",
+    --     config = function() require'archvim/config/neovim-session-manager' end,
+    -- },
+    -- {
+    --     "startup-nvim/startup.nvim",
+    --     requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"},
+    --     config = function()
+    --         require"startup".setup()
+    --     end,
+    -- },
+    -- {
+    --     "ethanholz/nvim-lastplace",
+    --     config = function() require'nvim-lastplace'.setup{} end,
+    -- },
     -- 'djoshea/vim-autoread',
     -- {
     --     "rmagatti/auto-session",
@@ -262,14 +269,14 @@ local plugins = {
         },
         config = function() require"archvim/config/telescope" end,
     },
-    {
-        "nvim-pack/nvim-spectre",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "BurntSushi/ripgrep",
-        },
-        config = function() require"archvim/config/nvim-spectre" end,
-    },
+    -- {
+    --     "nvim-pack/nvim-spectre",
+    --     requires = {
+    --         "nvim-lua/plenary.nvim",
+    --         "BurntSushi/ripgrep",
+    --     },
+    --     config = function() require"archvim/config/nvim-spectre" end,
+    -- },
     {
         "folke/todo-comments.nvim",
         config = function() require"todo-comments".setup{} end
@@ -315,34 +322,6 @@ local plugins = {
     --     'skywind3000/asynctasks.vim',
     --     requires = {'skywind3000/asyncrun.vim', 'voldikss/vim-floaterm'},
     --     config = function() require'archvim/config/asynctasks' end,
-    -- },
-
-    -- streaming keywords
-    -- {  "jackMort/ChatGPT.nvim",
-    --     config = function()
-    --         require("chatgpt").setup({
-    --             openai_params = {
-    --                 model = "gpt-3.5-turbo",
-    --                 frequency_penalty = 0,
-    --                 presence_penalty = 0,
-    --                 max_tokens = 300,
-    --                 temperature = 0,
-    --                 top_p = 1,
-    --                 n = 1,
-    --             },
-    --             openai_edit_params = {
-    --                 model = "gpt-3.5-turbo",
-    --                 temperature = 0,
-    --                 top_p = 1,
-    --                 n = 1,
-    --             },
-    --         })
-    --     end,
-    --     requires = {
-    --         "MunifTanjim/nui.nvim",
-    --         "nvim-lua/plenary.nvim",
-    --         "nvim-telescope/telescope.nvim",
-    --     },
     -- },
 
     -- cursor motion
@@ -409,7 +388,10 @@ local plugins = {
         ft = { "markdown" },
         requires = 'iamcco/mathjax-support-for-mkdp',
     },
-    'mzlogin/vim-markdown-toc',
+    {
+        'mzlogin/vim-markdown-toc',
+        ft = { "markdown" },
+    },
     {
         'plasticboy/vim-markdown',
         requires = 'godlygeek/tabular',
@@ -437,6 +419,9 @@ autocmd FileType markdown nnoremap <silent> gsp :call mdip#MarkdownClipboardImag
     --     },
     --     config = function() require'archvim/config/zfvimim' end,
     -- },
+
+    -- neovim profiling and debugging
+    'dstein64/vim-startuptime',
 }
 
 ----- {{{ BEGIN_CIHOU_PREDOWNLOAD
@@ -513,8 +498,8 @@ end
 
 local function ensure_packer()
     local fn = vim.fn
-    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
+    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+    if fn.isdirectory(install_path) == 0 then
         if archvim_predownload == 1 then
             local thisdir = debug.getinfo(1).source:sub(2):match("(.*)/")
             fn.system({'mkdir', '-p', install_path})
@@ -529,19 +514,22 @@ local function ensure_packer()
     end
     return false
 end
-local packer_bootstrap = ensure_packer()
-require('packer').init {
+local is_packer_bootstrap = ensure_packer()
+local packer = require('packer')
+packer.init({
     autoremove = true,
-}
-return require('packer').startup(function(use)
-    for _, item in ipairs(plugins) do
-        use(item)
+})
+return packer.startup(function (use)
+    for i, item in ipairs(plugins) do
+        if 1 <= i and i <= #plugins / 2 then
+            use(item)
+        end
     end
-    if packer_bootstrap then
+    if is_packer_bootstrap then
         -- if archvim_predownload == 1 then
         --     local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
         --     vim.fn.system({'rm', '-rf', install_path})
         -- end
-        require('packer').sync()
+        packer.sync()
     end
 end)

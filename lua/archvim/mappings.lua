@@ -41,6 +41,7 @@ else
 end
 vim.keymap.set({'v', 'n', 'i', 't'}, '<Ins>', [[<Cmd>ZenMode<CR>]])
 -- map({"v", "n"}, "<CR>", "<cmd>nohlsearch<CR>", { silent = true })
+map("i", "jk", "<Esc>", { silent = true })
 map("i", "kj", "<Esc>", { silent = true })
 map("n", "Z", "<cmd>wa<CR><cmd>q<CR>", { silent = true })
 map("v", "Z", "<Esc>", { silent = true })

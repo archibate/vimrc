@@ -1,0 +1,1 @@
+telescope gr does not show in the buffer line!
