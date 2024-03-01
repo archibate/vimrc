@@ -113,14 +113,14 @@ local plugins = {
     --     'folke/neodev.nvim',
     --     config = function() require'archvim/config/neodev' end,
     -- },
-    {
-        'rcarriga/nvim-dap-ui',
-        requires = {
-            'mfussenegger/nvim-dap',
-            'theHamsta/nvim-dap-virtual-text',
-        },
-        config = function() require"archvim/config/nvim-dap" end,
-    },
+    -- {
+    --     'rcarriga/nvim-dap-ui',
+    --     requires = {
+    --         'mfussenegger/nvim-dap',
+    --         'theHamsta/nvim-dap-virtual-text',
+    --     },
+    --     config = function() require"archvim/config/nvim-dap" end,
+    -- },
     -- {
     --     'cpiger/NeoDebug',
     --     config = function() end,
