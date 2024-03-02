@@ -13,7 +13,6 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 如果安装遇到问题，欢迎通过 [GitHub issue](github.com/archibate/vimrc/issues) 反映，我会尽快帮您解决。
 
 * 目前只支持 Linux 系统，暂时不支持 MacOS 等系统。
-* 如果终端显示中文乱码（如 #21 中这位同学），那么你需要安装 [Nerd Font](https://www.cnblogs.com/zi-wang/p/12566898.html) 字体。
 * 请勿以 root 身份运行！否则会为 root 安装 nvim 插件而不是当前用户，插件安装后仅对当前用户有效。
 * 您的系统中无需事先安装有 nvim，本整合包内部已经自带了最新版 nvim 的 AppImage，可无依赖直接运行。
 * 无需连接 GitHub，所有插件全部已经预下载在整合包内部，无需 GitHub 加速器！
@@ -22,6 +21,10 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 * 安装脚本运行中可能产生一些冗余错误信息，属于正常现象，不影响使用，请忽视他们。
 
 安装完成后，输入 `nvim` 即可使用，按 q 或 :wqa 即可退出。
+
+* 推荐为您的终端安装 [Nerd Font](https://www.cnblogs.com/zi-wang/p/12566898.html) 字体，然后设置环境变量 `export NERD_FONTS=1`，这样就可以显示文件类型图标了。
+
+> 小彭老师用的是 JetBrainsMono Nerd Font Regular，字号 16，这是一款专为程序员打造的等宽字体。
 
 ## 旧版本 Vimrc
 

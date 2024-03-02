@@ -81,7 +81,7 @@ local plugins = {
     -- lint and error signs
     {
         "folke/trouble.nvim",
-        requires = "nvim-tree/nvim-web-devicons",
+        -- requires = "nvim-tree/nvim-web-devicons",
         config = function() require("trouble").setup{} end,
     },
     {
@@ -182,11 +182,15 @@ local plugins = {
     -- status line
     {
         'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+        -- requires = { 'nvim-tree/nvim-web-devicons', opt = true },
         config = function() require'archvim/config/lualine' end,
     },
     'archibate/lualine-time',
     'archibate/lualine-lsp-progress',
+    {
+        'nvim-tree/nvim-web-devicons',
+        cond = function () return os.getenv('NERD_FONTS') ~= nil end,
+    },
 
     -- brace pairing
     -- {
@@ -287,14 +291,14 @@ local plugins = {
         'akinsho/bufferline.nvim',
         tag = '*',
         requires = {
-            'nvim-tree/nvim-web-devicons',
+            -- 'nvim-tree/nvim-web-devicons',
             'famiu/bufdelete.nvim',
         },
         config = function() require'archvim/config/bufferline' end,
     },
     {
         'kyazdani42/nvim-tree.lua',
-        requires = 'nvim-tree/nvim-web-devicons',
+        -- requires = 'nvim-tree/nvim-web-devicons',
         config = function() require'archvim/config/nvim-tree' end,
     },
 
