@@ -63,7 +63,7 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 ### 默认启用的语法高亮
 
 ```json
-{"c", "cpp", "python", "cmake", "lua", "rust", "help", "vim", "cuda", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json", "yaml"}
+{"c", "cpp", "python", "cmake", "lua", "rust", "help", "vim", "cuda", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json"}
 ```
 
 你可以输入 `:TSInstall <language>` 来安装更多语言的语义高亮支持。
