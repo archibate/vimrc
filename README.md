@@ -22,7 +22,7 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 
 安装完成后，输入 `nvim` 即可使用，按 q 或 :wqa 即可退出。
 
-* 推荐为您的终端安装 [Nerd Font](https://www.cnblogs.com/zi-wang/p/12566898.html) 字体，然后设置环境变量 `export NERD_FONTS=1`，这样就可以显示文件类型图标了。
+推荐为您的终端安装 [Nerd Font](https://www.cnblogs.com/zi-wang/p/12566898.html) 字体，然后设置环境变量 `export NERD_FONTS=1`，这样就可以显示文件类型图标了。
 
 > 小彭老师用的是 JetBrainsMono Nerd Font Regular，字号 16，这是一款专为程序员打造的等宽字体。
 
