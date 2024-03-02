@@ -363,7 +363,7 @@ local plugins = {
             'nvim-lua/plenary.nvim',
             'MunifTanjim/nui.nvim',
         },
-        config = function() require"genius".setup{} end,
+        config = function() require"archvim/config/genius" end,
     },
     -- 'Exafunction/codeium.vim',
     -- {
@@ -390,12 +390,12 @@ local plugins = {
         'mzlogin/vim-markdown-toc',
         ft = { "markdown" },
     },
-    {
-        'plasticboy/vim-markdown',
-        requires = 'godlygeek/tabular',
-        config = function() vim.cmd [[let g:vim_markdown_math = 1]] end,
-        ft = { "markdown" },
-    },
+    -- {
+    --     'plasticboy/vim-markdown',
+    --     requires = 'godlygeek/tabular',
+    --     config = function() vim.cmd [[let g:vim_markdown_math = 1]] end,
+    --     ft = { "markdown" },
+    -- },
     {
         'ferrine/md-img-paste.vim',
         config = function() vim.cmd [[
