@@ -419,7 +419,7 @@ autocmd FileType markdown nnoremap <silent> gsp :call mdip#MarkdownClipboardImag
     -- },
 
     -- neovim profiling and debugging
-    'dstein64/vim-startuptime',
+    -- 'dstein64/vim-startuptime',
 }
 
 ----- {{{ BEGIN_CIHOU_PREDOWNLOAD

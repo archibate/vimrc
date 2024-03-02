@@ -1,5 +1,7 @@
 set -e
 cd "$(dirname "$0")"
+unset ARCHIBATE_COMPUTER
+export ARCHIBATE_COMPUTER
 cache="$PWD/.build_cache"
 mkdir -p "$cache"
 nvim --headless --cmd "let g:archvim_predownload=2 | let g:archvim_predownload_cachedir='$cache/archvim-build'" -c 'q'
