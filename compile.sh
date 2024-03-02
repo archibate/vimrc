@@ -15,7 +15,7 @@ cp -r "$cache"/archvim-build/predownload "$cache"/archvim-release/lua/archvim
 rm -rf "$cache"/archvim-release.tar.gz
 cd "$cache"/archvim-release
 mkdir -p "$cache"/archvim-release/parser
-for x in ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/*.so; do
+for x in ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/{c,cpp,cmake,lua,python,html,javascript,css,json}.so; do
     cp "$x" "$cache"/archvim-release/parser
 done
 cp -r ~/.local/share/nvim/mason/registries/github/mason-org/mason-registry "$cache"/archvim-release
