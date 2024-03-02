@@ -20,9 +20,7 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 * 为了能够使用补全，会为您安装如 clangd 一类的包，但即使其中一个安装失败，也不影响其他语言和编辑器整体的使用。
 * 安装脚本运行中可能产生一些冗余错误信息，属于正常现象，不影响使用，请忽视他们。
 
-安装完成后，输入 `nvim` 即可使用，按 Shift+Z 或 :wqa 即可退出。
-
-> 第一次启动时，可能需要花一些时间下载第三方插件数据包，请耐心等待。如果不等待，可能会导致部分语言失去语义高亮功能。
+安装完成后，输入 `nvim` 即可使用，按 q 或 :wqa 即可退出。
 
 ## 旧版本 Vimrc
 
@@ -63,20 +61,20 @@ curl -sLf http://142857.red/nvimrc-install.sh | bash
 
 ### 默认启用的语法高亮
 
-```
+```json
 {"c", "cpp", "python", "cmake", "lua", "rust", "help", "vim", "cuda", "bash", "vue", "markdown", "javascript", "typescript", "html", "css", "json", "yaml"}
 ```
 
+你可以输入 `:TSInstall <language>` 来安装更多语言的语义高亮支持。
+
 ### 默认安装的 LSP 服务器（用于补全）
 
-```
+```json
 {"clangd", "cmake", "pyright", "lua_ls", "rust_analyzer"}
 ```
 
-可以通过执行 `:Mason` 或 `TSInstall` 或修改 [`lua/archvim/config/lspconfig.lua`](lua/archvim/config/lspconfig.lua) 来安装更多语法高亮和智能补全。
+可以通过执行 `:Mason` 或修改 [`lua/archvim/config/lspconfig.lua`](lua/archvim/config/lspconfig.lua) 来安装更多语言的 LSP 补全支持。
 
 ## 以下为小彭老师自己看的
 
-> npm 笑话：由于煞笔 treesitter（语法高亮）基于 Node.js，其睿智的 npm 不支持离线安装，所以其他包小彭老师都能在一键安装包里自带，唯独 TS 不行，只能劳烦同学自己设置 npm 国内源了。
-
-通过运行 `./compile.sh` 生成 `/tmp/nvimrc-install.sh` 这个一键安装脚本（约 20 MiB）后，我会把他发布到 142857.red。
+通过运行 `./compile.sh` 生成 `/tmp/nvimrc-install.sh` 这个一键安装脚本（约 36 MiB）后，我会把他发布到 142857.red。

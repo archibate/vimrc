@@ -14,6 +14,10 @@ rm -rf "$cache"/archvim-release/lua/archvim/predownload
 cp -r "$cache"/archvim-build/predownload "$cache"/archvim-release/lua/archvim
 rm -rf "$cache"/archvim-release.tar.gz
 cd "$cache"/archvim-release
+mkdir -p "$cache"/archvim-release/parser
+for x in ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/*.so; do
+    cp "$x" "$cache"/archvim-release/parser
+done
 test -f "$cache"/archvim-nvim.appimage || curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -o "$cache"/archvim-nvim.appimage
 cp "$cache"/archvim-nvim.appimage nvim.appimage
 chmod u+x nvim.appimage
@@ -70,6 +74,9 @@ echo '-- Synchronizing packer.nvim...'
 # rm -rf ~/.local/share/nvim/site/pack/packer
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerClean'
+mkdir -p ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser
+mv ~/.config/nvim/parser/*.so ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/
+rmdir ~/.config/nvim/parser
 rm -rf /tmp/_extract_.\$\$ /tmp/_extract_.\$\$.tar.gz.b64
 echo
 echo \"--\"

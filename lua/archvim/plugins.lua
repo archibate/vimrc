@@ -129,7 +129,9 @@ local plugins = {
     -- semantic highlighting and textobjects
     {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
+        run = function()
+            require('nvim-treesitter.install').update({ with_sync = true })
+        end,
         config = function() require'archvim/config/nvim-treesitter' end,
         requires = {
             'p00f/nvim-ts-rainbow',
