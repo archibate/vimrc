@@ -182,7 +182,7 @@ local plugins = {
     -- status line
     {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true },
         config = function() require'archvim/config/lualine' end,
     },
     'archibate/lualine-time',
@@ -380,14 +380,14 @@ local plugins = {
     -- },
 
     -- markdown editing
-    {
-        'iamcco/markdown-preview.nvim',
-        run = function() vim.fn["mkdp#util#install"]() end,
-        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
-        config = function() vim.cmd [[let g:mkdp_browser = '/usr/bin/chromium']] end,
-        ft = { "markdown" },
-        requires = 'iamcco/mathjax-support-for-mkdp',
-    },
+    -- {
+    --     'iamcco/markdown-preview.nvim',
+    --     run = function() vim.fn["mkdp#util#install"]() end,
+    --     setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+    --     config = function() vim.cmd [[let g:mkdp_browser = '/usr/bin/chromium']] end,
+    --     ft = { "markdown" },
+    --     requires = 'iamcco/mathjax-support-for-mkdp',
+    -- },
     {
         'mzlogin/vim-markdown-toc',
         ft = { "markdown" },

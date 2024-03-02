@@ -18,6 +18,9 @@ mkdir -p "$cache"/archvim-release/parser
 for x in ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/{c,cpp,cmake,lua,python,html,javascript,css,json}.so; do
     cp "$x" "$cache"/archvim-release/parser
 done
+for x in "$cache"/archvim-release/parser/*.so; do
+    strip -s "$x"
+done
 cp -r ~/.local/share/nvim/mason/registries/github/mason-org/mason-registry "$cache"/archvim-release
 test -f "$cache"/archvim-nvim.appimage || curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -o "$cache"/archvim-nvim.appimage
 cp "$cache"/archvim-nvim.appimage nvim.appimage
