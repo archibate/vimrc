@@ -358,12 +358,12 @@ local plugins = {
     --     config = function() require"archvim/config/nvim-gpt" end,
     -- },
     {
-        os.getenv('ARCHIBATE_COMPUTER') and '/home/bate/Codes/auto-drive.nvim' or 'archibate/auto-drive.nvim',
+        os.getenv('ARCHIBATE_COMPUTER') and '/home/bate/Codes/genius.nvim' or 'archibate/genius.nvim',
         requires = {
             'nvim-lua/plenary.nvim',
             'MunifTanjim/nui.nvim',
         },
-        config = function() require"archvim/config/auto-drive" end,
+        config = function() require"genius".setup{} end,
     },
     -- 'Exafunction/codeium.vim',
     -- {
@@ -432,7 +432,7 @@ if archvim_predownload and archvim_predownload ~= 0 then
         function predownload(repo)
             local path = string.format('%s/predownload/%s', thisdir, repo)
             if os.execute(string.format('test -d %s', path)) ~= 0 then
-                assert(os.execute(string.format('git clone https://github.com/%s.git %s --depth=1', repo, path)) == 0)
+                assert(os.execute(string.format('git clone https://github.com/%s.git %s --depth=1', repo, path)) == 0, repo)
                 -- vim.fn.system({'git', 'clone', string.format("https://github.com/%s.git %s", repo, path), '--depth=1'})
                 os.execute(string.format('rm -rf %s/.git', path))
                 -- vim.gg = path .. " downloaded"

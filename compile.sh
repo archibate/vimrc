@@ -2,7 +2,7 @@ set -e
 cd "$(dirname "$0")"
 cache="$PWD/.build_cache"
 mkdir -p "$cache"
-nvim --cmd "let g:archvim_predownload=2 | let g:archvim_predownload_cachedir=$cache/archvim-build" -c 'q'
+nvim --headless --cmd "let g:archvim_predownload=2 | let g:archvim_predownload_cachedir='$cache/archvim-build'" -c 'q'
 git --version > /dev/null
 rm -rf "$cache"/archvim-release
 mkdir -p "$cache"/archvim-release
