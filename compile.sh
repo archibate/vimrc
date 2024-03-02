@@ -18,6 +18,7 @@ mkdir -p "$cache"/archvim-release/parser
 for x in ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/*.so; do
     cp "$x" "$cache"/archvim-release/parser
 done
+cp -r ~/.local/share/nvim/mason/registries/github/mason-org/mason-registry "$cache"/archvim-release
 test -f "$cache"/archvim-nvim.appimage || curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -o "$cache"/archvim-nvim.appimage
 cp "$cache"/archvim-nvim.appimage nvim.appimage
 chmod u+x nvim.appimage
@@ -67,16 +68,21 @@ test -d ~/.config/nvim && mv ~/.config/nvim ~/.config/.nvim.backup.\$\$
 mkdir -p ~/.config
 rm -rf ~/.config/nvim
 cp -r . ~/.config/nvim
-echo '-- Installing dependencies...'
-bash ~/.config/nvim/install_deps.sh || echo -e \"\\n\\n--\\n--\\n-- WARNING: some dependency installation failed, please check your internet connection.\\n-- ArchVim can still run without those dependencies, though.\\n-- You can always try run dependency installation again by running: bash ~/.config/nvim/install_deps.sh\\n\\n\"
-
+if [ \"x\$NODEP\" == \"x\" ]; then
+    echo '-- Installing dependencies...'
+    bash ~/.config/nvim/install_deps.sh || echo -e \"\\n\\n--\\n--\\n-- WARNING: some dependency installation failed, please check your internet connection.\\n-- ArchVim can still run without those dependencies, though.\\n-- You can always try run dependency installation again by running: bash ~/.config/nvim/install_deps.sh\\n\\n\"
+fi
 echo '-- Synchronizing packer.nvim...'
 # rm -rf ~/.local/share/nvim/site/pack/packer
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerClean'
+echo '-- Copying language supports...'
 mkdir -p ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser
 mv ~/.config/nvim/parser/*.so ~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/parser/
 rmdir ~/.config/nvim/parser
+mkdir -p ~/.local/share/nvim/mason/github/mason-org/mason-registry
+mv ~/.config/nvim/mason-registry/* ~/.local/share/nvim/mason/github/mason-org/mason-registry/
+rmdir ~/.config/nvim/mason-registry
 rm -rf /tmp/_extract_.\$\$ /tmp/_extract_.\$\$.tar.gz.b64
 echo
 echo \"--\"

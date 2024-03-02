@@ -4,7 +4,7 @@ set -e
 echo '-- Automatically installing ArchVim system dependencies...'
 
 cd "$(dirname $0)"
---version > /dev/null 2> /dev/null && SUDO=|| SUDO=
+# --version > /dev/null 2> /dev/null && SUDO=|| SUDO=
 
 get_linux_distro() {
     if grep -Eq "Ubuntu" /etc/*-release 2> /dev/null; then
