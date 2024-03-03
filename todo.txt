@@ -1,1 +1,5 @@
 telescope gr does not show in the buffer line!
+locale course
+cuda course
+map course
+opengl course

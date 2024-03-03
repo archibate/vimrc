@@ -1,10 +1,13 @@
-template <class T>
-struct Hello {
-    void func();
-    int func(int x);
-};
+#include <clocale>
+#include <iostream>
 
-template <class T>
-int Hello<T>::func(int x)
-{
+int main() {
+    std::setlocale(LC_ALL, ".utf8");
+    std::string s = "Hello, World!";
+
+    for (size_t i = 0; i < s.size(); i++) {
+        std::cout << s[i] << std::endl;
+    }
+    
+    return 0;
 }

@@ -6,6 +6,7 @@ cmp.setup {
     completion = {
         completeopt = 'menu,menuone,noinsert,noselect'
     },
+    experimental = { ghost_text = true },
 
     -- 指定 snippet 引擎
     snippet = {
@@ -58,9 +59,29 @@ cmp.setup {
     -- 快捷键
     mapping = {
         -- 上一个
-        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
         -- 下一个
-        ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif require("luasnip").expand_or_jumpable() then
+                require("luasnip").expand_or_jump()
+            -- elseif has_words_before() then
+            --     cmp.complete()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif require("luasnip").jumpable(-1) then
+                require("luasnip").jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
         -- 出现补全
         ['<C-j>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
         -- 取消

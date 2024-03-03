@@ -33,8 +33,10 @@ vim.cmd [[
 set termguicolors
 colorscheme gruvbox
 hi Normal guibg=none
+" hi NormalFloat guifg=#928374 guibg=#282828
+" hi WinSeparator guibg=none
 " hi TreesitterContext gui=NONE guibg=#282828
-hi TreesitterContextBottom gui=underline guisp=Grey
+" hi TreesitterContextBottom gui=underline guisp=Grey
 ]]
 
 -- vim.g_printed = ''

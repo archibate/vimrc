@@ -61,11 +61,22 @@ local plugins = {
     {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
+        requires = {
+            'ray-x/lsp_signature.nvim',
+        },
     },
+    -- {
+    --     "tami5/lspsaga.nvim",
+    --     config = function() require'archvim/config/lspsaga' end,
+    -- },
     {
-        "tami5/lspsaga.nvim",
-        config = function() require'archvim/config/lspsaga' end,
+        'dgagn/diagflow.nvim',
+        config = function() require "archvim/config/diagflow" end,
     },
+    -- {
+    --     'andersevenrud/nvim_context_vt',
+    --     config = function() require "archvim/config/nvim_context_vt" end,
+    -- },
 
     -- code refactoring
     -- {
@@ -168,13 +179,13 @@ local plugins = {
     -- },
     'glepnir/zephyr-nvim',
     'shaunsingh/nord.nvim',
-    'tikhomirov/vim-glsl',
+    -- 'tikhomirov/vim-glsl',
 
     -- git support
-    {
-        'lewis6991/gitsigns.nvim',
-        config = function() require'archvim/config/gitsigns' end,
-    },
+    -- {
+    --     'lewis6991/gitsigns.nvim',
+    --     config = function() require'archvim/config/gitsigns' end,
+    -- },
     -- 'tpope/vim-fugitive',
     {
         "NeogitOrg/neogit",
