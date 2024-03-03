@@ -2,11 +2,12 @@ local lspkind = require('lspkind')
 local cmp = require'cmp'
 
 cmp.setup {
+    -- view = 'custom',
     preselect = 'none',
     completion = {
         completeopt = 'menu,menuone,noinsert,noselect'
     },
-    experimental = { ghost_text = true },
+    -- experimental = { ghost_text = true },
 
     -- 指定 snippet 引擎
     snippet = {
@@ -27,14 +28,19 @@ cmp.setup {
 
     -- 来源
     sources = cmp.config.sources {
-        {name = "nvim_lsp"},
-        {name = "luasnip"},
+        {name = "nvim_lsp", max_item_count = 10},
+        {name = "nvim_lsp_signature_help", max_item_count = 1},
+        {name = "luasnip", max_item_count = 10},
         {name = "path"},
         -- {name = "codeium"}, -- INFO: uncomment this for AI completion
-        {name = "buffer"},
-        {name = "spell"},
-        {name = "calc"},
+		{name = "cmp_yanky", max_item_count = 5},
+        {name = "buffer", max_item_count = 8},
+        {name = "rg", max_item_count = 5, keyword_length = 4},
+        {name = "spell", max_item_count = 5},
+        {name = "calc", max_item_count = 5},
         -- {name = "cmdline"},
+        -- {name = "git"},
+        {name = "emoji", max_item_count = 5},
         -- {name = "copilot"}, -- INFO: uncomment this for AI completion
         -- {name = "cmp_tabnine"}, -- INFO: uncomment this for AI completion
     },
@@ -103,32 +109,80 @@ cmp.setup {
 
     -- 使用 lspkind-nvim 显示类型图标
     formatting = {
-        format = lspkind.cmp_format {
+        format = os.getenv("NERD_FONTS") and lspkind.cmp_format {
             -- mode = 'symbol',
             with_text = false, -- do not show text alongside icons
             maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             before = function (entry, vim_item)
                 -- Source 显示提示来源
-                -- vim_item.menu = "["..string.upper(entry.source.name).."]"
+                vim_item.menu = "["..string.upper(entry.source.name).."]"
+                before = function(entry, vim_item)
+                    -- Custom icon for 'calc' source
+                    if entry.source.name == "calc" then
+                        vim_item.kind = ""
+                        return vim_item
+                    end
+
+                    -- Custom icon for 'git' source
+                    if entry.source.name == "git" then
+                        vim_item.kind = ""
+                        return vim_item
+                    end
+
+                    -- Custom icon for 'search' source
+                    if entry.source.name == "rg" then
+                        vim_item.kind = ""
+                        return vim_item
+                    end
+
+                    -- Tailwind colors
+                    vim_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
+                    return vim_item
+                end
                 return vim_item
             end,
             -- ellipsis_char = '...',
             -- symbol_map = { Codeium = "", },
-        },
+        } or nil,
     },
 }
 
 -- Use buffer source for `/`.
-cmp.setup.cmdline({'/', '?'}, {
-    sources = {
-        { name = 'buffer' },
-    }
-})
-
--- -- Use cmdline & path source for ':'.
+-- cmp.setup.cmdline({'/', '?'}, {
+--     mapping = cmp.mapping.preset.cmdline({
+--         -- Use default nvim history scrolling
+--         ["<C-n>"] = {
+--             c = false,
+--         },
+--         ["<C-p>"] = {
+--             c = false,
+--         },
+--         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+--         ['<Tab>'] = cmp.mapping.select_next_item(),
+--     }),
+--     sources = {
+--         { name = 'buffer' },
+--     }
+-- })
+--
+-- -- -- Use cmdline & path source for ':'.
 -- cmp.setup.cmdline(':', {
+--     mapping = cmp.mapping.preset.cmdline({
+--         -- Use default nvim history scrolling
+--         ["<C-n>"] = {
+--             c = false,
+--         },
+--         ["<C-p>"] = {
+--             c = false,
+--         },
+--         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+--         ['<Tab>'] = cmp.mapping.select_next_item(),
+--     }),
 --     sources = cmp.config.sources {
 --         { name = 'path' },
 --         { name = 'cmdline' },
 --     }
 -- })
+
+-- vim.opt.spell = true
+-- vim.opt.spelllang = { 'en_us' }

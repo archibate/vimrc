@@ -3,9 +3,10 @@ vim.g.mapleader = ','
 vim.cmd [[
 set mouse=a
 set updatetime=1000
-set nu rnu ru ls=2
+set nu nornu ru ls=2
 set et sts=0 ts=4 sw=4
-set signcolumn=yes
+set signcolumn=number
+" set bri wrap
 set listchars=tab:▸\ ,trail:⋅,extends:❯,precedes:❮
 set cinoptions=j1,(0,ws,Ws,g0,:1,=0
 set showbreak=↪

@@ -157,9 +157,18 @@ end)
 
 vim.keymap.set({'v', 'n'}, 'ga', function ()
     vim.lsp.buf.code_action({
+        -- context = {
+        --     only = {
+        --         "source",
+        --     },
+        --     diagnostics = {},
+        -- },
         apply = true,
     })
 end)
+vim.keymap.set({'v', 'n'}, 'gn', function()
+  return ":IncRename " .. vim.fn.expand("<cword>")
+end, { expr = true })
 
 vim.cmd [[
 autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()

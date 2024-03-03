@@ -6,46 +6,51 @@ if not found_cmake then
 end
 local icons = require("archvim/icons")
 local c = {
-    {
-        function()
-            local kit = cmake.get_kit()
-            return "[" .. (kit or "No Kit") .. "]"
-        end,
-        icon = icons.ui.Pencil,
-        cond = function()
-            return cmake.is_cmake_project() and cmake.get_kit()
-        end,
-        on_click = function(n, mouse)
-            if (n == 1) then
-                if (mouse == "l") then
-                    vim.cmd("CMakeSelectKit")
-                elseif (mouse == "r") then
-                    vim.cmd("edit CMakeKits.json")
-                end
-            end
-        end
-    },
+    -- {
+    --     function()
+    --         local kit = cmake.get_kit()
+    --         return string.format("[%s]", kit)
+    --     end,
+    --     icon = icons.ui.Pencil,
+    --     cond = function()
+    --         return cmake.is_cmake_project() and cmake.get_kit()
+    --     end,
+    --     on_click = function(n, mouse)
+    --         if (n == 1) then
+    --             if (mouse == "l") then
+    --                 vim.cmd("CMakeSelectKit")
+    --             elseif (mouse == "r") then
+    --                 vim.cmd("edit CMakeKits.json")
+    --             end
+    --         end
+    --     end
+    -- },
     {
         function()
             if cmake.has_cmake_preset() then
                 local b_preset = cmake.get_build_preset()
-                return "[" .. (b_preset or "No Preset") .. "]"
+                if not b_preset then
+                    return icons.cmake.CMake
+                end
+                return icons.cmake.CMake .. string.format(" [%s]", b_preset)
             else
                 local b_type = cmake.get_build_type()
-                return "[" .. (b_type or "No Type") .. "]"
+                if not b_type then
+                    return icons.cmake.CMake
+                end
+                return icons.cmake.CMake .. string.format(" [%s]", b_type)
             end
         end,
-        icon = icons.ui.List,
         cond = cmake.is_cmake_project,
         on_click = function(n, mouse)
             if (n == 1) then
                 if (mouse == "l") then
-                    vim.cmd("CMakeGenerate")
+                    cmake.generate{}
                 elseif (mouse == "r") then
                     if cmake.has_cmake_preset() then
-                        vim.cmd("CMakeSelectBuildPreset")
+                        cmake.select_build_preset()
                     else
-                        vim.cmd("CMakeSelectBuildType")
+                        cmake.select_build_type()
                     end
                 end
             end
@@ -54,46 +59,74 @@ local c = {
     {
         function()
             local b_target = cmake.get_build_target()
-            return "[" .. (b_target or "No Build Target") .. "]"
+            if not b_target then
+                return icons.cmake.Build
+            end
+            return icons.cmake.Build .. string.format(" [%s]", b_target)
         end,
-        icon = icons.ui.Gear,
         cond = cmake.is_cmake_project,
         on_click = function(n, mouse)
             if (n == 1) then
                 if (mouse == "l") then
-                    vim.cmd("CMakeBuild")
+                    local b_target = cmake.get_build_target()
+                    if not b_target then
+                        local l_target = cmake.get_launch_target()
+                        if l_target then
+                            cmake.build{
+                                target = l_target,
+                            }
+                            return
+                        end
+                        cmake.build{
+                            target = 'all',
+                        }
+                    else
+                        cmake.build{}
+                    end
                 elseif (mouse == "r") then
-                    vim.cmd("CMakeSelectBuildTarget")
+                    cmake.select_build_target()
                 end
             end
         end
     },
-    {
-        function()
-            return icons.ui.Debug
-        end,
-        cond = cmake.is_cmake_project,
-        on_click = function(n, mouse)
-            if (n == 1) then
-                if (mouse == "l") then
-                    vim.cmd("CMakeDebug")
-                end
-            end
-        end
-    },
+    -- {
+    --     function()
+    --         return icons.ui.Debug
+    --     end,
+    --     cond = cmake.is_cmake_project,
+    --     on_click = function(n, mouse)
+    --         if (n == 1) then
+    --             if (mouse == "l") then
+    --                 cmake.debug{}
+    --             end
+    --         end
+    --     end
+    -- },
     {
         function()
             local l_target = cmake.get_launch_target()
-            return "[" .. (l_target or "No Launch Target") .. "]"
+            if not l_target then
+                return icons.cmake.Run
+            end
+            return icons.cmake.Run .. string.format(" [%s]", l_target)
         end,
-        icon = icons.ui.Run,
         cond = cmake.is_cmake_project,
         on_click = function(n, mouse)
             if (n == 1) then
                 if (mouse == "l") then
-                    vim.cmd("CMakeRun")
+                    local l_target = cmake.get_launch_target()
+                    if not l_target then
+                        local b_target = cmake.get_build_target()
+                        if b_target then
+                            cmake.run{
+                                target = b_target,
+                            }
+                            return
+                        end
+                    end
+                    cmake.run{}
                 elseif (mouse == "r") then
-                    vim.cmd("CMakeSelectLaunchTarget")
+                    cmake.select_launch_target()
                 end
             end
         end
@@ -109,7 +142,7 @@ local xmake_component = {
     end,
 
     cond = function()
-        return pcall(require, 'xmake.project_config') and vim.o.columns > 100
+        return pcall(require, 'xmake.project_config') -- and vim.o.columns > 100
     end,
 
     on_click = function()
@@ -117,14 +150,35 @@ local xmake_component = {
     end,
 }
 
+local diagnostics = {
+    'diagnostics',
+}
+local branch = {
+    'branch',
+    on_click = function(n, mouse)
+        if (n == 1) then
+            if (mouse == "l") then
+                vim.cmd[[Neogit]]
+            end
+        end
+    end,
+}
+if os.getenv('NERD_FONTS') then
+    -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
+    branch.icon = icons.git.Branch
+else
+    diagnostics.symbols = { error = 'E', warn = 'W', info = 'I', hint = '?' }
+    branch.icon = ''
+end
+
 require'lualine'.setup {
     options = {
         theme = 'auto',
     },
     sections = {
         lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename', c[1], c[2], c[3], c[4], c[5], xmake_component, 'lsp_progress'},
+        lualine_b = {branch, 'diff', diagnostics},
+        lualine_c = {'filename', c[1], c[2], c[3], xmake_component, 'lsp_progress'},
         lualine_x = {'cdate', 'ctime'},
         lualine_y = {'progress'},
         lualine_z = {'location'},

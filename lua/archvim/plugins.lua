@@ -19,6 +19,10 @@ local plugins = {
 
     -- auto completions
     {
+        'gbprod/yanky.nvim',
+        config = function() require'yanky'.setup{} end,
+    },
+    {
         'hrsh7th/nvim-cmp',
         requires = {
             -- {
@@ -27,11 +31,17 @@ local plugins = {
             -- },
             'onsails/lspkind-nvim',
             'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-nvim-lsp-signature-help',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             'f3fora/cmp-spell',
             'hrsh7th/cmp-calc',
+            'hrsh7th/cmp-emoji',
+            'chrisgrieser/cmp_yanky',
+            -- 'petertriho/cmp-git',
+            'lukas-reineke/cmp-rg',
+            'roobert/tailwindcss-colorizer-cmp.nvim',
             "lukas-reineke/cmp-under-comparator",
             -- 'hrsh7th/cmp-copilot', -- INFO: uncomment this for AI completion
             -- {"tzachar/cmp-tabnine", run = "./install.sh"}, -- INFO: uncomment this for AI completion
@@ -97,6 +107,17 @@ local plugins = {
     --     },
     --     config = function() require'archvim/config/refactoring' end,
     -- },
+    {
+        'smjonas/inc-rename.nvim',
+        config = function() require"inc_rename".setup{} end,
+    },
+    {
+        'folke/noice.nvim',
+        config = function() require'archvim/config/noice' end,
+        requires = {
+            "MunifTanjim/nui.nvim",
+        },
+    },
 
     -- lint and error signs
     {
@@ -119,6 +140,16 @@ local plugins = {
     --     "petertriho/nvim-scrollbar",
     --     config = function() require"scrollbar".setup{} end,
     -- },
+
+    -- marks and todos
+    {
+        "folke/todo-comments.nvim",
+        config = function() require"todo-comments".setup{} end
+    },
+    {
+        'chentoast/marks.nvim',
+        config = function() require"archvim/config/marks" end,
+    },
 
     -- zen-mode
     "folke/zen-mode.nvim",
@@ -295,10 +326,6 @@ local plugins = {
     --     },
     --     config = function() require"archvim/config/nvim-spectre" end,
     -- },
-    {
-        "folke/todo-comments.nvim",
-        config = function() require"todo-comments".setup{} end
-    },
 
     -- buffer and files
     {
