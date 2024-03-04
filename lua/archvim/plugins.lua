@@ -71,9 +71,9 @@ local plugins = {
     {
         'neovim/nvim-lspconfig',
         config = function() require'archvim/config/lspconfig' end,
-        requires = {
-            'ray-x/lsp_signature.nvim',
-        },
+        -- requires = {
+        --     'ray-x/lsp_signature.nvim',
+        -- },
     },
     -- {
     --     "tami5/lspsaga.nvim",
@@ -233,9 +233,11 @@ local plugins = {
     {
         'nvim-lualine/lualine.nvim',
         config = function() require'archvim/config/lualine' end,
+        requires = {
+            'archibate/lualine-time',
+            -- 'archibate/lualine-lsp-progress',
+        },
     },
-    'archibate/lualine-time',
-    'archibate/lualine-lsp-progress',
 
     -- brace pairing
     -- {

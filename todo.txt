@@ -1,5 +1,7 @@
-telescope gr does not show in the buffer line!
+telescope gr does not show in the buffer line! cantrepro
 locale course
 cuda course
 map course
 opengl course
+yanky.nvim maps!
+signaturehelp really need?? ok

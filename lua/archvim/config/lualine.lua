@@ -152,6 +152,9 @@ local xmake_component = {
 
 local diagnostics = {
     'diagnostics',
+    cond = function()
+        return vim.fn.winwidth(0) > 80
+    end,
 }
 local branch = {
     'branch',
@@ -163,9 +166,35 @@ local branch = {
         end
     end,
 }
+local diff = {
+    'diff',
+    cond = function()
+        return vim.fn.winwidth(0) > 80
+    end,
+}
+local cdate = {
+    'cdate',
+    cond = function()
+        return vim.fn.winwidth(0) > 80
+    end,
+}
+local ctime = {
+    'ctime',
+    cond = function()
+        return vim.fn.winwidth(0) > 80
+    end,
+}
+local encoding = {
+    'encoding',
+    fmt = string.upper,
+    cond = function()
+        return vim.fn.winwidth(0) > 80 and 'utf-8' ~= vim.o.fileencoding
+    end,
+}
 if os.getenv('NERD_FONTS') then
     -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
     branch.icon = icons.git.Branch
+    -- diff.symbols = { added = ' ', modified = ' ', removed = ' ' }
 else
     diagnostics.symbols = { error = 'E', warn = 'W', info = 'I', hint = '?' }
     branch.icon = ''
@@ -174,13 +203,15 @@ end
 require'lualine'.setup {
     options = {
         theme = 'auto',
+        component_separators = not os.getenv('NERD_FONTS') and '' or nil,
+        section_separators = not os.getenv('NERD_FONTS') and '' or nil,
     },
     sections = {
         lualine_a = {'mode'},
-        lualine_b = {branch, 'diff', diagnostics},
-        lualine_c = {'filename', c[1], c[2], c[3], xmake_component, 'lsp_progress'},
-        lualine_x = {'cdate', 'ctime'},
-        lualine_y = {'progress'},
+        lualine_b = {branch, diff, diagnostics},
+        lualine_c = {'filename', c[1], c[2], c[3], xmake_component},
+        lualine_x = {cdate, ctime, encoding},
+        lualine_y = {'searchcount', 'progress'},
         lualine_z = {'location'},
     },
     inactive_sections = {
@@ -194,7 +225,7 @@ require'lualine'.setup {
     tabline = {},
     winbar = {},
     inactive_winbar = {},
-    extensions = {}
+    extensions = {},
 }
 
 -- local lualine = require("lualine")

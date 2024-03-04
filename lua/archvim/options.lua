@@ -2,6 +2,7 @@ vim.g.mapleader = ','
 
 vim.cmd [[
 set mouse=a
+set mousemodel=extend
 set updatetime=1000
 set nu nornu ru ls=2
 set et sts=0 ts=4 sw=4
