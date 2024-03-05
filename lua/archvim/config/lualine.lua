@@ -59,7 +59,7 @@ local c = {
     {
         function()
             local b_target = cmake.get_build_target()
-            if not b_target then
+            if not b_target or b_target == 'all' then
                 return icons.cmake.Build
             end
             return icons.cmake.Build .. string.format(" [%s]", b_target)
@@ -102,6 +102,31 @@ local c = {
     --         end
     --     end
     -- },
+    {
+        function()
+            return icons.cmake.Debug
+        end,
+        cond = cmake.is_cmake_project,
+        on_click = function(n, mouse)
+            if (n == 1) then
+                if (mouse == "l") then
+                    local l_target = cmake.get_launch_target()
+                    if not l_target then
+                        local b_target = cmake.get_build_target()
+                        if b_target then
+                            cmake.debug{
+                                target = b_target,
+                            }
+                            return
+                        end
+                    end
+                    cmake.debug{}
+                elseif (mouse == "r") then
+                    cmake.select_launch_target()
+                end
+            end
+        end
+    },
     {
         function()
             local l_target = cmake.get_launch_target()

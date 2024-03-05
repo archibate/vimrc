@@ -122,6 +122,7 @@ local icons = {
         CMake = "",
         Build = "",
         Run = "",
+        Debug = "",
     },
 }
 

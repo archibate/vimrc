@@ -38,30 +38,28 @@ require'bufferline'.setup {
     }
 }
 
-local map = require'archvim/mappings'
+vim.keymap.set({"v", "n"}, "g<Tab>", "<cmd>BufferLineTogglePin<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "gb", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "g<Space>", "<cmd>BufferLinePick<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "g<BS>", "<cmd>bdelete<CR>", { silent = true })
+-- vim.keymap.set({"v", "n"}, "go", "<cmd>blast<CR>", { silent = true })
+-- vim.keymap.set({"v", "n"}, "gO", "<cmd>bfirst<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "gB", "<cmd>BufferLineMovePrev<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "gT", "<cmd>BufferLineMoveNext<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "g<S-Tab>", "<cmd>BufferLineCloseOthers<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "g<C-b>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "g<C-t>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
 
-map({"v", "n"}, "g<Tab>", "<cmd>BufferLineTogglePin<CR>", { silent = true })
-map({"v", "n"}, "gb", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
-map({"v", "n"}, "gt", "<cmd>BufferLineCycleNext<CR>", { silent = true })
-map({"v", "n"}, "g<Space>", "<cmd>BufferLinePick<CR>", { silent = true })
-map({"v", "n"}, "g<BS>", "<cmd>bdelete<CR>", { silent = true })
--- map({"v", "n"}, "go", "<cmd>blast<CR>", { silent = true })
--- map({"v", "n"}, "gO", "<cmd>bfirst<CR>", { silent = true })
-map({"v", "n"}, "gB", "<cmd>BufferLineMovePrev<CR>", { silent = true })
-map({"v", "n"}, "gT", "<cmd>BufferLineMoveNext<CR>", { silent = true })
-map({"v", "n"}, "g<S-Tab>", "<cmd>BufferLineCloseOthers<CR>", { silent = true })
-map({"v", "n"}, "g<C-b>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
-map({"v", "n"}, "g<C-t>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
-
-map({"v", "n", "i"}, "<F1>", "<cmd>BufferLineTogglePin<CR>", { silent = true })
-map({"v", "n", "i"}, "<F2>", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
-map({"v", "n", "i"}, "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })
-map({"v", "n", "i"}, "<F13>", "<cmd>BufferLinePickClose<CR>", { silent = true })
-map({"v", "n", "i"}, "<F14>", "<cmd>BufferLineMovePrev<CR>", { silent = true })
-map({"v", "n", "i"}, "<F15>", "<cmd>BufferLineMoveNext<CR>", { silent = true })
-map({"v", "n", "i"}, "<C-F13>", "<cmd>BufferLineCloseOthers<CR>", { silent = true })
-map({"v", "n", "i"}, "<C-F14>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
-map({"v", "n", "i"}, "<C-F15>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<F1>", "<cmd>BufferLineTogglePin<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<F2>", "<cmd>BufferLineCyclePrev<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<F3>", "<cmd>BufferLineCycleNext<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<F13>", "<cmd>BufferLinePickClose<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<F14>", "<cmd>BufferLineMovePrev<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<F15>", "<cmd>BufferLineMoveNext<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<C-F13>", "<cmd>BufferLineCloseOthers<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<C-F14>", "<cmd>BufferLineCloseLeft<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i"}, "<C-F15>", "<cmd>BufferLineCloseRight<CR>", { silent = true })
 
 -- vim.cmd [[
 -- aug buffer_accessed_time

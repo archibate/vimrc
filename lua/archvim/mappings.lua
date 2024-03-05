@@ -1,59 +1,58 @@
 -- Functional wrapper for mapping custom keybindings
-local function map(mode, lhs, rhs, opts)
-    if type(mode) == 'table' then
-        for i = 1, #mode do
-            map(mode[i], lhs, rhs, opts)
-        end
-        return
-    end
-    local options = { noremap = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+-- local function map(mode, lhs, rhs, opts)
+--     if type(mode) == 'table' then
+--         for i = 1, #mode do
+--             map(mode[i], lhs, rhs, opts)
+--         end
+--         return
+--     end
+--     local options = { noremap = true }
+--     if opts then
+--         options = vim.tbl_extend("force", options, opts)
+--     end
+--     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+-- end
 
-map({"v", "n"}, "_", "+", { noremap = true })
-map({"v", "n"}, "gh", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1) . 'l')", { silent = true, expr = true })
-map({"v", "n"}, "gl", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
-map({"v", "n"}, "gm", "gM", { noremap = true })
-map({"v", "n"}, "gM", "gm", { noremap = true })
-map({"v", "n", "i"}, "<F4>", "<cmd>wa<CR>")
-map({"v", "n", "i", "t"}, "<F7>", "<cmd>NvimTreeFindFileToggle<CR>", { silent = true })
-map({"v", "n", "i", "t"}, "<F9>", "<cmd>TroubleToggle<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F19>", "<cmd>TroubleToggle<CR>")
-local found_cmake, cmake = pcall(require, "cmake-tools")
-if found_cmake then
-    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('TermExec cmd=!!')|endif<CR>", { silent = true })
-    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('TermExec cmd=\\<C-c>')|endif<CR>", { silent = true })
+vim.keymap.set({"v", "n"}, "_", "+", { noremap = true })
+vim.keymap.set({"v", "n"}, "gh", "(v:count == 0 || v:count == 1 ? '^^' : '^^' . (v:count - 1) . 'l')", { silent = true, expr = true })
+vim.keymap.set({"v", "n"}, "gl", "(v:count == 0 || v:count == 1 ? '^$' : '^$' . (v:count - 1) . 'h')", { silent = true, expr = true })
+vim.keymap.set({"v", "n"}, "gm", "gM", { noremap = true })
+vim.keymap.set({"v", "n"}, "gM", "gm", { noremap = true })
+vim.keymap.set({"v", "n", "i"}, "<F4>", "<cmd>wa<CR>")
+vim.keymap.set({"v", "n", "i", "t"}, "<F7>", "<cmd>NvimTreeFindFileToggle<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i", "t"}, "<F9>", "<cmd>TroubleToggle<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i", "t"}, "<F19>", "<cmd>TroubleToggle<CR>")
+if pcall(require, "cmake-tools") then
+    vim.keymap.set({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('TermExec cmd=!!')|endif<CR>", { silent = true })
+    vim.keymap.set({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeStop')|else|call execute('TermExec cmd=\\<C-c>')|endif<CR>", { silent = true })
 else
-    map({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>call execute('TermExec cmd=!!<')CR>", { silent = true })
-    map({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>call execute('TermExec cmd=\\<C-c>')<CR>", { silent = true })
+    vim.keymap.set({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>call execute('TermExec cmd=!!<')CR>", { silent = true })
+    vim.keymap.set({"v", "n", "i", "t"}, "<F17>", "<cmd>wa<CR><cmd>call execute('TermExec cmd=\\<C-c>')<CR>", { silent = true })
 end
--- map({"v", "n", "i", "t"}, "<F10>", "<cmd>DapToggleBreakpoint<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F22>", "<cmd>DapToggleRepl<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F12>", "<cmd>DapStepOver<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<F24>", "<cmd>DapStepInto<CR>", { silent = true })
--- map({"v", "n", "i", "t"}, "<C-F12>", "<cmd>DapStepOut<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i", "t"}, "<F10>", "<cmd>DapToggleBreakpoint<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i", "t"}, "<F22>", "<cmd>DapToggleRepl<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i", "t"}, "<F12>", "<cmd>DapStepOver<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i", "t"}, "<F24>", "<cmd>DapStepInto<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i", "t"}, "<C-F12>", "<cmd>DapStepOut<CR>", { silent = true })
 -- if found_cmake then
---     map({"v", "n", "i", "t"}, "<F9>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeDebug')|else|call execute('DapContinue')|endif<CR>", { silent = true })
---     map({"v", "n", "i", "t"}, "<F21>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeStop')|else|call execute('DapTerminate')|endif<CR>", { silent = true })
+--     vim.keymap.set({"v", "n", "i", "t"}, "<F9>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeDebug')|else|call execute('DapContinue')|endif<CR>", { silent = true })
+--     vim.keymap.set({"v", "n", "i", "t"}, "<F21>", "<cmd>if luaeval('require\"cmake-tools\".is_cmake_project() and require\"dap\".session()==nil')|call execute('CMakeStop')|else|call execute('DapTerminate')|endif<CR>", { silent = true })
 -- else
---     map({"v", "n", "i", "t"}, "<F9>", "<cmd>DapContinue<CR>", { silent = true })
---     map({"v", "n", "i", "t"}, "<F21>", "<cmd>DapTerminate<CR>", { silent = true })
+--     vim.keymap.set({"v", "n", "i", "t"}, "<F9>", "<cmd>DapContinue<CR>", { silent = true })
+--     vim.keymap.set({"v", "n", "i", "t"}, "<F21>", "<cmd>DapTerminate<CR>", { silent = true })
 -- end
 vim.keymap.set({'v', 'n', 'i', 't'}, '<Ins>', [[<Cmd>ZenMode<CR>]])
--- map({"v", "n"}, "<CR>", "<cmd>nohlsearch<CR>", { silent = true })
-map("i", "jk", "<Esc>", { silent = true })
-map("i", "kj", "<Esc>", { silent = true })
-map("t", "jk", "<C-\\><C-n>", { silent = true })
-map("t", "kj", "<C-\\><C-n>", { silent = true })
-map("n", "q", "<cmd>wa<CR><cmd>q<CR>", { silent = true })
-map("v", "q", "<Esc>", { silent = true })
-map("n", "Q", "q", { silent = true, noremap = true })
-map({"v", "n"}, "g=", "<cmd>Neoformat<CR>", { silent = true })
--- map({"v", "n", "i"}, "<F10>", "<cmd>Neoformat<CR>", { silent = true })
--- map("n", "Q", "<cmd>wa<CR><cmd>qa!<CR>", { silent = true })
+-- vim.keymap.set({"v", "n"}, "<CR>", "<cmd>nohlsearch<CR>", { silent = true })
+vim.keymap.set("i", "jk", "<Esc>", { silent = true })
+vim.keymap.set("i", "kj", "<Esc>", { silent = true })
+vim.keymap.set("t", "jk", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "kj", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("n", "q", "<cmd>wa<CR><cmd>q<CR>", { silent = true })
+vim.keymap.set("v", "q", "<Esc>", { silent = true })
+vim.keymap.set("n", "Q", "q", { silent = true, noremap = true })
+vim.keymap.set({"v", "n"}, "g=", "<cmd>Neoformat<CR>", { silent = true })
+-- vim.keymap.set({"v", "n", "i"}, "<F10>", "<cmd>Neoformat<CR>", { silent = true })
+-- vim.keymap.set("n", "Q", "<cmd>wa<CR><cmd>qa!<CR>", { silent = true })
 
 -- vim.cmd [[
 -- command! -nargs=0 A :ClangdSwitchSourceHeader
@@ -177,4 +176,4 @@ vim.keymap.set({'n'}, '<S-Tab>', '<C-o>')
 -- autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 -- ]]
 
-return map
+return vim.keymap.set
