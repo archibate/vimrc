@@ -169,11 +169,12 @@ end)
 vim.keymap.set({'v', 'n'}, 'gn', function()
   return ":IncRename " .. vim.fn.expand("<cword>")
 end, { expr = true })
+vim.keymap.set({'n'}, '<S-Tab>', '<C-o>')
 
-vim.cmd [[
-autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-]]
+-- vim.cmd [[
+-- autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
+-- autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+-- autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+-- ]]
 
 return map
