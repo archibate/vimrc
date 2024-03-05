@@ -16,7 +16,7 @@ end
 
 local dap = require('dap')
 
-dap.defaults.fallback.switchbuf = true
+dap.defaults.fallback.switchbuf = 'useopen,uselast'
 
 dap.adapters.codelldb = {
   type = 'server',
@@ -43,7 +43,8 @@ dap.configurations.cpp = {
       if ok then
         return xmakepath
       end
-      local exepath = os_capture('sh -c "$SHELL -ic cmxp"')
+        -- TODO: cmake path?
+      local exepath = 'a.out'
       if file_exists(exepath) then
         return exepath
       end

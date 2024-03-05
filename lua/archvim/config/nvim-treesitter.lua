@@ -19,7 +19,7 @@ require'nvim-treesitter.configs'.setup {
         enable = true,
     },
     rainbow = {
-        enable = true,
+        enable = false,
         extended_mode = true,
     },
     matchup = {
