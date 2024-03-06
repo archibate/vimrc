@@ -234,7 +234,7 @@ require'lualine'.setup {
     sections = {
         lualine_a = {'mode'},
         lualine_b = {branch, diff, diagnostics},
-        lualine_c = {'filename', c[1], c[2], c[3], xmake_component},
+        lualine_c = {'filename', c[1], c[2], c[3], c[4], xmake_component},
         lualine_x = {cdate, ctime, encoding},
         lualine_y = {'searchcount', 'progress'},
         lualine_z = {'location'},

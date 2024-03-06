@@ -20,7 +20,7 @@ vim.keymap.set({"v", "n"}, "gm", "gM", { noremap = true })
 vim.keymap.set({"v", "n"}, "gM", "gm", { noremap = true })
 vim.keymap.set({"v", "n", "i"}, "<F4>", "<cmd>wa<CR>")
 vim.keymap.set({"v", "n", "i", "t"}, "<F7>", "<cmd>NvimTreeFindFileToggle<CR>", { silent = true })
-vim.keymap.set({"v", "n", "i", "t"}, "<F9>", "<cmd>TroubleToggle<CR>", { silent = true })
+vim.keymap.set({"v", "n", "i", "t"}, "<F9>", "<cmd>Trouble<CR>", { silent = true })
 -- vim.keymap.set({"v", "n", "i", "t"}, "<F19>", "<cmd>TroubleToggle<CR>")
 if pcall(require, "cmake-tools") then
     vim.keymap.set({"v", "n", "i", "t"}, "<F5>", "<cmd>wa<CR><cmd>if luaeval('require\"cmake-tools\".is_cmake_project()')|call execute('CMakeRun')|else|call execute('TermExec cmd=!!')|endif<CR>", { silent = true })
