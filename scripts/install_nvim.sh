@@ -38,7 +38,7 @@ if [ "x$(uname -sm)" = "xLinux x86_64" ]; then
     sudo chmod +x ./nvim.appimage
     test -f /usr/bin/nvim && sudo mv /usr/bin/nvim /tmp/.nvim-executable-backup || true
     sudo cp ./nvim.appimage /usr/bin/nvim
-    /usr/bin/nvim --version || fix_nvim_appimage
+    /usr/bin/nvim --version | grep Error && fix_nvim_appimage
 elif [ "x$(uname -s)" = "xDarwin" ]; then
     echo "-- MacOS detected, try installing latest nvim from brew..."
     brew uninstall neovim 2> /dev/null || true
