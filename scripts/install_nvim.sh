@@ -34,12 +34,12 @@ if [ "x$(uname -sm)" = "xLinux x86_64" ]; then
     if which snap >/dev/null 2>&1; then
         sudo snap remove nvim || true
     fi
-    test -f ./nvim.appimage || curl -SL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o ~/.config/nvim/nvim.appimage
+    test -f ./nvim.appimage || curl -SL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o ./nvim.appimage
     sudo chmod +x ./nvim.appimage
     test -f /usr/bin/nvim && sudo mv /usr/bin/nvim /tmp/.nvim-executable-backup || true
     sudo cp ./nvim.appimage /usr/bin/nvim
     /usr/bin/nvim --version || fix_nvim_appimage
-if [ "x$(uname -sm)" = "xLinux aarch64" ]; then
+elif [ "x$(uname -sm)" = "xLinux aarch64" ]; then
     if which snap >/dev/null 2>&1; then
         sudo snap remove nvim || true
     fi
@@ -65,3 +65,4 @@ else
       sudo snap install nvim
     fi
 fi
+
