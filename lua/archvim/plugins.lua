@@ -650,6 +650,14 @@ return packer.startup(function (use)
     for _, item in ipairs(plugins) do
         use(item)
     end
+    -- go
+    use "ray-x/go.nvim"
+    use "ray-x/guihua.lua"
+    -- go
+    -- colortheme
+    use "EdenEast/nightfox.nvim" 
+    -- colortheme
+
     if is_packer_bootstrap then
         -- if archvim_predownload == 1 then
         --     local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
