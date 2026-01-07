@@ -9,8 +9,8 @@ end
 if require'archvim.options'.transparent_color then
     vim.cmd [[
     augroup colorscheme_mock
-    autocmd!
-    autocmd ColorScheme * hi Normal guibg=none | hi def link LspInlayHint Comment
+    " autocmd!
+    " autocmd ColorScheme * hi Normal guibg=none | hi def link LspInlayHint Comment
         " \ | hi LspReferenceText guibg=none
         " \ | hi LspReferenceRead guibg=none
         " \ | hi LspReferenceWrite guibg=none
@@ -30,7 +30,8 @@ end
 
 vim.cmd [[
 " silent! colorscheme zephyr
-silent! colorscheme gruvbox
+" silent! colorscheme gruvbox
+silent! colorscheme dawnfox
 ]]
 
 -- More custom options goes here
